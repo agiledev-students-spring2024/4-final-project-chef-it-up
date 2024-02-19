@@ -1,19 +1,26 @@
-# Project Repository
+# Chef-It-Up
 
-This repository will be used for team projects.
+## Product Vision Statement
 
-Several sets of instructions are included in this repository. They should each be treated as separate assignments with their own due dates and sets of requirements.
+We want an app that will track specified ingredients for a user to prevent food waste, and give users options and recipes to utilize their stored ingredients to help them use their current items as well as improve their skills as chefs.
 
-1. See the [App Map & Wireframes](instructions-0a-app-map-wireframes.md) and [Prototyping](./instructions-0b-prototyping.md) instructions for the requirements of the initial user experience design of the app.
+## Project History
 
-1. Delete the contents of this file and replace with the contents of a proper README.md, as described in the [project setup instructions](./instructions-0c-project-setup.md)
+A common problem for many households is groceries and store goods going bad due to oversight and lack of knowledge of how to use them with whatever remaining ingredients. We wanted to make an app to combat this problem and make it much easier to avoid food wastage as well as get people to try new dishes and be more apt in the kitchen.
 
-1. See the [Sprint Planning instructions](instructions-0d-sprint-planning.md) for the requirements of Sprint Planning for each Sprint.
+### Contributing
+[How to contribute to Chef-It-Up](./CONTRIBUTING.md)
 
-1. See the [Front-End Development instructions](./instructions-1-front-end.md) for the requirements of the initial Front-End Development.
+## Team Members
 
-1. See the [Back-End Development instructions](./instructions-2-back-end.md) for the requirements of the initial Back-End Development.
+[Kei Oshima](https://github.com/KeiOshima)
+[Ryan Horng](https://github.com/Ryan-Horng)
+[Walid Al-Eisawi](https://github.com/walidaleis)
 
-1. See the [Database Integration instructions](./instructions-3-database.md) for the requirements of integrating a database into the back-end.
+## Instruction and Methods
 
-1. See the [Deployment instructions](./instructions-4-deployment.md) for the requirements of deploying an app.
+Hit a rock against another rock in a public setting. It would be more productive than trying to figure out how to test an app with nothing currently implemented.
+
+## Other Notes
+
+In development, come back later
