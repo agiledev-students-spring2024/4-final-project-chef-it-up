@@ -1,6 +1,8 @@
 # User Experience Design
 
-## prototype
+## App Map
+![App map](./ux-design/app_map.png)
+## Prototype
 [Chef-it-up prototype](https://www.figma.com/proto/XmfA8KYnzXZjrwmipKHRqC/chef-wireFrame?type=design&node-id=21-189&t=FCktxtUEJPwEFp8F-1&scaling=scale-down&page-id=0%3A1&starting-point-node-id=12%3A13&mode=design)
 
 ## Wireframe Diagrams
@@ -49,21 +51,21 @@ Info about an individual recipe from the browse recipe page. Users can click on 
 
 ### Favorite Recipe 
 
-Page containing all a users favorite Recipe each of these recipe cards are clickable.
+Page containing all of user's favorite recipe - each of these recipe cards are clickable.
 
 
 ![Favorite Recipe](./ux-design/wireframe/Favorite_Recipes.png)
 
 ### Favorite Individual Recipe Info 
 
-Info about your one of your favorited recipes. Users can click on the unfavorite button to unfavorite the recipe.
+Info about one of your favorited recipes. Users can click on the unfavorite button to unfavorite the recipe.
 
 
 ![Favorite Individual Recipe Info ](./ux-design/wireframe/Individual_recipe_Info_favorite.png)
 
 ### My Recipe 
 
-Browse all recipes made by user. There are also button to naviagte to creating and genreating a recipe
+Browse all recipes made by user. There is also button to naviagte to creating and generating a recipe
 
 
 ![My Recipe](./ux-design/wireframe/my_recipe.png)
@@ -126,21 +128,21 @@ Edit info about an ingredient
 
 ### Add Ingredient
 
-Add an Ingredient to your fridge
+Add an ingredient to your fridge
 
 
 ![Add Ingredient](./ux-design/wireframe/add_ingredient.png)
 
 ### User Profile 
 
-Your User profile 
+Your user profile 
 
 
 ![User Profile](./ux-design/wireframe/user_profile.png)
 
 ### Edit User Profile 
 
-Edit User Profile
+Edit user Profile
 
 
 ![Edit User Profile](./ux-design/wireframe/Edit_user_profile.png)
