@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import MyFridge from './MyFridge'
+import AddRecipe from './AddRecipe'
+import BrowseRecipes from './BrowseRecipes'
+import FavoriteRecipes from './FavoriteRecipes'
+import MyRecipes from './MyRecipes'
+import GenerateRecipe from "./GenerateRecipe"
+import Profile from './Profile'
+import Header from './Header'
+
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Header />
+        <Routes>
+          <Route  path="/browseRecipes" element={<BrowseRecipes />} />
+          <Route  path="/fridge" element={<MyFridge />} />
+          <Route  path="/myRecipes" element={<MyRecipes />} />
+          <Route  path="/favoriteRecipes" element={<FavoriteRecipes/>} />
+          <Route  path="/addRecipe" element={<AddRecipe />} />
+          <Route  path="/generateRecipe" element={<GenerateRecipe />} />
+          <Route  path="/myProfile" element={<Profile />} />
+          
+        </Routes>
+      </Router>
+
     </div>
   );
 }
