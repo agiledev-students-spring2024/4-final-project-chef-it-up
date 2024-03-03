@@ -1,27 +1,14 @@
-import './Register.css';
-import { useState } from "react"
+import React, { useState, useEffect  } from "react";
 import { Link } from 'react-router-dom'
 import axios from "axios"
 import Select from 'react-select'
+import './Profile.css'
 
-const Register = () => {
+const EditProfile = () =>{
+  const [userData, setUserData] = useState([])
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
-  
-  const options = [
-    { value: 'none', label: 'None' },
-    { value: 'italian', label: 'Italian' },
-    { value: 'french', label: 'French' },
-    { value: 'american', label: 'American' },
-    { value: 'indian', label: 'Indian' },
-    { value: 'mexican', label: 'Mexican' },
-    { value: 'chinese', label: 'Chinese' },
-    { value: 'vegetarian', label: 'Vegetarian' },
-    { value: 'vegan', label: 'Vegan' },
-  ]
-
-  const [starter, setStarter] = useState(options[0].value)
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -30,7 +17,6 @@ const Register = () => {
       .post("Backend",{
         username:username,
         password:password,
-        starter:starter
       })
       .then(response => {
         console.log(`Received server response: ${response.data}`)
@@ -41,12 +27,12 @@ const Register = () => {
           "This ain't working just yet, give us some time :)"
         )
       })
-  }
-
+    }
+  
   return (
     <form onSubmit={handleSubmit}>
       <main className="App">
-        <h1>Login</h1>
+        <h1>Edit Your Profile</h1>
         <div class="formField">
           <label htmlFor="username_field">Enter your Username:</label>
           <br />
@@ -71,27 +57,18 @@ const Register = () => {
             required
           />
         </div>
-        <div class="dropdown">
-          <p>Select a Starter Fridge</p>
-          <Select options={options} defaultValue={options[0]} onChange={e => setStarter(e.value)} />
-        </div>
-        {error && (
-            <div>
-              <p className="notwork">{error}</p>
-              <Link to="/browseRecipes">Bypass Login due to Non-functionality</Link>
-            </div>
-        )}
         <div>
           <Link to="/">
-            <input type="submit" value="Register"/>
+            <input type="submit" value="Edit Profile"/>
           </Link>
         </div>
         <div>
-          <p>Return to <Link to="/">Login</Link></p>
+          <p><Link to="/myProfile">Cancel your Profile Changes</Link></p>
         </div>
       </main>
     </form>
-  );
-}
+  )
+};
 
-export default Register;
+
+export default EditProfile;

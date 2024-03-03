@@ -1,0 +1,23 @@
+form {
+  border: 10px solid rgb(250, 156, 33);
+  background-color: rgb(255, 203, 135);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.formField {
+  margin-top: 10px;
+}
+
+.formField input {
+  width: 30%;
+  padding: 10px;
+  font-size: 1.2em;
+}
+
+.dropdown {
+  margin: auto;
+  width: 10%;
+  padding: 10px;
+  font-size: 1.2em;
+}
