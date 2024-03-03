@@ -7,6 +7,8 @@ import MyRecipes from './MyRecipes'
 import GenerateRecipe from "./GenerateRecipe"
 import Profile from './Profile'
 import Header from './Header'
+import IndividualRecipeDetail from './IndividualRecipeDetail';
+
 
 import './App.css';
 
@@ -17,6 +19,8 @@ function App() {
         <Header />
         <Routes>
           <Route  path="/browseRecipes" element={<BrowseRecipes />} />
+          <Route path="/individualRecipe/:recipeId" element={<IndividualRecipeDetail />} /> {/* Add this route */}
+          <Route  path="/myProfile" element={<Profile />} />
           <Route  path="/fridge" element={<MyFridge />} />
           <Route  path="/myRecipes" element={<MyRecipes />} />
           <Route  path="/favoriteRecipes" element={<FavoriteRecipes/>} />
