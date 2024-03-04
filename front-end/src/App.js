@@ -6,7 +6,10 @@ import FavoriteRecipes from './FavoriteRecipes'
 import MyRecipes from './MyRecipes'
 import GenerateRecipe from "./GenerateRecipe"
 import Profile from './Profile'
+import EditProfile from './EditProfile'
 import Header from './Header'
+import Login from './Login'
+import Register from './Register'
 import IndividualRecipeDetail from './IndividualRecipeDetail';
 
 
@@ -18,6 +21,8 @@ function App() {
       <Router>
         <Header />
         <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route  path="/browseRecipes" element={<BrowseRecipes />} />
           <Route path="/individualRecipe/:recipeId" element={<IndividualRecipeDetail />} /> {/* Add this route */}
           <Route  path="/myProfile" element={<Profile />} />
@@ -27,6 +32,7 @@ function App() {
           <Route  path="/addRecipe" element={<AddRecipe />} />
           <Route  path="/generateRecipe" element={<GenerateRecipe />} />
           <Route  path="/myProfile" element={<Profile />} />
+          <Route  path="/editMyProfile" element={<EditProfile />} />
           
         </Routes>
       </Router>

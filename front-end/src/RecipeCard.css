@@ -3,7 +3,8 @@
     width: 60%;
     margin: 10px;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 10px solid rgb(250, 156, 33);
+    background-color: rgb(255, 203, 135);
     border-radius: 30px;
     
 }
