@@ -1,0 +1,23 @@
+
+.recipe-card{
+    width: 60%;
+    margin: 10px;
+    padding: 10px;
+    border: 10px solid rgb(250, 156, 33);
+    background-color: rgb(255, 203, 135);
+    border-radius: 30px;
+    
+}
+h3{
+    text-align: center;
+}
+
+img{
+    width: 400px;
+    height: 400px;
+}
+
+p{
+    font-size: 24px;
+    text-align: center;
+}
