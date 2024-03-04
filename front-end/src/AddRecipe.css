@@ -1,3 +1,6 @@
+body{
+  font-family: "Inter", sans-serif;
+}
 form {
   border: 10px solid rgb(250, 156, 33);
   background-color: rgb(255, 203, 135);
@@ -5,10 +8,15 @@ form {
   margin-bottom: 20px;
   margin-left:5%;
   margin-right:5%;
+  width: 60%;
+  display: inline-block;
 }
 
+
 .formField {
-  margin-top: 10px;
+  
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 .formField input {
@@ -16,3 +24,5 @@ form {
   padding: 10px;
   font-size: 1.2em;
 }
+
+

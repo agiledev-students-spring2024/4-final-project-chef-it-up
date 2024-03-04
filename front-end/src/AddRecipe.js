@@ -54,12 +54,16 @@ const AddRecipe = () =>{
       }
 
     return (
+    
     <form onSubmit={handleSubmit}>
       <main className="App">
         <h1>Add Your Own Recipe</h1>
         <div class="formField">
-          <label htmlFor="recipeName">Enter your recipe name:</label>
-          <br />
+          <div>
+          <label className="add-recipe-form-field"  htmlFor="recipeName" >Enter your recipe name:</label>
+          </div>
+         
+          <div>
           <input
             id="recipeName"
             type="text"
@@ -67,6 +71,8 @@ const AddRecipe = () =>{
             onChange={e => setRecipeName(e.target.value)}
             required
           />
+          </div>
+          
         </div>
         <div class="formField">
           <label htmlFor="ingredients">Add the ingredients:</label>

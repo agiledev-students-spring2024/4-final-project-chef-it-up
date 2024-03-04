@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 
 const HamburgerMenu = () => {
     return (
-        <Menu>
+        <div  className="hamburger-menu">
+            <Menu>
             <h3>Chef It Up</h3>
             <Link to="/fridge">My Fridge</Link>
             <Link to="/browseRecipes">Browse Recipes</Link>
@@ -15,7 +16,9 @@ const HamburgerMenu = () => {
             <Link to="/generateRecipe">Generate a Recipe</Link>
             <Link to="/myProfile">My Profile</Link>
             
-        </Menu>
+            </Menu>  
+        </div>
+        
 
     );
 }
