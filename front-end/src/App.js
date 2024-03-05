@@ -10,8 +10,7 @@ import EditProfile from './EditProfile'
 import Header from './Header'
 import Login from './Login'
 import Register from './Register'
-import IndividualRecipeDetail from './IndividualRecipeDetail';
-
+import IndividualRecipeDetail from './IndividualRecipeDetail'
 import AboutUs from './AboutUs'
 
 import './App.css';
