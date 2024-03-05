@@ -1,9 +1,9 @@
-.login-form{
+.edit-profile-form{
     border: 10px solid rgb(247, 203, 146);
     background-color: hsl(29, 100%, 90%);
     border-radius: 20px;
     padding: 20px;
-    margin-top: 60px;
+    margin-top: 80px;
     margin-bottom: 20px;
     margin-left:5%;
     margin-right:5%;
@@ -11,8 +11,12 @@
     display: inline-block;
 }
 
-.submit-login-form-button,
-.navigate-to-register-button {
+.edit-profile-label{
+    font-size: 20px;
+}
+
+.submit-edit-button,
+.cancel-edit-button {
   display: inline-block;
   padding: 10px 20px;
   border: 1px solid #e1f2f5;
@@ -22,13 +26,12 @@
   font-size: 20px;
   text-align: center;
   text-decoration: none;
-  margin-bottom: 10px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-.submit-login-form-button:hover,
-.navigate-to-register-button:hover {
+.submit-edit-button:hover,
+.cancel-edit-button:hover {
   background-color: #ddf3e4;
   color: #555;
   border-color: #ddf3e4;
@@ -47,7 +50,4 @@
     margin-right: auto;
     left: 0;
     right: 0;
-}
-.login-label{
-  font-size: 25px;
 }

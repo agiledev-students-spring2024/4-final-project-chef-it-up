@@ -54,12 +54,16 @@ const AddRecipe = () =>{
       }
 
     return (
-    <form onSubmit={handleSubmit}>
+    
+    <form className="add-recipe-form" onSubmit={handleSubmit}>
       <main className="App">
         <h1>Add Your Own Recipe</h1>
         <div class="formField">
-          <label htmlFor="recipeName">Enter your recipe name:</label>
-          <br />
+          <div>
+          <label className="add-recipe-form-field"  htmlFor="recipeName" >Enter your recipe name:</label>
+          </div>
+         
+          <div>
           <input
             id="recipeName"
             type="text"
@@ -67,9 +71,11 @@ const AddRecipe = () =>{
             onChange={e => setRecipeName(e.target.value)}
             required
           />
+          </div>
+          
         </div>
         <div class="formField">
-          <label htmlFor="ingredients">Add the ingredients:</label>
+          <label className="add-recipe-form-field" htmlFor="ingredients">Add the ingredients:</label>
           <br />
           <input
             id="ingredients"
@@ -80,9 +86,9 @@ const AddRecipe = () =>{
           />
         </div>
         <div class="formField">
-          <label htmlFor="instructions">List Instructions:</label>
+          <label className="add-recipe-form-field" htmlFor="instructions">List Instructions:</label>
           <br />
-          <input
+          <textarea
             id="instructions"
             type="text"
             placeholder="Instructions"
@@ -91,7 +97,7 @@ const AddRecipe = () =>{
           />
         </div>
         <div class="formField">
-          <label htmlFor="prepTime">Enter Preparation Time:</label>
+          <label className="add-recipe-form-field" htmlFor="prepTime">Enter Preparation Time:</label>
           <br />
           <input
             id="prepTime"
@@ -102,7 +108,7 @@ const AddRecipe = () =>{
           />
         </div>
         <div class="formField">
-          <label htmlFor="cookTime">Enter Cooking Time:</label>
+          <label className="add-recipe-form-field" htmlFor="cookTime">Enter Cooking Time:</label>
           <br />
           <input
             id="cookTime"
@@ -113,7 +119,7 @@ const AddRecipe = () =>{
           />
         </div>
         <div class="formField">
-          <label htmlFor="totalTime">Enter Total Time:</label>
+          <label className="add-recipe-form-field" htmlFor="totalTime">Enter Total Time:</label>
           <br />
           <input
             id="totalTime"
@@ -124,7 +130,7 @@ const AddRecipe = () =>{
           />
         </div>
         <div class="formField">
-          <label htmlFor="cuisine">Enter Cuisine Type:</label>
+          <label className="add-recipe-form-field" htmlFor="cuisine">Enter Cuisine Type:</label>
           <br />
           <input
             id="cuisine"
@@ -134,8 +140,8 @@ const AddRecipe = () =>{
             required
           />
         </div>
+        <h2>Select a difficulty level</h2>
         <div class="dropdown">
-          <p>Select a Difficulty Level</p>
           <Select options={options} defaultValue={options[0]} onChange={e => setDifficultyLevel(e.value)} />
         </div>
 
@@ -145,14 +151,23 @@ const AddRecipe = () =>{
               <Link to="/">Bypass due to error</Link>
             </div>
         )}
+        <div className="btn-section">
         <div>
           <Link to="/browseRecipes">
-            <input type="submit" value="Add Recipe"/>
+            <button className="submit-recipe-button" type="submit" > Add Recipe</button>
+            
           </Link>
         </div>
         <div>
-          <Link to="/browseRecipes">Cancel your changes</Link>
+          <button className="cancel-submit-recipe">
+            <Link to="/browseRecipes" className="cancel-link">Cancel your changes</Link>
+
+          </button>
+          
         </div>
+
+        </div>
+        
       </main>
     </form>
     )

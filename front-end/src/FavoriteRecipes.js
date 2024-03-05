@@ -69,7 +69,7 @@ const FavoriteRecipes = () =>{
 
     return (
         <div className="recipes-contianer">
-        <h1>Browse Recipes</h1>
+        <h1>Favorite Recipes</h1>
         <div className="recipes-card-container">
             {recipes.map(recipe => (
                 <RecipeCard key={recipe.id} recipe={recipe} />

@@ -3,10 +3,15 @@ import HamburgerMenu from "./HamburgerMenu";
 import './Header.css'
 
 const Header = () =>{
+
+
     return (
-        <div>
-            <h1>Chef it up</h1>
+        <div className="header-div">
             <HamburgerMenu />
+            <div className="name-and-logout-div">
+                <h1 className="main-title">Chef it up</h1>
+            </div>
+
         </div>
     )
     

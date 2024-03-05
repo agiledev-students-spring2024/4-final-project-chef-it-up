@@ -27,24 +27,26 @@ const Profile = () =>{
   
   if (error)
     return (
-      <form>
-        <h1>Profile</h1>
+      <form className="profile-form">
+        <p>Profile</p>
           <div class="formField">
-            <h2>Username:</h2>
-            <p>Guest</p>
+            <h1>Username:</h1>
+            <h2>Guest</h2>
+            
           </div>
           <div class="formField">
-            <h2>Password:</h2>
-            <p>None</p>
+            <h1>Password:</h1>
+            <h2>Hello</h2>
           </div>
           <div>
-            <Link to="/editMyProfile">Edit your Profile</Link>
+            <Link to="/editMyProfile"><button className="submit-recipe-button" type="submit" > Edit Your Profile</button>
+            </Link>
         </div>
       </form>
     )
   else
     return (
-      <form>
+      <form className="profile-form">
         <h1>Profile</h1>
         <div class="formField">
           <h2>Username:</h2>
