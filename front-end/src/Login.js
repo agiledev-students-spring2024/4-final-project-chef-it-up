@@ -38,11 +38,11 @@ const Login = props => {
   }
   if (!status.success)
     return (
-      <form onSubmit={handleSubmit}>
+      <form className='login-form' onSubmit={handleSubmit}>
         <main className="App">
           <h1>Chef-It-Up Login</h1>
           <div class="formField">
-            <label htmlFor="username_field">Username:</label>
+            <label className='login-label' htmlFor="username_field">Username:</label>
             <br />
             <input
               id="username_field"
@@ -54,7 +54,7 @@ const Login = props => {
             />
           </div>
           <div class="formField">
-            <label htmlFor="password_field">Password:</label>
+            <label className='login-label' htmlFor="password_field">Password:</label>
             <br />
             <input
               id="password_field"
@@ -71,14 +71,20 @@ const Login = props => {
               <Link to="/browseRecipes">Bypass Login due to Non-functionality</Link>
             </div>
           )}
-          <div>
-            <Link to="/browseRecipes">
-              <input type="submit" value="Login"/>
-            </Link>
+          <div className='btn-section'>
+            <div>
+              <Link to="/browseRecipes">
+                <button className="submit-login-form-button" type="submit"> Login </button>
+              </Link>
+            </div>
+            <div>
+              <Link to="/register">
+                <button className="navigate-to-register-button" type="submit"> Not a User? Register </button>
+              </Link>
+            </div>
+
           </div>
-          <div>
-            <p>Not a user? <Link to="/register">Register</Link></p>
-          </div>
+         
         </main>
       </form>
     );

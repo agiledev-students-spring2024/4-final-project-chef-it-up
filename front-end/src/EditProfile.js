@@ -1,8 +1,7 @@
 import React, { useState, useEffect  } from "react";
 import { Link } from 'react-router-dom'
 import axios from "axios"
-
-import './Profile.css'
+import './EditProfile.css';
 
 const EditProfile = () =>{
   const [userData, setUserData] = useState([])
@@ -30,11 +29,11 @@ const EditProfile = () =>{
     }
   
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="edit-profile-form" onSubmit={handleSubmit}>
       <main className="App">
         <h1>Edit Your Profile</h1>
         <div class="formField">
-          <label htmlFor="username_field">Enter your Username:</label>
+          <label className="edit-profile-label" htmlFor="username_field">Enter your Username:</label>
           <br />
           <input
             id="username_field"
@@ -46,7 +45,7 @@ const EditProfile = () =>{
           />
         </div>
         <div class="formField">
-          <label htmlFor="password_field">Enter your Password:</label>
+          <label className="edit-profile-label" htmlFor="password_field">Enter your Password:</label>
           <br />
           <input
             id="password_field"
@@ -57,14 +56,21 @@ const EditProfile = () =>{
             required
           />
         </div>
+        <div className="btn-section" >
         <div>
           <Link to="/">
-            <input type="submit" value="Edit Profile"/>
+            <button className="submit-edit-button" type="submit"> Edit Profile</button>
           </Link>
         </div>
         <div>
-          <p><Link to="/myProfile">Cancel your Profile Changes</Link></p>
+          <Link to="/myProfile">
+          <button className="cancel-edit-button" type="submit"> Cancel your Profile Changes </button>
+            
+          </Link>
         </div>
+
+        </div>
+        
       </main>
     </form>
   )
