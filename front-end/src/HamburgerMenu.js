@@ -14,6 +14,7 @@ const HamburgerMenu = () => {
             <Link to="/addRecipe">Add a Recipe</Link>
             <Link to="/generateRecipe">Generate a Recipe</Link>
             <Link to="/myProfile">My Profile</Link>
+            <Link to="/aboutUs">About Us</Link>
             
         </Menu>
 

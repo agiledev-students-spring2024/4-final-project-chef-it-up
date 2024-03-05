@@ -12,6 +12,7 @@ import Login from './Login'
 import Register from './Register'
 import IndividualRecipeDetail from './IndividualRecipeDetail';
 
+import AboutUs from './AboutUs'
 
 import './App.css';
 
@@ -33,6 +34,7 @@ function App() {
           <Route  path="/generateRecipe" element={<GenerateRecipe />} />
           <Route  path="/myProfile" element={<Profile />} />
           <Route  path="/editMyProfile" element={<EditProfile />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
           
         </Routes>
       </Router>
