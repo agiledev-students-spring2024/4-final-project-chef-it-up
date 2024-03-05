@@ -1,19 +1,17 @@
 
 .recipe-card{
-    width: 60%;
+    width: 40%;
     margin: 10px;
     padding: 10px;
     border: 10px solid rgb(250, 156, 33);
     background-color: rgb(255, 203, 135);
     border-radius: 30px;
+    text-decoration:none;
     
-}
-h3{
-    text-align: center;
 }
 
 img{
-    width: 400px;
+    width: 600px;
     height: 400px;
 }
 

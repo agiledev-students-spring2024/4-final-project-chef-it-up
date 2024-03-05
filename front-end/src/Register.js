@@ -44,11 +44,11 @@ const Register = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='register-form' onSubmit={handleSubmit}>
       <main className="App">
         <h1>Login</h1>
         <div class="formField">
-          <label htmlFor="username_field">Enter your Username:</label>
+          <label className='register-label' htmlFor="username_field">Enter your Username:</label>
           <br />
           <input
             id="username_field"
@@ -60,7 +60,7 @@ const Register = () => {
           />
         </div>
         <div class="formField">
-          <label htmlFor="password_field">Enter your Password:</label>
+          <label className='register-label' htmlFor="password_field">Enter your Password:</label>
           <br />
           <input
             id="password_field"
@@ -71,8 +71,9 @@ const Register = () => {
             required
           />
         </div>
+        <h2>Select a starter Fridge</h2>
         <div class="dropdown">
-          <p>Select a Starter Fridge</p>
+          
           <Select options={options} defaultValue={options[0]} onChange={e => setStarter(e.value)} />
         </div>
         {error && (
@@ -81,14 +82,19 @@ const Register = () => {
               <Link to="/browseRecipes">Bypass Login due to Non-functionality</Link>
             </div>
         )}
-        <div>
+        <div className='btn-section'>
+          <div>
           <Link to="/">
-            <input type="submit" value="Register"/>
+            <button className="submit-register-form-button" type="submit"> Login </button>
           </Link>
         </div>
         <div>
-          <p>Return to <Link to="/">Login</Link></p>
+          <button className="navigate-to-login-button" type="submit"> Return to Login</button>
+
         </div>
+
+        </div>
+        
       </main>
     </form>
   );
