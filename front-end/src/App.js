@@ -12,6 +12,8 @@ import AboutUs from './AboutUs'
 import Login from './Login'
 import Register from './Register'
 import IndividualRecipeDetail from './IndividualRecipeDetail';
+import IndividualFavoriteDetail from './IndividualFavoriteDetail';
+import MyRecipesDetail from "./MyRecipesDetail"
 
 import './App.css';
 
@@ -24,10 +26,11 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route  path="/browseRecipes" element={<BrowseRecipes />} />
-          <Route path="/individualRecipe/:recipeId" element={<IndividualRecipeDetail />} /> {/* Add this route */}
-          <Route  path="/myProfile" element={<Profile />} />
+          <Route path="/individualRecipe/:recipeId" element={<IndividualRecipeDetail />} /> 
+          <Route path="/favoriteRecipes/:recipeId" element={<IndividualFavoriteDetail />} /> 
           <Route  path="/fridge" element={<MyFridge />} />
           <Route  path="/myRecipes" element={<MyRecipes />} />
+          <Route path="/myRecipes/:recipeId" element={<MyRecipesDetail />} /> 
           <Route  path="/favoriteRecipes" element={<FavoriteRecipes/>} />
           <Route  path="/addRecipe" element={<AddRecipe />} />
           <Route  path="/generateRecipe" element={<GenerateRecipe />} />
