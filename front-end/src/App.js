@@ -15,6 +15,7 @@ import IndividualFavoriteDetail from './IndividualFavoriteDetail';
 import MyRecipesDetail from "./MyRecipesDetail"
 import EditRecipe from "./EditRecipe"
 import { RecipeProvider } from './RecipeContext';
+import AboutUs from "./AboutUs"
 import './App.css';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route  path="/editRecipe" element={<EditRecipe />} />
           <Route  path="/myProfile" element={<Profile />} />
           <Route  path="/editMyProfile" element={<EditProfile />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
 
          </Routes>
         </RecipeProvider>
