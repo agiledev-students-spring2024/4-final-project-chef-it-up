@@ -11,3 +11,9 @@
     display: inline-flex;
     justify-content: space-around;
 }
+
+@media screen and (max-width: 768px) {
+    .name-and-logout-div{
+        margin-left: 36px;
+    }
+}

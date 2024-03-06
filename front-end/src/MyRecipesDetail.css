@@ -10,7 +10,7 @@
     color: black;
 }
 
-.naviagate-back-favorite{
+.naviagate-back-my-recipe{
     margin-right: 750px;
 }
 
@@ -119,13 +119,13 @@
 
 
 @media screen and (max-width: 768px) {
-    .naviagate-back-my {
+    .naviagate-back-my-recipe {
         margin-left: 50px; 
     }
   }
   
   @media screen and (min-width: 768px) {
-    .naviagate-back-my{
+    .naviagate-back-my-recipe {
         margin-left: 50px; 
     }
   }
