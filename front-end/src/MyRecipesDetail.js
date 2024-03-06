@@ -21,7 +21,7 @@ const MyRecipesDetail = () =>{
         <div className="individual-recipe">
         
             <Link className='link-back-favorite' to='/myRecipes' >
-                <h3 className='naviagate-back-my'> &#x2190; Browse My Recipes</h3>
+                <h3 className='naviagate-back-my-recipe'> &#x2190; Browse My Recipes</h3>
             </Link>
         
             <div className='img-and-cuisine-container'>
@@ -81,7 +81,7 @@ const MyRecipesDetail = () =>{
 
             <div className="my-recipe-btn-section" >
                 <div>
-                    <Link to="/e">
+                    <Link to="/editRecipe">
                         <button className="nav-to-edit-button" type="submit"> Edit Recipe</button>
                     </Link>
                 </div>

@@ -21,7 +21,16 @@
 .recipe-link:visited{
     color:#150c00
 }
-img{
-    width: 600px;
-    height: 400px;
+
+
+img {
+    width: 100%; /* Adjusted width for responsiveness */
+    max-width: 100%; /* Ensures the image doesn't exceed its container */
+    height: auto; /* Maintains aspect ratio */
+}
+
+@media screen and (max-width: 768px) {
+    .recipe-card {
+        width: 80%; /* Adjusted width for smaller screens */
+    }
 }

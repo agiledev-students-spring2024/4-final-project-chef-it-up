@@ -1,0 +1,91 @@
+body{
+    font-family: "Inter", sans-serif;
+  }
+  
+  .add-recipe-form{
+    border: 10px solid rgb(247, 203, 146);
+    background-color: hsl(29, 100%, 90%);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 48px;
+    margin-left:5%;
+    margin-right:5%;
+    width: 65%;
+    display: inline-block;
+  }
+  
+  .add-recipe-form-field{
+    font-size: 24px;
+  }
+  
+  
+  .formField {
+    margin-top: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .formField input {
+    width: 50%;
+    height: 32px;
+    margin-top: 18px;
+    padding: 10px;
+    font-size: 1.4em;
+    border-radius: 12px;
+    box-shadow: 1px 1px 1px 1px rgba(255, 198, 129, 0.8);
+  }
+  
+  .formField textarea{
+    margin-top: 18px;
+    width: 75%;
+    height: 250px;
+    font-size: 1.6em;
+    border-radius: 12px;
+    box-shadow: 1px 1px 1px 1px rgba(255, 198, 129, 0.8);
+  }
+  
+  .submit-edit-button,
+  .cancel-edit-recipe {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #e1f2f5;
+    border-radius: 4px;
+    background-color: #e1f2f5;
+    color: #333;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+  
+  .submit-edit-button:hover,
+  .cancel-edit-recipe:hover {
+    background-color: #ddf3e4;
+    color: #555;
+    border-color: #ddf3e4;
+  }
+  
+  .cancel-link{
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .cancel-link:hover{
+    text-decoration: none;
+  
+  }
+  
+  .btn-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px;   
+    gap: 8px;
+    width: 280px;
+    top: 212px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+  }

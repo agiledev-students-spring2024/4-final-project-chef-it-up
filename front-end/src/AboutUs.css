@@ -4,20 +4,21 @@
     font-size: 1.2em;
   }
   
-  body {
-    background-color: #f2f4f4;
-  }
+body {
+  background-color: #f2f4f4;
+}
 
-  .about-us-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 48px;
-  }
+.about-us-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 48px;
+}
   
-  h1 {
-    color: #ec8d3b;
-  }
+h1 {
+  color: #ec8d3b;
+}
+
 p{
   font-size: 24px;
   text-align: center;
@@ -28,11 +29,11 @@ p{
   text-align: center;
 }
 
-  .about-us-content {
-    max-width: 600px;
-    text-align: center;
-    padding: 10px;
-    border: 1px solid #a3a3a3;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+.about-us-content {
+  max-width: 600px;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #a3a3a3;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
