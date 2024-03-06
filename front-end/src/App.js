@@ -8,7 +8,6 @@ import GenerateRecipe from "./GenerateRecipe"
 import Profile from './Profile'
 import EditProfile from './EditProfile'
 import Header from './Header'
-import AboutUs from './AboutUs'
 import Login from './Login'
 import Register from './Register'
 import IndividualRecipeDetail from './IndividualRecipeDetail';
@@ -16,6 +15,7 @@ import IndividualFavoriteDetail from './IndividualFavoriteDetail';
 import MyRecipesDetail from "./MyRecipesDetail"
 import EditRecipe from "./EditRecipe"
 import { RecipeProvider } from './RecipeContext';
+import AboutUs from "./AboutUs"
 import './App.css';
 
 function App() {
@@ -39,8 +39,8 @@ function App() {
           <Route  path="/generateRecipe" element={<GenerateRecipe />} />
           <Route  path="/editRecipe" element={<EditRecipe />} />
           <Route  path="/myProfile" element={<Profile />} />
-          <Route path="/aboutUs" element={<AboutUs />} />
           <Route  path="/editMyProfile" element={<EditProfile />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
 
          </Routes>
         </RecipeProvider>
