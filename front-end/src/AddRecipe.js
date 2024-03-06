@@ -14,6 +14,7 @@ const AddRecipe = () =>{
     const [cuisine, setCuisine] = useState("")
     const [difficultyLevel, setDifficultyLevel] = useState("")
     const [error, setError] = useState("")
+   
 
     const options = [
         { value: '1', label: '1' },
@@ -74,10 +75,28 @@ const AddRecipe = () =>{
           </div>
           
         </div>
+
+        <div class="formField">
+          <div>
+          <label className="add-recipe-form-field"  htmlFor="recipeImage">Upload image of recipe:</label>
+          </div>
+         
+          <div>
+          <input
+            id="recipeImage"
+            type="file"
+            accept="image/*"
+            onChange={e => setRecipeName(e.target.value)}
+            required
+          />
+          </div>
+          
+        </div>
+
         <div class="formField">
           <label className="add-recipe-form-field" htmlFor="ingredients">Add the ingredients:</label>
           <br />
-          <input
+          <textarea
             id="ingredients"
             type="text"
             placeholder="Ingredients"
