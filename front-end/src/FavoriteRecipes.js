@@ -3,29 +3,16 @@ import './BrowseRecipes.css';
 import RecipeCard from './RecipeCard';
 import axios from 'axios';
 import './FavoriteRecipes.css'
+import { useRecipeContext } from './RecipeContext';
 
 const FavoriteRecipes = () =>{
     const [recipes, setRecipes] = useState([])
     const [userData, setUserData] = useState([])
-    const [error, setError] = useState("")
-
-    const fetchUserData = () => {
-        fetch("Backend")
-          .then((response) => {
-            response.json()
-          })
-          .then((data) => setUserData(data.results))
-          .catch(err => {
-            console.log(`Received server error: ${err}`)
-            setError(
-              "This ain't working just yet, give us some time :)"
-            )
-          })
-      }
-
+    const { getCurrRecipe } = useRecipeContext();
+    
     useEffect(() =>{
         console.log("fetching random data for 10 recipes")
-        axios.get(('' + userData.id)) //running low on free uses https://my.api.mockaroo.com/recipes.json?key=5f2d0960
+        axios.get(('')) //running low on free uses https://my.api.mockaroo.com/recipes.json?key=5f2d0960
             .then(response => {
                 console.log("API response:", response.data);
                 setRecipes(response.data)
@@ -90,13 +77,18 @@ const FavoriteRecipes = () =>{
 
     }, [])
 
+    const handleRecipeClick = (recipe) => {
+      getCurrRecipe(recipe);
+    };
+
+
 
     return (
         <div className="recipes-contianer">
         <h1>Favorite Recipes</h1>
         <div className="recipes-card-container">
             {recipes.map(recipe => (
-                <RecipeCard key={recipe.id} recipe={recipe}  baseUrl="/favoriteRecipes"/>
+                <RecipeCard key={recipe.id} recipe={recipe} onClick={() => handleRecipeClick(recipe)}  baseUrl="/favoriteRecipes"/>
             
             ))}
 

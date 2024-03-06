@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './RecipeCard.css';
 
-const RecipeCard = ({ recipe, baseUrl }) => {
+const RecipeCard = ({ recipe, baseUrl, onClick}) => {
     
     const imgSrc = `https://picsum.photos/200?id=${recipe.id}`;
 
     return (
-        <div className="recipe-card">
+        <div className="recipe-card" onClick={onClick}>
         <Link className="recipe-link" to={`${baseUrl}/${recipe.id}`}>
             
                 <h1 className='receipe-title'>{recipe.recipe_name}</h1>

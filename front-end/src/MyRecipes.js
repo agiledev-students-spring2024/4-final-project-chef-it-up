@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import './RecipeCard.css';
 import './MyRecipes.css';
-
 import RecipeCard from './RecipeCard';
+import { useRecipeContext } from './RecipeContext';
 
 
 const MyRecipes= () =>{
+    const { getCurrRecipe } = useRecipeContext(); // gets the getrecip which is called the setSelectedRecipe
     const [recipes, setRecipes] = useState([])
 
     useEffect(() =>{
@@ -53,6 +54,10 @@ const MyRecipes= () =>{
 
     }, [])
 
+    const handleRecipeClick = (recipe) => {
+        getCurrRecipe(recipe);
+    };
+
 
     return ( 
         <div className="recipes-contianer">
@@ -75,7 +80,7 @@ const MyRecipes= () =>{
 
             <div className="recipes-card-container">
                 {recipes.map(recipe => (
-                    <RecipeCard key={recipe.id} recipe={recipe} baseUrl="/myRecipes"/>
+                    <RecipeCard key={recipe.id} recipe={recipe} onClick={() => handleRecipeClick(recipe)}  baseUrl="/myRecipes"/>
                 
                 ))}
 

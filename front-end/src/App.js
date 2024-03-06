@@ -14,7 +14,7 @@ import Register from './Register'
 import IndividualRecipeDetail from './IndividualRecipeDetail';
 import IndividualFavoriteDetail from './IndividualFavoriteDetail';
 import MyRecipesDetail from "./MyRecipesDetail"
-
+import { RecipeProvider } from './RecipeContext';
 import './App.css';
 
 function App() {
@@ -22,7 +22,9 @@ function App() {
     <div className="App">
       <Router>
         <Header />
-        <Routes>
+        <RecipeProvider>
+         <Routes>
+
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route  path="/browseRecipes" element={<BrowseRecipes />} />
@@ -38,8 +40,8 @@ function App() {
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route  path="/editMyProfile" element={<EditProfile />} />
 
-          
-        </Routes>
+         </Routes>
+        </RecipeProvider>
       </Router>
 
     </div>

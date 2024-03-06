@@ -14,7 +14,7 @@ const AddRecipe = () =>{
     const [cuisine, setCuisine] = useState("")
     const [difficultyLevel, setDifficultyLevel] = useState("")
     const [error, setError] = useState("")
-    const [selectedFile, setSelectedFile] = useState(null);
+   
 
     const options = [
         { value: '1', label: '1' },
@@ -96,7 +96,7 @@ const AddRecipe = () =>{
         <div class="formField">
           <label className="add-recipe-form-field" htmlFor="ingredients">Add the ingredients:</label>
           <br />
-          <input
+          <textarea
             id="ingredients"
             type="text"
             placeholder="Ingredients"
