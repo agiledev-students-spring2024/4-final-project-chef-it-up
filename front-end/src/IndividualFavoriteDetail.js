@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import './individualRecipeDetail.css'
+import './IndividualFavoriteDetail.css'
 import { Link } from 'react-router-dom';
 
 
-const IndividualRecipeDetail = props =>{
+const IndividualFavoriteDetail = props =>{
 
     const [individualRecipe, setindividualRecipe] = useState([]);
     const { recipeId } = useParams();
@@ -17,6 +17,7 @@ const IndividualRecipeDetail = props =>{
                 console.log("fetching random data for 10 recipes")
                 const response = await axios.get(``)  //running low on free uses https://my.api.mockaroo.com/recipes.json?key=5f2d0960
                 const recipeWithId1 = response.data.find(recipe => recipe.id === parseInt(recipeId));
+
                 if (recipeWithId1) {
                     setindividualRecipe(recipeWithId1);
                 } else {
@@ -54,26 +55,25 @@ const IndividualRecipeDetail = props =>{
 
     const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
 
-    const handleSaveButtonClick = () => {
+    const handleUnfavoriteButtonClick= () => {
         // Placeholder for saving functionality
         alert(`You clicked the button to add the recipe to your favorite list: ${individualRecipe.recipe_name} recipe.`);
     };
 
     return (
         <div className="individual-recipe">
-            
-            <Link className='link-back-browse' to='/browseRecipes' >
-                <h3 className='naviagate-back-browse'> &#x2190; Browse Recipes</h3>
+        
+            <Link className='link-back-favorite' to='/favoriteRecipes' >
+                <h3 className='naviagate-back-favorite'> &#x2190; Browse Favorite Recipes</h3>
             </Link>
-            
-
+        
             <div className='img-and-cuisine-container'>
                 <div>
-                    <h1>{individualRecipe.recipe_name}</h1>
+                <h1>{individualRecipe.recipe_name}</h1>
+
                 </div>
                
                 <img src={imgSrc} alt='pciture of dish'/>
-
                 <div className='difficulty-and-cuisine-container'>
                     <div className="diff-and-cuisine-box">
                         <h3>Cuisine: {individualRecipe.cuisine}</h3>
@@ -81,8 +81,8 @@ const IndividualRecipeDetail = props =>{
                     <div className="diff-and-cuisine-box">
                         <h3>Difficulty: {individualRecipe.difficulty_level}</h3>
                     </div>
+                    
                 </div>
-
             </div>
 
             <div className="time-container">
@@ -97,13 +97,17 @@ const IndividualRecipeDetail = props =>{
                 </div>
             </div>
 
+            
+
             <div className='ingredient-container'>
                 <h2 className='ingredient-title'>Ingredients:</h2>
                 <ul>
                     <li>{individualRecipe.ingredients}</li>
                     <li>{individualRecipe.ingredients}</li>
-                    <li>{individualRecipe.ingredients}</li>        
+                    <li>{individualRecipe.ingredients}</li>
+                    
                  </ul>
+                
             </div>
             
             <div className='direction-container' >
@@ -113,18 +117,23 @@ const IndividualRecipeDetail = props =>{
                     <li>{individualRecipe.instructions}</li>
                     <li>{individualRecipe.instructions}</li>
                 </ol>
+ 
             </div>
-           
-            <Link>
-                <button className="favrorite-recipe-button" onClick={handleSaveButtonClick}>
-                    Add to favorite Recipes
-                </button> 
+            
+            
+
+            <Link to='/favoriteRecipes'>
+                <button className="unfavrorite-recipe-button" onClick={handleUnfavoriteButtonClick}>
+                    Unfavorite Recipe
+                </button>
+
             </Link>
-    
+            
+            
         </div>
 
     )
 
 }
 
-export default IndividualRecipeDetail;
+export default IndividualFavoriteDetail;

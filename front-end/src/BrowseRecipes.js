@@ -9,7 +9,7 @@ const BrowseRecipes = () =>{
 
     useEffect(() =>{
         console.log("fetching random data for 10 recipes")
-        axios.get(('https://my.api.mockaroo.com/recipes.json?key=5f2d0960'))
+        axios.get(('')) //running low on free uses https://my.api.mockaroo.com/recipes.json?key=5f2d0960
             .then(response => {
                 console.log("API response:", response.data);
                 setRecipes(response.data)
@@ -57,7 +57,7 @@ const BrowseRecipes = () =>{
             <h1>Browse Recipes</h1>
             <div className="recipes-card-container">
                 {recipes.map(recipe => (
-                    <RecipeCard key={recipe.id} recipe={recipe} />
+                    <RecipeCard key={recipe.id} recipe={recipe} baseUrl="/individualRecipe" />
                 
                 ))}
 

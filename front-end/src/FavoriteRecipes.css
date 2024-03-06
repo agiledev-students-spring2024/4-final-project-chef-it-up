@@ -11,6 +11,7 @@ form {
   justify-content: center;
 
 }
+
 h3{
   text-align: center;
 }
@@ -23,4 +24,18 @@ img{
 p{
   font-size: 24px;
   text-align: center;
+}
+
+@media screen and (max-width: 767px) {
+  img {
+    max-width: 100%; 
+    height: auto; 
+  }
+}
+
+@media screen and (min-width: 768px) {
+  img {
+    max-width: 100%; 
+    height: auto; 
+  }
 }

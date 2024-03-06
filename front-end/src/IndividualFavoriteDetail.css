@@ -1,0 +1,114 @@
+.individual-recipe{
+    margin-top: 40px;   
+}
+
+.link-back-favorite,
+.link-back-favorite:visited
+{
+    font-size: 16px;
+    text-decoration: underline;
+    color: black;
+}
+
+.naviagate-back-favorite{
+    margin-right: 750px;
+}
+
+.img-and-cuisine-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 4px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 24px;
+    max-width: 60%; 
+    margin: 0 auto; 
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.time-container
+ {
+    display:inline-flex;
+}
+
+.diff-and-cuisine-box{
+    flex-grow: 0.5; 
+    margin: 0 5px; 
+    text-align: center; 
+    border: 4px solid #ddd;
+    border-radius: 8px; 
+    padding: 10px;
+}
+
+.time-box {
+    flex-grow: 1; 
+    margin: 0 5px; 
+    text-align: center; 
+    border: 4px solid #ddd; 
+    border-radius: 8px; 
+    padding: 10px; 
+}
+  
+.time-box h4 h3{ 
+    margin: 0; 
+}
+
+.difficulty-and-cuisine-container{
+    margin-top: 24px;
+    display: inline-flex;
+    justify-content:space-evenly
+}
+
+.ingredient-container,
+.direction-container {
+    border: 4px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 24px;
+    max-width: 60%;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+.ingredient-title,
+.direction-title {
+    font-size: 28px;
+}
+
+.unfavrorite-recipe-button{
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #e1f2f5;
+    border-radius: 4px;
+    background-color: #e1f2f5;
+    color: #333;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.unfavrorite-recipe-button:hover{
+    background-color: #ddf3e4;
+    color: #555;
+    border-color: #ddf3e4;
+}
+
+@media screen and (max-width: 768px) {
+    .naviagate-back-favorite {
+        margin-left: 50px; 
+    }
+  }
+  
+  @media screen and (min-width: 768px) {
+    .naviagate-back-favorite{
+        margin-left: 50px; 
+    }
+  }
