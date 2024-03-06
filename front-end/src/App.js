@@ -14,6 +14,7 @@ import Register from './Register'
 import IndividualRecipeDetail from './IndividualRecipeDetail';
 import IndividualFavoriteDetail from './IndividualFavoriteDetail';
 import MyRecipesDetail from "./MyRecipesDetail"
+import EditRecipe from "./EditRecipe"
 import { RecipeProvider } from './RecipeContext';
 import './App.css';
 
@@ -36,6 +37,7 @@ function App() {
           <Route  path="/favoriteRecipes" element={<FavoriteRecipes/>} />
           <Route  path="/addRecipe" element={<AddRecipe />} />
           <Route  path="/generateRecipe" element={<GenerateRecipe />} />
+          <Route  path="/editRecipe" element={<EditRecipe />} />
           <Route  path="/myProfile" element={<Profile />} />
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route  path="/editMyProfile" element={<EditProfile />} />
