@@ -36,3 +36,31 @@
   width: 20%;
   display: inline-block;
 }
+
+.return-form-link{
+  font-size: 16px;
+  text-decoration: underline;
+  color: black;
+}
+
+.generate-recipe-button,
+.save-button{
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid #e1f2f5;
+  border-radius: 4px;
+  background-color: #e1f2f5;
+  color: #333;
+  font-size: 20px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.generate-recipe-button:hover,
+.save-button:hover{
+  background-color: #ddf3e4;
+  color: #555;
+  border-color: #ddf3e4;
+}

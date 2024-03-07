@@ -60,7 +60,7 @@ const GenerateRecipe = () =>{
                 </div>
             )}
             <form className="return-form">
-                <Link to="/favoriteRecipes">Go to Favorite Recipes</Link>
+                <Link className="return-form-link" to="/favoriteRecipes">Go to Favorite Recipes</Link>
             </form>
         </>
     )
