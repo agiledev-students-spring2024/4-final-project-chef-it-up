@@ -8,10 +8,10 @@ const IngredientCard = ({ ingredient }) => {
 
     return (
         <div className="ingredient-card">
-        <Link to={`/IngredientDetails/${ingredient.id}`} className="ingredient-link">
+        <Link className="ingredient-link" to={`/IngredientDetails/${ingredient.id}`}>
             
                 <h1 className='ingredient-title'>{ingredient.name}</h1>
-                <img src={imgSrc} alt={`${ingredient.name}`} />            
+                <img className='ingredient-card-image' src={imgSrc} alt={`${ingredient.name}`} />            
         </Link>
         </div>
     );

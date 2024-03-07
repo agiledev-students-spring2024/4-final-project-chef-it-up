@@ -11,7 +11,7 @@ const RecipeCard = ({ recipe, baseUrl, onClick}) => {
         <Link className="recipe-link" to={`${baseUrl}/${recipe.id}`}>
             
                 <h1 className='receipe-title'>{recipe.recipe_name}</h1>
-                <img src={imgSrc} alt={`Image of ${recipe.name}`} />
+                <img className='recipe-card-img' src={imgSrc} alt={`Image of ${recipe.name}`} />
                 <h2>Cuisine type: {recipe.cuisine}</h2>
                 <h2>Difficulty: {recipe.difficulty_level}</h2>
             

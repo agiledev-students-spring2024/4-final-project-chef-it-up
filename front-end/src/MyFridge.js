@@ -11,10 +11,10 @@ const MyFridge = () =>{
 
     useEffect(() =>{
         console.log("fetching random data for 20 ingredients")
-        axios.get(('https://my.api.mockaroo.com/my-ingredients.json?key=e23e5640'))
+        axios.get(('')) // https://my.api.mockaroo.com/my-ingredients.json?key=e23e5640
             .then(response => {
-                console.log("API response:", response.data('\n'));
-                setIngredients(response.data('\n'))
+                
+                setIngredients(response.data)
             })
             .catch(err =>{
                 console.log(`Sorry. No more requests allowed today!`)
