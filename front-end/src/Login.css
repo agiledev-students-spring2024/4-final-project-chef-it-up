@@ -32,22 +32,10 @@
   background-color: #ddf3e4;
   color: #555;
   border-color: #ddf3e4;
+  text-align: center;
 }
 
-
-.btn-section{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0px;   
-    gap: 8px;
-    width: 280px;
-    top: 212px;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-}
 .login-label{
   font-size: 25px;
+  text-align: center;
 }

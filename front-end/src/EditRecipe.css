@@ -30,7 +30,6 @@ body{
     height: 32px;
     margin-top: 18px;
     padding: 10px;
-    font-size: 1.4em;
     border-radius: 12px;
     box-shadow: 1px 1px 1px 1px rgba(255, 198, 129, 0.8);
   }
@@ -88,4 +87,22 @@ body{
     margin-right: auto;
     left: 0;
     right: 0;
+  }
+
+  @media all and (max-width:500px) {
+    .formField input {
+      font-size: 14px;
+    }
+  }
+  
+  @media all and (max-width:800px) {
+    .formField input {
+      font-size: 16px;
+    }
+  }
+  
+  @media all and (min-width:1100px) {
+    .formField input {
+      font-size: 18px;
+    }
   }
