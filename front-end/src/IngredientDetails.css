@@ -1,0 +1,95 @@
+.ingredient-details{
+    margin-top: 24px;
+     
+  }
+  
+  .link-back-fridge,
+  .link-back-fridge:visited
+  {
+      font-size: 16px;
+      text-decoration: underline;
+      color: black;
+  }
+  
+  .navigate-back-my-fridge{
+      margin-right: 750px;
+  }
+  
+  .ingredient-name-and-image-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 4px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 24px;
+    max-width: 60%; 
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .expiry-date-and-quantity-box{
+    flex-grow: 0.5; 
+    margin: 0 5px; 
+    text-align: center;
+    border: 4px solid #ddd; 
+    border-radius: 8px; 
+    padding: 10px;
+  }
+  
+  .expiry-date-and-quantity-container {
+    display:inline-flex;
+  
+  }
+  
+  .expiry-date-and-quantity-box h4 {
+    margin: 0; 
+  }
+  
+  .nav-to-edit-button,
+  .delete-button{
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #e1f2f5;
+    border-radius: 4px;
+    background-color: #e1f2f5;
+    color: #333;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+  
+  .nav-to-edit-recipe-button:hover,
+  .delete-button:hover{
+    background-color: #ddf3e4;
+    color: #555;
+    border-color: #ddf3e4;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .navigate-back-my-fridge {
+        margin-left: 50px; 
+    }
+  
+  
+    .expiry-date-and-quantity-container {
+      flex-direction: column;
+    }
+  
+    .expiry-date-and-quantity-box {
+      margin: 0 auto 15px; /* Center the expiry date and quantity boxes */
+      
+    }
+    
+  }
+  
+  @media screen and (min-width: 768px) {
+    .navigate-back-my-fridge {
+        margin-left: 50px; 
+    }
+  }

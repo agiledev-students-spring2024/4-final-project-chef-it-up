@@ -11,7 +11,7 @@
     color: black;
 }
 
-.naviagate-back-browse{
+.navigate-back-browse{
     margin-right: 750px;
 }
 
@@ -103,7 +103,7 @@
 }
 
 @media screen and (max-width: 768px) {
-  .naviagate-back-browse {
+  .navigate-back-browse {
       margin-left: 50px; 
   }
 
@@ -128,7 +128,7 @@
 }
 
 @media screen and (min-width: 768px) {
-  .naviagate-back-browse {
+  .navigate-back-browse {
       margin-left: 50px; 
   }
 }

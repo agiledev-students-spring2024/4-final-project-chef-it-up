@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 const MyFridge = () =>{
 
     const [ingredients, setIngredients] = useState([])
-    console.log(Object.getPrototypeOf(ingredients) === Array.prototype);
 
     useEffect(() =>{
         console.log("fetching random data for 20 ingredients")

@@ -24,7 +24,7 @@ const IndividualFavoriteDetail = () =>{
         <div className="individual-recipe">
         
             <Link className='link-back-favorite' to='/favoriteRecipes' >
-                <h3 className='naviagate-back-favorite'> &#x2190; Browse Favorite Recipes</h3>
+                <h3 className='navigate-back-favorite'> &#x2190; Browse Favorite Recipes</h3>
             </Link>
         
             <div className='img-and-cuisine-container'>

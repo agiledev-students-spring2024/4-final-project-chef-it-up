@@ -26,7 +26,7 @@ const IndividualRecipeDetail = () => {
         <div className="individual-recipe">
             
             <Link className='link-back-browse' to='/browseRecipes' >
-                <h3 className='naviagate-back-browse'> &#x2190; Browse Recipes</h3>
+                <h3 className='navigate-back-browse'> &#x2190; Browse Recipes</h3>
             </Link>
             
 
@@ -35,7 +35,7 @@ const IndividualRecipeDetail = () => {
                     <h1>{getRecipe.recipe_name}</h1>
                 </div>
                
-                <img src={imgSrc} alt='pciture of dish'/>
+                <img src={imgSrc} alt='picture of dish'/>
 
                 <div className='difficulty-and-cuisine-container'>
                     <div className="diff-and-cuisine-box">
