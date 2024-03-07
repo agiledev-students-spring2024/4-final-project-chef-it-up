@@ -82,15 +82,16 @@ const Register = () => {
               <Link to="/browseRecipes">Bypass Login due to Non-functionality</Link>
             </div>
         )}
-        <div className='btn-section'>
+        <div>
           <div>
           <Link to="/">
-            <button className="submit-register-form-button" type="submit"> Login </button>
+            <button className="submit-register-form-button" type="submit"> Register </button>
           </Link>
         </div>
         <div>
+          <Link to="/">
           <button className="navigate-to-login-button" type="submit"> Return to Login</button>
-
+          </Link>
         </div>
 
         </div>
