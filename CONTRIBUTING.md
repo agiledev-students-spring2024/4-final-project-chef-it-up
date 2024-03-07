@@ -78,7 +78,7 @@
     npm install
 
    ```
-3. from there add codes and to start the front-end and back-end naviagate to those directory and input:
+3. from there add codes and to start the front-end and back-end navigate to those directory and input:
     ```
      npm start 
     ```

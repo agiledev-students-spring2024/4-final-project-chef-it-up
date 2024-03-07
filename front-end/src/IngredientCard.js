@@ -4,7 +4,7 @@ import './IngredientCard.css';
 
 const IngredientCard = ({ ingredient }) => {
     
-    const imgSrc = `https://picsum.photos/100?id=${ingredient.id}`;
+    const imgSrc = `https://picsum.photos/200?id=${ingredient.id}`;
 
     return (
         <div className="ingredient-card">

@@ -10,7 +10,7 @@
     color: black;
 }
 
-.naviagate-back-favorite{
+.navigate-back-favorite{
     margin-right: 750px;
 }
 
@@ -102,13 +102,13 @@
 }
 
 @media screen and (max-width: 768px) {
-    .naviagate-back-favorite {
+    .navigate-back-favorite {
         margin-left: 50px; 
     }
   }
   
   @media screen and (min-width: 768px) {
-    .naviagate-back-favorite{
+    .navigate-back-favorite{
         margin-left: 50px; 
     }
   }
