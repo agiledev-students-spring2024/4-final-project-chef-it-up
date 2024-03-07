@@ -63,11 +63,6 @@
   margin: 0; 
 }
 
-.difficulty-and-cuisine-container{
-  margin-top: 24px;
-  display: inline-flex;
-  justify-content:space-evenly
-}
 
 .ingredient-container,
 .direction-container {
@@ -111,6 +106,25 @@
   .naviagate-back-browse {
       margin-left: 50px; 
   }
+
+
+  .time-container {
+    flex-direction: column;
+  }
+
+  .time-box {
+    margin: 0 auto 15px; /* Center the time boxes */
+    
+  }
+
+  .ingredient-container,
+  .direction-container {
+    width: 80% !important; /* Make the containers even wider */
+    max-width: none !important;
+  }
+
+  
+
 }
 
 @media screen and (min-width: 768px) {
