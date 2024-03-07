@@ -23,7 +23,7 @@
 }
 
 
-img {
+.recipe-card-img {
     width: 100%; /* Adjusted width for responsiveness */
     max-width: 100%; /* Ensures the image doesn't exceed its container */
     height: auto; /* Maintains aspect ratio */
