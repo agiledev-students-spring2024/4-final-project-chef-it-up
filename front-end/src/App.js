@@ -7,6 +7,7 @@ import MyRecipes from './MyRecipes'
 import GenerateRecipe from "./GenerateRecipe"
 import Profile from './Profile'
 import EditProfile from './EditProfile'
+import AddIngredient from "./AddIngredient"
 import Header from './Header'
 import Login from './Login'
 import Register from './Register'
@@ -41,6 +42,7 @@ function App() {
           <Route  path="/myProfile" element={<Profile />} />
           <Route  path="/editMyProfile" element={<EditProfile />} />
           <Route path="/aboutUs" element={<AboutUs />} />
+          <Route path="/addIngredient" element={<AddIngredient />} />
 
          </Routes>
         </RecipeProvider>
