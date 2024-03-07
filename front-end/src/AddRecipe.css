@@ -13,7 +13,6 @@ body{
   margin-right:5%;
   width: 65%;
   display: inline-block;
-    display: flex;
   justify-content: center;
   align-items: center;
 }

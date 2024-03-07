@@ -16,6 +16,7 @@ import IndividualFavoriteDetail from './IndividualFavoriteDetail';
 import IngredientDetails from "./IngredientDetails"
 import MyRecipesDetail from "./MyRecipesDetail"
 import EditRecipe from "./EditRecipe"
+import EditIngredient from "./EditIngredient"
 import { RecipeProvider } from './RecipeContext';
 import { IngredientProvider } from "./IngredientContext"
 import AboutUs from "./AboutUs"
@@ -26,6 +27,7 @@ function App() {
     <div className="App">
       <Router>
         <Header />
+        <IngredientProvider>
         <RecipeProvider>
          <Routes>
 
@@ -46,9 +48,11 @@ function App() {
           <Route path="/aboutUs" element={<AboutUs />} /> 
           <Route path="/addIngredient" element={<AddIngredient />} />
           <Route path="/IngredientDetails/:ingredientId" element={<IngredientDetails />} />
+          <Route path="/editIngredient" element={<EditIngredient />} />
 
          </Routes>
         </RecipeProvider>
+        </IngredientProvider>
       </Router>
 
     </div>

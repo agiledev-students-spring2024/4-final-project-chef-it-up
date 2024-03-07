@@ -45,12 +45,12 @@ const IngredientDetails = () => {
 
             <div className="ingredient-btn-section" >
                 <div>
-                    <Link to="/fridge">
+                    <Link to="/editIngredient">
                         <button className="nav-to-edit-button" type="submit"> Edit Ingredient</button>
                     </Link>
                 </div>
                 <div>
-                    <Link to="/frige">
+                    <Link to="/fridge">
                         <button className="delete-button" type="submit"> Delete Ingredient </button>
             
                     </Link> 
