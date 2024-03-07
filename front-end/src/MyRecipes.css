@@ -1,0 +1,46 @@
+.recipes-card-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+h3{
+    text-align: center;
+}
+
+img{
+    width: 400px;
+    height: 400px;
+}
+
+
+.btn-my-receipe-section {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 24px;
+    margin-left: 24px;
+    
+}
+
+.nav-to-add-recipe,
+.nav-to-generate-recipe {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid #e1f2f5;
+  border-radius: 4px;
+  background-color: #e1f2f5;
+  color: #333;
+  font-size: 20px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.nav-to-add-recipe:hover,
+.nav-to-generate-recipe:hover {
+  background-color: #ddf3e4;
+  color: #555;
+  border-color: #ddf3e4;
+}
+

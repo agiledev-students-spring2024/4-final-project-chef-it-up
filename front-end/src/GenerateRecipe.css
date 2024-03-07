@@ -1,0 +1,38 @@
+.profile-form {
+  border: 10px solid rgb(247, 203, 146);
+  background-color: hsl(29, 100%, 90%);
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 80px;
+  margin-bottom: 20px;
+  margin-left:5%;
+  margin-right:5%;
+  width: 60%;
+  display: inline-block;
+}
+
+.generated-recipe-container {
+  border: 10px solid rgb(247, 203, 146);
+  background-color: hsl(29, 100%, 90%);
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left:5%;
+  margin-right:5%;
+  width: 60%;
+  display: inline-block;
+}
+
+.return-form {
+  border: 10px solid rgb(247, 203, 146);
+  background-color: hsl(29, 100%, 90%);
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left:5%;
+  margin-right:5%;
+  width: 20%;
+  display: inline-block;
+}

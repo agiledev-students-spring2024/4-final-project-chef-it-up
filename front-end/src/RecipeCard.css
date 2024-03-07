@@ -3,19 +3,34 @@
     width: 40%;
     margin: 10px;
     padding: 10px;
-    border: 10px solid rgb(250, 156, 33);
-    background-color: rgb(255, 203, 135);
+    border: 10px solid rgb(234, 190, 134);
+    background-color: rgb(248, 229, 204);
     border-radius: 30px;
-    text-decoration:none;
-    
 }
 
-img{
-    width: 600px;
-    height: 400px;
+.recipe-card:hover {
+    transform: translateY(-10px);
+  }
+
+.recipe-link{
+    color:#150c00;
+    text-decoration: none;
 }
 
-p{
-    font-size: 24px;
-    text-align: center;
+.receipe-title,
+.recipe-link:visited{
+    color:#150c00
+}
+
+
+img {
+    width: 100%; /* Adjusted width for responsiveness */
+    max-width: 100%; /* Ensures the image doesn't exceed its container */
+    height: auto; /* Maintains aspect ratio */
+}
+
+@media screen and (max-width: 768px) {
+    .recipe-card {
+        width: 80%; /* Adjusted width for smaller screens */
+    }
 }

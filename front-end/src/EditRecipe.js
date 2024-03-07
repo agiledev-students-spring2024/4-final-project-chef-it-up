@@ -1,91 +1,175 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import Select from 'react-select';
+import { Link } from 'react-router-dom';
+import './EditRecipe.css';
+import { useRecipeContext } from './RecipeContext';
 
-const EditRecipe = props =>{
+const EditRecipe = () =>{
+    const [recipeName, setRecipeName] = useState("")
+    const [ingredients, setIngredients] = useState("")
+    const [instructions, setInstructions] = useState("")
+    const [prepTime, setPrepTime] = useState("")
+    const [cookTime, setCookTime] = useState("")
+    const [totalTime, setTotalTime] = useState("")
+    const [cuisine, setCuisine] = useState("")
+    const [difficultyLevel, setDifficultyLevel] = useState("")
+    const [error, setError] = useState("")
 
-    const [individualRecipe, setindividualRecipe] = useState([]);
-    const recipeId = useParams();
+    const { getRecipe, setSelectedRecipe } = useRecipeContext();
+    const [editedRecipe, setEditedRecipe] = useState(getRecipe || {});
 
-    useEffect(() =>{
-        const fetchData = async () =>{
-            try{
-                console.log("fetching random data for 10 recipes")
-                const response = await axios.get("https://my.api.mockaroo.com/recipes.json/${recipeId}?key=5f2d0960")  
-                setindividualRecipe(response.data)
-            }
-            catch (err){
-               console.log(`Sorry. No more requests allowed today!`)
-               console.error(err)
+    const options = [
+      { value: 'easy', label: 'easy' },
+      { value: 'medium', label: 'medium' },
+      { value: 'hard', label: 'hard' },
+    ]
 
-               const backupData = [
-                {
-                    id: 3,
-                    recipe_name: "Honorable",
-                    ingredients: "Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.",
-                    instructions: "Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.",
-                    prep_time: 10,
-                    cook_time: 172,
-                    total_time: 152,
-                    cuisine: "Chinese",
-                    difficulty_level: "Medium"
-                  },
-                ]
-
-                setindividualRecipe(backupData[0])
-
-            }
-            
-        }
-
-        fetchData()
-
-    }, [recipeId]);
-
-    const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
-
-    const handleSaveButtonClick = () => {
-        // Placeholder for saving functionality
-        alert(`You clicked the button to add the recipe to your favorite list: ${individualRecipe.recipe_name} recipe.`);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Update the recipe in context
+        setSelectedRecipe(editedRecipe);
+        // Redirect or perform other actions
     };
 
+
     return (
-        <div className="individual-recipe">
-            <h2>{individualRecipe.recipe_name}</h2>
-
-            <div>
-                <img src={imgSrc} alt='pciture of dish'/>
+    
+        <form className="add-recipe-form" onSubmit={handleSubmit}>
+          <main className="App">
+            <h1>Add Your Own Recipe</h1>
+            <div class="formField">
+              <div>
+              <label className="add-recipe-form-field"  htmlFor="recipeName" >Enter your recipe name:</label>
+              </div>
+             
+              <div>
+              <input
+                id="recipeName"
+                type="text"
+                value={editedRecipe.recipe_name}
+                onChange={e => setEditedRecipe(e.target.value)}
+                required
+              />
+              </div>
+              
             </div>
-
-            <p>Cuisine: {individualRecipe.cuisine}</p>
-
-            <div>
-                <h4>Prep Time: {individualRecipe.prep_time} minutes</h4>
-                <h4>Cook Time: {individualRecipe.cook_time} minutes</h4>
+    
+            <div class="formField">
+              <div>
+              <label className="add-recipe-form-field"  htmlFor="recipeImage">Upload image of recipe:</label>
+              </div>
+             
+              <div>
+              <input
+                id="recipeImage"
+                type="file"
+                accept="image/*"
+                onChange={e => setRecipeName(e.target.value)}
+                required
+              />
+              </div>
+              
             </div>
-
-            <p>Total Time: {individualRecipe.total_time} minutes</p>
-
+    
+            <div class="formField">
+              <label className="add-recipe-form-field" htmlFor="ingredients">Add the ingredients:</label>
+              <br />
+              <textarea
+                id="ingredients"
+                type="text"
+                value={editedRecipe.ingredients}
+                onChange={e => setIngredients(e.target.value)}
+                required
+              />
+            </div>
+            <div class="formField">
+              <label className="add-recipe-form-field" htmlFor="instructions">List Instructions:</label>
+              <br />
+              <textarea
+                id="instructions"
+                type="text"
+                value={editedRecipe.instructions}
+                onChange={e => setInstructions(e.target.value)}
+                required
+              />
+            </div>
+            <div class="formField">
+              <label className="add-recipe-form-field" htmlFor="prepTime">Enter Preparation Time:</label>
+              <br />
+              <input
+                id="prepTime"
+                type="text"
+                value={editedRecipe.prep_time}
+                onChange={e => setPrepTime(e.target.value)}
+                required
+              />
+            </div>
+            <div class="formField">
+              <label className="add-recipe-form-field" htmlFor="cookTime">Enter Cooking Time:</label>
+              <br />
+              <input
+                id="cookTime"
+                type="text"
+                value={editedRecipe.cook_time}
+                onChange={e => setCookTime(e.target.value)}
+                required
+              />
+            </div>
+            <div class="formField">
+              <label className="add-recipe-form-field" htmlFor="totalTime">Enter Total Time:</label>
+              <br />
+              <input
+                id="totalTime"
+                type="text"
+                value={editedRecipe.total_time}
+                onChange={e => setTotalTime(e.target.value)}
+                required
+              />
+            </div>
+            <div class="formField">
+              <label className="add-recipe-form-field" htmlFor="cuisine">Enter Cuisine Type:</label>
+              <br />
+              <input
+                id="cuisine"
+                type="text"
+                value={editedRecipe.cuisine}
+                onChange={e => setCuisine(e.target.value)}
+                required
+              />
+            </div>
+            <h2>Select a difficulty level</h2>
+            <div class="dropdown">
+              <Select options={options} defaultValue={options[0]} onChange={e => setDifficultyLevel(e.value)} />
+            </div>
+    
+            {error && (
+                <div>
+                  <p className="notwork">{error}</p>
+                  <Link to="/">Bypass due to error</Link>
+                </div>
+            )}
+            <div className="btn-section">
             <div>
-                <h2>Ingredients</h2>
-                <p>{individualRecipe.ingredients}</p>
+              <Link to="/myRecipes">
+                <button className="submit-edit-button" type="submit" >Save Edit</button>
+                
+              </Link>
+            </div>
+            <div>
+              <button className="cancel-edit-recipe">
+                <Link to="/myRecipes" className="cancel-link">Cancel Edit</Link>
+    
+              </button>
+              
+            </div>
+    
             </div>
             
-            <div>
-                <h2>Directions</h2>
-                <p>{individualRecipe.instructions}</p>
-            </div>
-            
-            <h3>Difficulty: {individualRecipe.difficulty}</h3>
-
-            <button className="save-button" onClick={handleSaveButtonClick}>
-                Add to favorite Recipes
-            </button>
-            
-        </div>
-
+          </main>
+        </form>
     )
 
-}
+};
 
 export default EditRecipe;
