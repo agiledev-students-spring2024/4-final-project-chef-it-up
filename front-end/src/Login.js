@@ -71,7 +71,7 @@ const Login = props => {
               <Link to="/browseRecipes">Bypass Login due to Non-functionality</Link>
             </div>
           )}
-          <div className='btn-section'>
+          <div>
             <div>
               <Link to="/browseRecipes">
                 <button className="submit-login-form-button" type="submit"> Login </button>

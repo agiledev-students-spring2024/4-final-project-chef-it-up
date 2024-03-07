@@ -13,6 +13,9 @@ body{
   margin-right:5%;
   width: 65%;
   display: inline-block;
+    display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .add-recipe-form-field{
@@ -88,4 +91,22 @@ body{
   margin-right: auto;
   left: 0;
   right: 0;
+}
+
+@media all and (max-width:500px) {
+  .formField input {
+    font-size: 14px;
+  }
+}
+
+@media all and (max-width:800px) {
+  .formField input {
+    font-size: 16px;
+  }
+}
+
+@media all and (min-width:1100px) {
+  .formField input {
+    font-size: 18px;
+  }
 }

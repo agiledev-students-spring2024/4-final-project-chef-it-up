@@ -56,7 +56,7 @@ const EditProfile = () =>{
             required
           />
         </div>
-        <div className="btn-section" >
+        <div>
         <div>
           <Link to="/">
             <button className="submit-edit-button" type="submit"> Edit Profile</button>
