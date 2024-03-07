@@ -1,0 +1,20 @@
+.ingredient-card{
+    width: 300px;
+    height: 300px;
+    margin: 10px;
+    padding: 1px;
+    border: 10px solid rgb(250, 156, 33);
+    background-color: rgb(255, 203, 135);
+    border-radius: 10px;
+    text-decoration:none;
+}
+
+img{
+    width: 200px;
+    height: 200px;
+}
+
+p{
+    font-size: 14px;
+    text-align: center;
+}
