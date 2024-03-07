@@ -1,11 +1,12 @@
 import React, { useState, useEffect }from "react";
 import './MyFridge.css';
 import IngredientCard from './IngredientCard';
+import { useIngredientContext } from "./IngredientContext";
 import axios from 'axios';
 import { Link } from 'react-router-dom'
 
 const MyFridge = () =>{
-
+    const {getCurrIngredient} = useIngredientContext();
     const [ingredients, setIngredients] = useState([])
 
     useEffect(() =>{
@@ -48,6 +49,10 @@ const MyFridge = () =>{
             })
     }, []);
 
+    const handleIngredientClick = (ingredient) => {
+        getCurrIngredient(ingredient);
+    };
+
     return (
         <div className="ingredients-contianer">
             <h1>My Fridge</h1>
@@ -59,7 +64,7 @@ const MyFridge = () =>{
             </div>
 
             <div className="ingredients-card-container">
-                {ingredients.map(ingredient => <IngredientCard key={ingredient.id} ingredient={ingredient} />)}
+                {ingredients.map(ingredient => <IngredientCard key={ingredient.id} ingredient={ingredient} onClick={() => handleIngredientClick(ingredient)} />)}
             </div>
         </div>
     )

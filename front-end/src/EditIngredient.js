@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './EditIngredient.css';
 import { useIngredientContext } from './IngredientContext';
 
-const EditRecipe = () =>{
+const EditIngredient = () =>{
     const [ingredientName, setIngredientName] = useState("")
     const [quantity, setQuantity] = useState("")
     const [expiryDate, setExpiryDate] = useState("")
@@ -26,7 +26,7 @@ const EditRecipe = () =>{
     
         <form className="add-ingredient-form" onSubmit={handleSubmit}>
           <main className="App">
-            <h1>Add Ingredient</h1>
+            <h1>Edit Ingredient</h1>
             <div class="formField">
               <div>
               <label className="add-ingredient-form-field"  htmlFor="ingredientName" >Enter your ingredient name:</label>
@@ -36,7 +36,7 @@ const EditRecipe = () =>{
               <input
                 id="ingredientName"
                 type="text"
-                value={editedIngredient.ingredientName}
+                value={editedIngredient.name}
                 onChange={e => setIngredientName(e.target.value)}
                 required
               />
@@ -70,7 +70,7 @@ const EditRecipe = () =>{
             <input
                 id="ingredientExpiryDate"
                 type="date"
-                value={editedIngredient.expiryDate}
+                value={editedIngredient.expiry_date}
                 onChange={e => setExpiryDate(e.target.value)}
                 required
             />
@@ -122,4 +122,4 @@ const EditRecipe = () =>{
 
 };
 
-export default EditRecipe;
+export default EditIngredient;

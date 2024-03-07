@@ -49,6 +49,7 @@
     margin: 0; 
   }
   
+ 
   .nav-to-edit-button,
   .delete-button{
     display: inline-block;
@@ -60,6 +61,7 @@
     font-size: 20px;
     text-align: center;
     text-decoration: none;
+    margin-top: 12px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
   }
