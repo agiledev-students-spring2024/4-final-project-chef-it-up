@@ -9,8 +9,8 @@ const BrowseRecipes = () =>{
     const [recipes, setRecipes] = useState([])
 
     useEffect(() =>{
-        console.log("fetching random data for 10 recipes")
-        axios.get(('https://my.api.mockaroo.com/recipes.json?key=5f2d0960')) //running low on free uses  https://my.api.mockaroo.com/recipes.json?key=5f2d0960
+        console.log("fetching random data for 2 recipes")
+        axios.get(('http://localhost:3001/api/browseReceipes')) //running low on free uses  https://my.api.mockaroo.com/recipes.json?key=5f2d0960
             .then(response => {
                 console.log("API response:", response.data);
                 setRecipes(response.data)
@@ -31,17 +31,7 @@ const BrowseRecipes = () =>{
                     cuisine: "Indian",
                     difficulty_level: "Hard"
                   },
-                  {
-                    id: 2,
-                    recipe_name: "Mrs",
-                    ingredients: "Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\n\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\n\nPhasellus in felis. Donec semper sapien a libero. Nam dui.",
-                    instructions: "Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.\n\nPraesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.\n\nMorbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.",
-                    prep_time: 102,
-                    cook_time: 172,
-                    total_time: 89,
-                    cuisine: "Mexican",
-                    difficulty_level: "Hard"
-                  }
+                  
                 
                 ];
 
