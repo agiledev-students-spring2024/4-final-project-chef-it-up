@@ -93,6 +93,56 @@ let favoriteRecipeData = [
         difficulty_level:"Medium"}
 ];
        
+let fridgeData = [
+  {   
+    id: 1,
+    ingredient_name: "Chicken",
+    expiry_date: "08/26/2024",
+    quantity: 1,
+  },
+  {
+    id: 2,
+    ingredient_name: "Butter",
+    expiry_date: "05/18/2025",
+    quantity: 1,
+  },
+  {
+    id: 3,
+    ingredient_name: "Tomatoes",
+    expiry_date: "04/10/2024",
+    quantity: 4,
+  },
+  {   
+    id: 4,
+    ingredient_name: "Yogurt",
+    expiry_date: "06/21/2024",
+    quantity: 2,
+  },
+  {
+    id: 5,
+    ingredient_name: "Cheese",
+    expiry_date: "01/08/2027",
+    quantity: 6,
+  },
+  {
+    id: 6,
+    ingredient_name: "Apples",
+    expiry_date: "09/19/2031",
+    quantity: 5,
+  },
+  {
+    id: 7,
+    ingredient_name: "Milk",
+    expiry_date: "02/02/2027",
+    quantity: 1,
+  },
+  {
+    id: 8,
+    ingredient_name: "Hummus",
+    expiry_date: "10/15/2024",
+    quantity: 6,
+  }
+]
 
 
 // browse recipe page
@@ -161,34 +211,55 @@ app.delete("/api/Unfavorite/:recipeId", (req, res) =>{
 });
 
 // adding a receips to your favorite recipes list 
-
 app.post ("/api/addToFavorite/:recipeId", (req, res) => {
-    const { recipeId } = req.params;
-    console.log('this is recipe to add to favorite', recipeId);
-    const recipe = recipeData.find(recipe => recipe.id == recipeId);
+  const { recipeId } = req.params;
+  console.log('this is recipe to add to favorite', recipeId);
+  const recipe = recipeData.find(recipe => recipe.id == recipeId);
 
-    if (recipe){
-        const toAddToFavorite = {
-            id: favoriteRecipeData.length + 1,
-            recipe_name: recipe.recipe_name,
-            ingredients: recipe.ingredients,
-            instructions: recipe.instructions,
-            cook_time: recipe.cook_time,
-            total_time: recipe.total_time,
-            cuisine: recipe.cuisine,
-            difficulty_level: recipe.difficulty_level
-    
-        };
-    
-        favoriteRecipeData.push(toAddToFavorite);
-        res.status(200).json("successfully pushed to favorite list");
+  if (recipe){
+      const toAddToFavorite = {
+          id: favoriteRecipeData.length + 1,
+          recipe_name: recipe.recipe_name,
+          ingredients: recipe.ingredients,
+          instructions: recipe.instructions,
+          cook_time: recipe.cook_time,
+          total_time: recipe.total_time,
+          cuisine: recipe.cuisine,
+          difficulty_level: recipe.difficulty_level
+  
+      };
+  
+      favoriteRecipeData.push(toAddToFavorite);
+      res.status(200).json("successfully pushed to favorite list");
 
-    }
+  }
+
+  else{
+      res.status(404).json({ error: " Recipe not found" });
+  }
+})
+
+// add ingredient to fridge
+app.post ("/api/addIngredient", (req, res) => {
+  console.log('this is ingredient to add to fridge', req.body.id);
+  
+  const ingredient = {
+    id: req.body.id,
+    ingredient_name: req.body.ingredient_name,
+    quantity: req.body.quantity,
+    expiry_date: req.body.expiry_date
+  };
+
+  if (ingredient) {
+    fridgeData.push(ingredient)
+    res.status(200).json("successfully added ingredient to fridge");
+  }
 
     else{
         res.status(404).json({ error: " Recipe not found" });
     }
 })
+
 
 // export the express app we created to make it available to other modules
 module.exports = app
