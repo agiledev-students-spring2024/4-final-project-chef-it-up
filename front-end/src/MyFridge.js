@@ -10,14 +10,14 @@ const MyFridge = () =>{
     const [ingredients, setIngredients] = useState([])
 
     useEffect(() =>{
-        console.log("fetching random data for 20 ingredients")
-        axios.get(('https://my.api.mockaroo.com/my-ingredients.json?key=e23e5640')) // https://my.api.mockaroo.com/my-ingredients.json?key=e23e5640
+        console.log("fetching data for ingredients")
+        axios.get(('http://localhost:3001/api/myFridge')) 
             .then(response => {
                 
                 setIngredients(response.data)
             })
             .catch(err =>{
-                console.log(`Sorry. No more requests allowed today!`)
+                console.log(`Something went wrong, couldn't retrieve ingredients.`)
                 console.error(err)
 
                 const backupData = [

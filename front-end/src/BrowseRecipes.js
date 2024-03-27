@@ -10,7 +10,7 @@ const BrowseRecipes = () =>{
     console.log()
 
     useEffect(() =>{
-        axios.get(('http://localhost:3001/api/browseReceipes')) //running low on free uses  https://my.api.mockaroo.com/recipes.json?key=5f2d0960
+        axios.get(('http://localhost:3001/api/browseRecipes')) //running low on free uses  https://my.api.mockaroo.com/recipes.json?key=5f2d0960
             .then(response => {
                 console.log("API response:", response.data);
                 setRecipes(response.data)

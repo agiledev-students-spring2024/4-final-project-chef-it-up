@@ -94,59 +94,59 @@ let favoriteRecipeData = [
 ];
        
 let fridgeData = [
-  {   
-    id: 1,
-    ingredient_name: "Chicken",
-    expiry_date: "08/26/2024",
-    quantity: 1,
-  },
-  {
-    id: 2,
-    ingredient_name: "Butter",
-    expiry_date: "05/18/2025",
-    quantity: 1,
-  },
-  {
-    id: 3,
-    ingredient_name: "Tomatoes",
-    expiry_date: "04/10/2024",
-    quantity: 4,
-  },
-  {   
-    id: 4,
-    ingredient_name: "Yogurt",
-    expiry_date: "06/21/2024",
-    quantity: 2,
-  },
-  {
-    id: 5,
-    ingredient_name: "Cheese",
-    expiry_date: "01/08/2027",
-    quantity: 6,
-  },
-  {
-    id: 6,
-    ingredient_name: "Apples",
-    expiry_date: "09/19/2031",
-    quantity: 5,
-  },
-  {
-    id: 7,
-    ingredient_name: "Milk",
-    expiry_date: "02/02/2027",
-    quantity: 1,
-  },
-  {
-    id: 8,
-    ingredient_name: "Hummus",
-    expiry_date: "10/15/2024",
-    quantity: 6,
-  }
+    {   
+      id: 1,
+      ingredient_name: "Chicken",
+      expiry_date: "08/26/2024",
+      quantity: 1,
+    },
+    {
+      id: 2,
+      ingredient_name: "Butter",
+      expiry_date: "05/18/2025",
+      quantity: 1,
+    },
+    {
+      id: 3,
+      ingredient_name: "Tomatoes",
+      expiry_date: "04/10/2024",
+      quantity: 4,
+    },
+    {   
+      id: 4,
+      ingredient_name: "Yogurt",
+      expiry_date: "06/21/2024",
+      quantity: 2,
+    },
+    {
+      id: 5,
+      ingredient_name: "Cheese",
+      expiry_date: "01/08/2027",
+      quantity: 6,
+    },
+    {
+      id: 6,
+      ingredient_name: "Apples",
+      expiry_date: "09/19/2031",
+      quantity: 5,
+    },
+    {
+      id: 7,
+      ingredient_name: "Milk",
+      expiry_date: "02/02/2027",
+      quantity: 1,
+    },
+    {
+      id: 8,
+      ingredient_name: "Hummus",
+      expiry_date: "10/15/2024",
+      quantity: 6,
+    }
 ]
 
 
 // browse recipe page
-app.get("/api/browseReceipes", (req, res) => {
+app.get("/api/browseRecipes", (req, res) => {
     res.json(recipeData)
 
 });
@@ -239,25 +239,30 @@ app.post ("/api/addToFavorite/:recipeId", (req, res) => {
   }
 })
 
+// display items in fridge
+app.get("/api/myFridge", (req, res) => {
+    res.json(fridgeData);
+})
+
 // add ingredient to fridge
 app.post ("/api/addIngredient", (req, res) => {
-  console.log('this is ingredient to add to fridge', req.body.id);
-  
-  const ingredient = {
-    id: req.body.id,
-    ingredient_name: req.body.ingredient_name,
-    quantity: req.body.quantity,
-    expiry_date: req.body.expiry_date
-  };
+    console.log('this is ingredient to add to fridge', req.body.id);
+    
+    const ingredient = {
+      id: req.body.id,
+      ingredient_name: req.body.ingredient_name,
+      quantity: req.body.quantity,
+      expiry_date: req.body.expiry_date
+    };
 
-  if (ingredient) {
-    fridgeData.push(ingredient)
-    res.status(200).json("successfully added ingredient to fridge");
-  }
+    if (ingredient) {
+      fridgeData.push(ingredient)
+      res.status(200).json("successfully added ingredient to fridge");
+    }
 
     else{
         res.status(404).json({ error: " Recipe not found" });
-    }
+      }
 })
 
 
