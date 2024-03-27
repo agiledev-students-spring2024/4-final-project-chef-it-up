@@ -3,21 +3,47 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './individualRecipeDetail.css'
 import { Link } from 'react-router-dom';
-import { useRecipeContext } from './RecipeContext';
+
 
 
 const IndividualRecipeDetail = () => {
 
     const { recipeId } = useParams();
-    const { getRecipe } = useRecipeContext(); // getting the cards related recipe details
-    
+    const [getRecipe, setRecipe] = useState();
+  
+    // const { getRecipe } = useRecipeContext(); // getting the cards related recipe details
+
+    useEffect(() => {
+        console.log("useEffect is beig called ")
+        axios.get(`http://localhost:3001/api/individualRecipeInfo/${recipeId}`)
+            .then(response => {
+                setRecipe(response.data);
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.error("Error fetching recipe:", error);
+
+            });
+    }, [recipeId]);
+
     if (!getRecipe) {
-        return <div>No recipe selected!</div>;
+        return <div>Loading...</div>;
     }
+
 
     const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
 
     const handleSaveButtonClick = () => {
+
+        axios.post(`http://localhost:3001/api/addToFavorite/${recipeId}`)
+        .then(response => {
+            console.log(" recipe has been added to favorites: ", response.data)
+
+        })
+        .catch( err =>{
+            console.log(" error trying to add recipes to favorite: ", err)
+
+        })
         // Placeholder for saving functionality
         alert(`You clicked the button to add the recipe to your favorite list: ${getRecipe.recipe_name} recipe.`);
     };
@@ -86,7 +112,7 @@ const IndividualRecipeDetail = () => {
     
         </div>
 
-    )
+    );
 
 }
 
