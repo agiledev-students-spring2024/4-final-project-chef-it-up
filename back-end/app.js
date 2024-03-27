@@ -25,6 +25,15 @@ const backupData = [
      }
    
    ];
+
+let backupUser = [
+    {
+        id:1,
+        username:"First Last",
+        password:"Password",
+    }
+]
+
    
 const express = require("express"); // CommonJS import style!
 const path = require("path");
@@ -35,6 +44,7 @@ const axios = require("axios"); // middleware for making requests to APIs
 require("dotenv").config({ silent: true }); // load environmental variables from a hidden file named .env
 const morgan = require("morgan"); // middleware for nice logging of incoming HTTP requests
 
+const saltRounds = 10;   
 
 // use the morgan middleware to log all incoming http requests
 app.use(morgan("dev")); // morgan has a few logging default styles - dev is a nice concise color-coded style
@@ -42,26 +52,110 @@ app.use(morgan("dev")); // morgan has a few logging default styles - dev is a ni
 // use express's builtin body-parser middleware to parse any data included in a request
 app.use(express.json()); // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming POST data
-let backupUser = [
-    {
-        id:1,
-        username:"First Last",
-        password:"Password",
-        fridge:[
-            {
-                ingredientName:"Tomato",
-                ingredientimage:"tomato.png",
-                expiryDate:"01/12/25",
-                quantity:"105"
-            }
-        ],
-        favorites:[1],
-    }
-]
 
 app.post("/login", (req, res) => {
     res.status(200).send("User has logged in");
   });
+app.register("/register", async(req,res) =>{
+    const { username, password, fridge } = req.body;
+
+    if (!username || !password || !fridge ) {
+        return res.status(400).send('Please provide a username, password, and default fridge.');
+    }
+
+    try {
+        const hashed_password = await bcrypt.hash(password, saltRounds)
+
+        const new_user = {
+            id:backupUser.length+1,
+            username:username,
+            password:hashed_password,
+        }
+
+        backupUser.push(new_user)
+        const { password:_, ...user_nopass } = new_user
+        res.status(200).json("Successfully registered")
+    }
+    catch(error) {
+        console.error(error)
+        res.status(500).send('Error from server when registering user.')
+    }
+})
+
+app.get("/myProfile/:userid"), (req, res) => {
+    const { userid } = req.params
+    const user = backupUser.find((user) => user.id === userid)
+    if (user) {
+        res.status(200).json(user)
+    }
+    else {
+        res.status(404).send("No such user exists")
+    }
+}
+
+app.get("/editMyProfile/:userid"), (req, res) => {
+    const { userid } = req.params
+    const user = backupUser.find((user) => user.id === userid)
+    if (user) {
+        res.status(200).json(user)
+    }
+    else {
+        res.status(404).send("No such user exists")
+    }
+}
+
+app.post("/editMyProfile/:userid"), (req, res) => {
+    const { username, password, userid } = req.params;
+
+    const updated_user = {
+        id:userid,
+        username:username,
+        password:password
+    }
+    // just going to physically update the backup for now
+    const userIndex = backupUser.findIndex((user) => user.id === userid)
+    if (userIndex !== -1) {
+        backupUser[index] = { ...backupUser[index],...updated_user }
+    }
+    else{
+        res.status(404).send("No such user exists")
+    }
+    
+    if (user) {
+        res.status(200).json(user)
+    }
+    else {
+        res.status(500).send("Error for server updating user.")
+    }
+}
+
+app.post("/addRecipe"), (req, res) => {
+    const { recipe_name, ingredients, instructions, cook_time, total_time, cuisine, difficulty_level } = req.params
+    if (!recipe_name || !ingredients || !instructions || !cook_time || !total_time || !cuisine || !difficulty_level ) {
+        return res.status(400).send('Please fill in all the forms.');
+    }
+
+    try {
+        const new_recipe = {
+            id: backupData.length + 1,
+            recipe_name: recipe_name,
+            ingredients: ingredients,
+            instructions: instructions,
+            cook_time: cook_time,
+            total_time: total_time,
+            cuisine: cuisine,
+            difficulty_level: difficulty_level
+        }
+
+        backupData.push(new_recipe)
+        res.status(200).json("Successfully added new recipe")
+    }
+    catch (error) {
+        console.error(error)
+        res.status(500).send('Error from server when adding recipe.')
+    }
+}
+
 // we will put some server logic here later...
 
 // export the express app we created to make it available to other modules
