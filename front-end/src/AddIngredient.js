@@ -5,19 +5,19 @@ import './AddIngredient.css'
 import Select from 'react-select'
 
 const AddIngredient = () =>{
-    const [ingredientName, setIngredientName] = useState("")
+    const [ingredient_name, setIngredientName] = useState("")
     const [quantity, setQuantity] = useState("")
-    const [expiryDate, setExpiryDate] = useState("")
+    const [expiry_date, setExpiryDate] = useState("")
     const [error, setError] = useState("")
 
     const handleSubmit = e => {
         e.preventDefault()
         
         axios
-          .post("Backend",{
-            ingredientName:ingredientName,
+          .post("http://localhost:3001/api/addIngredient",{
+            ingredient_name:ingredient_name,
             quantity:quantity,
-            expiryDate:expiryDate,
+            expiry_date:expiry_date,
           })
           .then(response => {
             console.log(`Received server response: ${response.data}`)
