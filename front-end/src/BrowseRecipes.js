@@ -1,15 +1,15 @@
 import React, { useState, useEffect }from "react";
 import './BrowseRecipes.css';
 import RecipeCard from './RecipeCard';
-import { useRecipeContext } from './RecipeContext';
+// import { useRecipeContext } from './RecipeContext';
 import axios from 'axios';
 
 const BrowseRecipes = () =>{
-    const { getCurrRecipe } = useRecipeContext(); // gets the getrecip which is called the setSelectedRecipe
+    // const { getCurrRecipe } = useRecipeContext(); // gets the getrecip which is called the setSelectedRecipe
     const [recipes, setRecipes] = useState([])
+    console.log()
 
     useEffect(() =>{
-        console.log("fetching random data for 2 recipes")
         axios.get(('http://localhost:3001/api/browseReceipes')) //running low on free uses  https://my.api.mockaroo.com/recipes.json?key=5f2d0960
             .then(response => {
                 console.log("API response:", response.data);
@@ -41,18 +41,22 @@ const BrowseRecipes = () =>{
 
     }, [])
 
+   
+   /* commented out for now as may refactor 
     const handleRecipeClick = (recipe) => {
-        getCurrRecipe(recipe);
+      getCurrRecipe(recipe);
     };
+    */
 
-
+    // note: got rid of onClick={() => handleRecipeClick(recipe)} in <RecipeCard key={recipe.id} recipe={recipe} baseUrl="/individualRecipe" /> (line 59)
+                
     return (
         
         <div className="recipes-contianer">
             <h1>Browse Recipes</h1>
             <div className="recipes-card-container">
                 {recipes.map(recipe => (
-                    <RecipeCard key={recipe.id} recipe={recipe} onClick={() => handleRecipeClick(recipe)} baseUrl="/individualRecipe" />
+                    <RecipeCard key={recipe.id} recipe={recipe} baseUrl="/individualRecipe" />
                 
                 ))}
 
