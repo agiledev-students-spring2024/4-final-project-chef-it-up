@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import './IndividualFavoriteDetail.css'
 import axios  from 'axios';
 import { Link } from 'react-router-dom';
-import { useRecipeContext } from './RecipeContext';
+// import { useRecipeContext } from './RecipeContext';
 
 
 const IndividualFavoriteDetail = () =>{
@@ -29,7 +29,7 @@ const IndividualFavoriteDetail = () =>{
         return <div>still loading!</div>;
     }
 
-    const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
+    // const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
 
     const handleUnfavoriteButtonClick= () => {
         axios.delete(`http://localhost:3001/api/Unfavorite/${recipeId}`)
@@ -45,7 +45,7 @@ const IndividualFavoriteDetail = () =>{
         // Placeholder for saving functionality
         alert(`You clicked the button to add the recipe to your favorite list: ${getRecipe.recipe_name} recipe.`);
             
-        }
+    }
     
 
     return (
@@ -61,7 +61,7 @@ const IndividualFavoriteDetail = () =>{
 
                 </div>
                
-                <img src={imgSrc} alt='pciture of dish'/>
+                <img src={getRecipe.img} alt='pciture of dish'/>
                 <div className='difficulty-and-cuisine-container'>
                     <div className="diff-and-cuisine-box">
                         <h3>Cuisine: {getRecipe.cuisine}</h3>

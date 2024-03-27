@@ -23,6 +23,7 @@ let recipeData = [
     {   
         id: 1,
         recipe_name: "Mrs",
+        img: `https://picsum.photos/200?id=1`,
         ingredients: "Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.\n\nFusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.",
         instructions: "Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.\n\nPellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.\n\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
         prep_time: 64,
@@ -34,6 +35,7 @@ let recipeData = [
     {
         id: 2,
         recipe_name: "Mrs",
+        img: `https://picsum.photos/200?id=2`,
         ingredients: "Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\n\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\n\nPhasellus in felis. Donec semper sapien a libero. Nam dui.",
         instructions: "Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.\n\nPraesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.\n\nMorbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.",
         prep_time: 102,
@@ -45,6 +47,7 @@ let recipeData = [
     {
         id: 3,
         recipe_name:"Mr",
+        img: `https://picsum.photos/200?id=3`,
         ingredients:"Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.\n\nDonec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.",
         instructions:"Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.",
         prep_time:35,
@@ -57,6 +60,7 @@ let recipeData = [
     {
         id: 4,
         recipe_name:"Mrs",
+        img: `https://picsum.photos/200?id=4`,
         ingredients:"Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\n\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\n\nDuis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.",
         instructions:"Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.",
         prep_time:37,
@@ -72,6 +76,7 @@ let favoriteRecipeData = [
     {
         id: 1,
         recipe_name:"Rev",
+        img: `https://picsum.photos/200?id=1`,
         ingredients:"Fusce consequat. Nulla nisl. Nunc nisl.\n\nDuis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.\n\nIn hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.",
         instructions:"In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.",
         prep_time:63,
@@ -84,14 +89,57 @@ let favoriteRecipeData = [
     {
         id: 2,
         recipe_name:"Dr",
+        img: `https://picsum.photos/200?id=2`,
         ingredients:"Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\n\nCras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\n\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.",
         instructions:"Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.",
         prep_time:53,
         cook_time:22,
         total_time:203,
         cuisine:"Italian",
-        difficulty_level:"Medium"}
+        difficulty_level:"Medium"
+    }
 ];
+
+let myRecipes = [
+    {
+        id: 1,
+        recipe_name:"Mr",
+        img: `https://picsum.photos/200?id=1`,
+        ingredients:"Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.\n\nDonec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.",
+        instructions:"Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.",
+        prep_time:35,
+        cook_time:54,
+        total_time:103,
+        cuisine:"Russion",
+        difficulty_level:"Hard"
+    },
+
+    {
+        id: 2,
+        recipe_name:"Mrs",
+        img: `https://picsum.photos/200?id=2`,
+        ingredients:"Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\n\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\n\nDuis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.",
+        instructions:"Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.",
+        prep_time:37,
+        cook_time:138,
+        total_time:307,
+        cuisine:"Chinese",
+        difficulty_level:"Hard"
+    },
+    {
+        id: 3,
+        recipe_name:"Dr",
+        img: `https://picsum.photos/200?id=3`,
+        ingredients:"Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\n\nCras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\n\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.",
+        instructions:"Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.",
+        prep_time:53,
+        cook_time:22,
+        total_time:203,
+        cuisine:"Italian",
+        difficulty_level:"Medium"
+    }
+    
+]
        
 let fridgeData = [
     {   
@@ -220,6 +268,7 @@ app.post ("/api/addToFavorite/:recipeId", (req, res) => {
       const toAddToFavorite = {
           id: favoriteRecipeData.length + 1,
           recipe_name: recipe.recipe_name,
+          img:  `https://picsum.photos/200?id=${recipeId}`,
           ingredients: recipe.ingredients,
           instructions: recipe.instructions,
           cook_time: recipe.cook_time,
@@ -277,8 +326,90 @@ app.post ("/api/addIngredient", (req, res) => {
 
     else{
         res.status(404).json({ error: " Recipe not found" });
-      }
-})
+    }
+});
+
+app.get("/api/myRecipes", (req, res) => {
+    res.json(myRecipes);
+
+});
+
+app.get("/api/myIndividualRecipe/:recipeId", (req, res) =>{
+    const { recipeId } = req.params;
+    
+    const recipe = myRecipes.find(recipe => recipe.id == recipeId);
+    if (recipe) {
+        res.json(recipe);
+        
+    } else {
+        res.status(404).json({ error: "your recipe was not found" });
+    }
+
+});
+
+app.delete("/api/deleteRecipe/:recipeId", (req, res) =>{
+    const { recipeId } = req.params;
+    console.log(recipeId);
+
+    const indexToRemove = myRecipes.findIndex(recipe => recipe.id == recipeId);
+    console.log("index to remove: ", indexToRemove)
+
+    if (indexToRemove == -1) {
+        res.status(404).json({ error: "Recipe not found in favorites" });
+       
+        
+    } else {
+        myRecipes.splice(indexToRemove, 1);
+        res.status(200).json({ message: "Recipe removed from favorites" });
+       
+       
+    }
+
+
+});
+
+app.get("/editRecipeInfo/:recipeId", (req, res) =>{
+    const { recipeId } = req.params;
+    
+    const recipe = myRecipes.find(recipe => recipe.id == recipeId);
+    if (recipe) {
+        res.json(recipe);
+        
+    } else {
+        res.status(404).json({ error: "your recipe was not found" });
+    }
+
+});
+
+app.put("/editRecipe/:recipeId", (req, res) =>{
+    const { recipeId } = req.params;
+    const { recipe_name, ingredients, instructions, prep_time, cook_time, total_time, cuisine, difficulty_level } = req.body;
+    
+    const indexToEdit = myRecipes.findIndex(recipe => recipe.id == recipeId);
+    console.log("index to edit: ", indexToEdit)
+
+   
+    if (indexToEdit !== -1) {
+        myRecipes[indexToEdit] = { ...myRecipes[indexToEdit],
+        recipe_name,
+        ingredients,
+        instructions,
+        prep_time,
+        cook_time,
+        total_time,
+        cuisine,
+        difficulty_level
+    };
+    res.status(200).json({ message: "Recipe updated successfully" });
+  } else {
+    res.status(404).json({ error: "Recipe not found" });
+  }
+
+    
+
+});
+
+
 
 
 // export the express app we created to make it available to other modules

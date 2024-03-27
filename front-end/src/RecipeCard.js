@@ -7,7 +7,7 @@ import './RecipeCard.css';
 
 const RecipeCard = ({ recipe, baseUrl}) => {
     
-    const imgSrc = `https://picsum.photos/200?id=${recipe.id}`;
+    //const imgSrc = `https://picsum.photos/200?id=${recipe.id}`;
 
     return (
         <div className="recipe-card">
@@ -15,7 +15,7 @@ const RecipeCard = ({ recipe, baseUrl}) => {
                  
                 <h1>{recipe.id}</h1>
                 <h1 className='receipe-title'>{recipe.recipe_name}</h1>
-                <img className='recipe-card-img' src={imgSrc} alt={`Image of ${recipe.name}`} />
+                <img className='recipe-card-img' src={recipe.img} alt={`Image of ${recipe.name}`} />
                 <h2>Cuisine type: {recipe.cuisine}</h2>
                 <h2>Difficulty: {recipe.difficulty_level}</h2>
             

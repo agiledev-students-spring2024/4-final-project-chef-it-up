@@ -1,20 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from "axios";
 import './MyRecipesDetail.css'
 import { Link } from 'react-router-dom';
-import { useRecipeContext } from './RecipeContext';
+// import { useRecipeContext } from './RecipeContext';
 
 
 const MyRecipesDetail = () =>{
 
     const { recipeId } = useParams();
-    const { getRecipe } = useRecipeContext();
+    const [getRecipe, setRecipe] = useState();
+    // const { getRecipe } = useRecipeContext();
+
+    useEffect(() => {
+        console.log("useEffect is beig called ")
+        axios.get(`http://localhost:3001/api/myIndividualRecipe/${recipeId}`)
+            .then(response => {
+                setRecipe(response.data);
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.error("Error fetching recipe:", error);
+
+            });
+    }, [recipeId]);
 
     if (!getRecipe) {
-        return <div>No recipe selected!</div>;
+        return <div>Loading...</div>;
     }
     
+    
     const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
+
+    const handleDeleteButtonClick = () => {
+        
+
+        axios.delete(`http://localhost:3001/api/deleteRecipe/${recipeId}`)
+        .then(response => {
+            console.log(" recipe has been removed from favorites: ", response.data)
+
+        })
+        .catch( err =>{
+            console.log(" error trying to remove fomr favorite: ", err)
+
+        })
+
+        // Placeholder for saving functionality
+        alert(`You clicked the button to remove a recipe from your list: ${getRecipe.recipe_name} recipe.`);
+            
+    }
 
    
     return (
@@ -30,7 +64,7 @@ const MyRecipesDetail = () =>{
 
                 </div>
                
-                <img src={imgSrc} alt='pciture of dish'/>
+                <img src={getRecipe.img} alt='pciture of dish'/>
                 <div className='difficulty-and-cuisine-container'>
                     <div className="diff-and-cuisine-box">
                         <h3>Cuisine: {getRecipe.cuisine}</h3>
@@ -81,13 +115,13 @@ const MyRecipesDetail = () =>{
 
             <div className="my-recipe-btn-section" >
                 <div>
-                    <Link to="/editRecipe">
+                    <Link to={`/editRecipe/${getRecipe.id}`}>
                         <button className="nav-to-edit-button" type="submit"> Edit Recipe</button>
                     </Link>
                 </div>
                 <div>
-                    <Link to="/myProfile">
-                        <button className="delete-button" type="submit"> Delete Recipe </button>
+                    <Link to="/myRecipes">
+                        <button className="delete-button" type="click" onClick={handleDeleteButtonClick}> Delete Recipe </button>
             
                     </Link> 
                 </div>
