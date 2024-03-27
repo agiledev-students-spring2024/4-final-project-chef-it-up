@@ -3,17 +3,33 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './individualRecipeDetail.css'
 import { Link } from 'react-router-dom';
-import { useRecipeContext } from './RecipeContext';
+
 
 
 const IndividualRecipeDetail = () => {
 
     const { recipeId } = useParams();
-    const { getRecipe } = useRecipeContext(); // getting the cards related recipe details
-    
+    const [getRecipe, setRecipe] = useState();
+  
+    // const { getRecipe } = useRecipeContext(); // getting the cards related recipe details
+
+    useEffect(() => {
+        console.log("useEffect is beig called ")
+        axios.get(`http://localhost:3001/api/individualRecipeInfo/${recipeId}`)
+            .then(response => {
+                setRecipe(response.data);
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.error("Error fetching recipe:", error);
+
+            });
+    }, [recipeId]);
+
     if (!getRecipe) {
-        return <div>No recipe selected!</div>;
+        return <div>Loading...</div>;
     }
+
 
     const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
 
@@ -86,7 +102,7 @@ const IndividualRecipeDetail = () => {
     
         </div>
 
-    )
+    );
 
 }
 

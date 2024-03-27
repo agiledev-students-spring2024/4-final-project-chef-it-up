@@ -28,7 +28,8 @@ function App() {
       <Router>
         <Header />
         <IngredientProvider>
-        <RecipeProvider>
+          {/* comment out recipe provider as my route currently does not use it as i am thinking of refactoring*/ }
+        {/*<RecipeProvider>*/}
          <Routes>
 
           <Route path="/" element={<Login />} />
@@ -51,7 +52,7 @@ function App() {
           <Route path="/editIngredient" element={<EditIngredient />} />
 
          </Routes>
-        </RecipeProvider>
+        {/*</RecipeProvider>*/}
         </IngredientProvider>
       </Router>
 
