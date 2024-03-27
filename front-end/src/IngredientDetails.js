@@ -14,7 +14,7 @@ const IngredientDetails = () => {
 
    useEffect(() => {
     console.log("useEffect is being called ")
-    axios.get(`http://localhost:3001/api/myFridge/${recipeId}`)
+    axios.get(`http://localhost:3001/api/myFridge/${ingredientId}`)
         .then(response => {
             setIngredient(response.data);
             console.log(response.data)

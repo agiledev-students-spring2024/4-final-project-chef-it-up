@@ -69,8 +69,15 @@ const IndividualFavoriteDetail = () =>{
                     <div className="diff-and-cuisine-box">
                         <h3>Difficulty: {getRecipe.difficulty_level}</h3>
                     </div>
+                    <div className="diff-and-cuisine-box">
+                        <h3>Meal type: {getRecipe.mealType}</h3>
+                    </div>
                     
                 </div>
+            </div>
+
+            <div className='rating-container'>
+                <h2>Rating: 10</h2>
             </div>
 
             <div className="time-container">
