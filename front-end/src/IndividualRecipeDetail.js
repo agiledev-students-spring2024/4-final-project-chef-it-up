@@ -31,7 +31,7 @@ const IndividualRecipeDetail = () => {
     }
 
 
-    const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
+    //const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
 
     const handleSaveButtonClick = () => {
 
@@ -61,7 +61,7 @@ const IndividualRecipeDetail = () => {
                     <h1>{getRecipe.recipe_name}</h1>
                 </div>
                
-                <img src={imgSrc} alt='picture of dish'/>
+                <img src={getRecipe.img} alt='picture of dish'/>
 
                 <div className='difficulty-and-cuisine-container'>
                     <div className="diff-and-cuisine-box">

@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Select from 'react-select';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './EditRecipe.css';
-import { useRecipeContext } from './RecipeContext';
+// import { useRecipeContext } from './RecipeContext';
 
 const EditRecipe = () =>{
+
+  const options = [
+    { value: 'easy', label: 'easy' },
+    { value: 'medium', label: 'medium' },
+    { value: 'hard', label: 'hard' },
+  ]
+
     const [recipeName, setRecipeName] = useState("")
     const [ingredients, setIngredients] = useState("")
     const [instructions, setInstructions] = useState("")
@@ -16,26 +24,73 @@ const EditRecipe = () =>{
     const [difficultyLevel, setDifficultyLevel] = useState("")
     const [error, setError] = useState("")
 
-    const { getRecipe, setSelectedRecipe } = useRecipeContext();
-    const [editedRecipe, setEditedRecipe] = useState(getRecipe || {});
-
-    const options = [
-      { value: 'easy', label: 'easy' },
-      { value: 'medium', label: 'medium' },
-      { value: 'hard', label: 'hard' },
-    ]
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Update the recipe in context
-        setSelectedRecipe(editedRecipe);
-        // Redirect or perform other actions
-    };
-
-
-    return (
+    const [editedRecipe, setEditedRecipe] = useState();
+    const { recipeId } = useParams();
     
-        <form className="add-recipe-form" onSubmit={handleSubmit}>
+
+    // const { getRecipe, setSelectedRecipe } = useRecipeContext();
+    
+    useEffect(() => {
+      console.log("useEffect is beig called ")
+      axios.get(`http://localhost:3001/editRecipeInfo/${recipeId}`)
+          .then(response => {
+            setEditedRecipe(response.data)
+            setRecipeName(response.data.recipe_name);
+            setIngredients(response.data.ingredients);
+            setInstructions(response.data.instructions);
+            setPrepTime(response.data.prep_time);
+            setCookTime(response.data.cook_time);
+            setTotalTime(response.data.total_time);
+            setCuisine(response.data.cuisine);
+            console.log(response.data)
+          })
+          .catch(error => {
+              console.error("Error fetching recipe:", error);
+  
+          });
+      }, [recipeId]);
+      
+      if (!editedRecipe) {
+          return <div>still loading!</div>;
+      }
+
+      const handleSubmit = (e) => {
+        
+        
+        console.log("api to submit edit is being called")
+
+        axios.put(`http://localhost:3001/editRecipe/${recipeId}`, 
+        {
+          id: recipeId,
+          recipe_name: recipeName,
+          imgSrc: `https://picsum.photos/200?id=${recipeId}`,
+          ingredients: ingredients,
+          instructions: instructions,
+          prep_time: prepTime,
+          cook_time: cookTime,
+          total_time: totalTime,
+          cuisine: cuisine,
+
+        })
+        .then(response => {
+          console.log("recipe has been edited: ", response.data)
+
+        })
+        .catch( err =>{
+          console.log("error trying to edit recipe: ", err)
+
+        })
+
+        alert(`You clicked the button to edit the recipe: `);
+
+      
+      }
+
+      
+    return (
+      //onSubmit={handleSubmit}
+    
+        <form className="add-recipe-form">
           <main className="App">
             <h1>Add Your Own Recipe</h1>
             <div class="formField">
@@ -47,7 +102,7 @@ const EditRecipe = () =>{
               <input
                 id="recipeName"
                 type="text"
-                value={editedRecipe.recipe_name}
+                value={recipeName}
                 onChange={e => setEditedRecipe(e.target.value)}
                 required
               />
@@ -78,7 +133,7 @@ const EditRecipe = () =>{
               <textarea
                 id="ingredients"
                 type="text"
-                value={editedRecipe.ingredients}
+                value={ingredients}
                 onChange={e => setIngredients(e.target.value)}
                 required
               />
@@ -89,7 +144,7 @@ const EditRecipe = () =>{
               <textarea
                 id="instructions"
                 type="text"
-                value={editedRecipe.instructions}
+                value={instructions}
                 onChange={e => setInstructions(e.target.value)}
                 required
               />
@@ -100,7 +155,7 @@ const EditRecipe = () =>{
               <input
                 id="prepTime"
                 type="text"
-                value={editedRecipe.prep_time}
+                value={prepTime}
                 onChange={e => setPrepTime(e.target.value)}
                 required
               />
@@ -111,7 +166,7 @@ const EditRecipe = () =>{
               <input
                 id="cookTime"
                 type="text"
-                value={editedRecipe.cook_time}
+                value={cookTime}
                 onChange={e => setCookTime(e.target.value)}
                 required
               />
@@ -122,7 +177,7 @@ const EditRecipe = () =>{
               <input
                 id="totalTime"
                 type="text"
-                value={editedRecipe.total_time}
+                value={totalTime}
                 onChange={e => setTotalTime(e.target.value)}
                 required
               />
@@ -133,7 +188,7 @@ const EditRecipe = () =>{
               <input
                 id="cuisine"
                 type="text"
-                value={editedRecipe.cuisine}
+                value={cuisine}
                 onChange={e => setCuisine(e.target.value)}
                 required
               />
@@ -151,10 +206,12 @@ const EditRecipe = () =>{
             )}
             <div className="btn-section">
             <div>
-              <Link to="/myRecipes">
-                <button className="submit-edit-button" type="submit" >Save Edit</button>
+              
+                <button className="submit-edit-button" type="button" onClick={handleSubmit} >
+                  <Link to="/myRecipes" className="cancel-link" >Save Edit</Link> 
+                </button>
                 
-              </Link>
+              
             </div>
             <div>
               <button className="cancel-edit-recipe">
