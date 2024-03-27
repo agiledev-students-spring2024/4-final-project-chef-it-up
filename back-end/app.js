@@ -47,3 +47,7 @@ app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming 
 
 // export the express app we created to make it available to other modules
 module.exports = app
+
+app.post('/addIngredient',async (req,res) => {
+  
+})
