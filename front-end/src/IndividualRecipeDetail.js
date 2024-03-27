@@ -34,6 +34,16 @@ const IndividualRecipeDetail = () => {
     const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
 
     const handleSaveButtonClick = () => {
+
+        axios.post(`http://localhost:3001/api/addToFavorite/${recipeId}`)
+        .then(response => {
+            console.log(" recipe has been added to favorites: ", response.data)
+
+        })
+        .catch( err =>{
+            console.log(" error trying to add recipes to favorite: ", err)
+
+        })
         // Placeholder for saving functionality
         alert(`You clicked the button to add the recipe to your favorite list: ${getRecipe.recipe_name} recipe.`);
     };

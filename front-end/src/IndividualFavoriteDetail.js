@@ -5,6 +5,7 @@ import axios  from 'axios';
 import { Link } from 'react-router-dom';
 import { useRecipeContext } from './RecipeContext';
 
+
 const IndividualFavoriteDetail = () =>{
 
     const { recipeId } = useParams();
@@ -31,9 +32,20 @@ const IndividualFavoriteDetail = () =>{
     const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
 
     const handleUnfavoriteButtonClick= () => {
+        axios.delete(`http://localhost:3001/api/Unfavorite/${recipeId}`)
+        .then(response => {
+            console.log(" recipe has been removed from favorites: ", response.data)
+
+        })
+        .catch( err =>{
+            console.log(" error trying to remove fomr favorite: ", err)
+
+        })
+
         // Placeholder for saving functionality
         alert(`You clicked the button to add the recipe to your favorite list: ${getRecipe.recipe_name} recipe.`);
-    };
+            
+        }
     
 
     return (

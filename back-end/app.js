@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming 
 // we will put some server logic here later...
 
 
-const recipeData = [
+let recipeData = [
     {   
         id: 1,
         recipe_name: "Mrs",
@@ -68,7 +68,7 @@ const recipeData = [
        
 ];
 
-const favoriteRecipeData = [
+let favoriteRecipeData = [
     {
         id: 1,
         recipe_name:"Rev",
@@ -137,6 +137,58 @@ app.get("/api/individualFavoriteInfo/:recipeId", (req, res) => {
 
 
 });
+
+// deleting a favorited recipe from the favorited list for now 
+app.delete("/api/Unfavorite/:recipeId", (req, res) =>{
+    const { recipeId } = req.params;
+    console.log(recipeId);
+
+    const indexToRemove = favoriteRecipeData.findIndex(recipe => recipe.id == recipeId);
+    console.log("index to remove: ", indexToRemove)
+
+    if (indexToRemove == -1) {
+        res.status(404).json({ error: "Recipe not found in favorites" });
+       
+        
+    } else {
+        favoriteRecipeData.splice(indexToRemove, 1);
+        res.status(200).json({ message: "Recipe removed from favorites" });
+       
+       
+    }
+
+
+});
+
+// adding a receips to your favorite recipes list 
+
+app.post ("/api/addToFavorite/:recipeId", (req, res) => {
+    const { recipeId } = req.params;
+    console.log('this is recipe to add to favorite', recipeId);
+    const recipe = recipeData.find(recipe => recipe.id == recipeId);
+
+    if (recipe){
+        const toAddToFavorite = {
+            id: favoriteRecipeData.length + 1,
+            recipe_name: recipe.recipe_name,
+            ingredients: recipe.ingredients,
+            instructions: recipe.instructions,
+            cook_time: recipe.cook_time,
+            total_time: recipe.total_time,
+            cuisine: recipe.cuisine,
+            difficulty_level: recipe.difficulty_level
+    
+        };
+    
+        favoriteRecipeData.push(toAddToFavorite);
+        res.status(200).json("successfully pushed to favorite list");
+
+    }
+
+    else{
+        res.status(404).json({ error: " Recipe not found" });
+    }
+})
 
 // export the express app we created to make it available to other modules
 module.exports = app
