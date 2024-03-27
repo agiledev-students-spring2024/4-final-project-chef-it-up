@@ -244,6 +244,21 @@ app.get("/api/myFridge", (req, res) => {
     res.json(fridgeData);
 })
 
+// retrieve ingredient details 
+app.get("/api/myFridge/:ingredientId", (req, res) => {
+    const { ingredientId } = req.params;
+    console.log("this is the ingredient to display: ", ingredientId);
+    const ingredient = ingredientData.find(ingredient => ingredient.id == ingredientId);
+
+    if (ingredient) {
+        res.json(ingredient);
+    }
+
+    else {
+        res.status(404).json({ error: "Ingredient not found"});
+    }
+})
+
 // add ingredient to fridge
 app.post ("/api/addIngredient", (req, res) => {
     console.log('this is ingredient to add to fridge', req.body.id);
