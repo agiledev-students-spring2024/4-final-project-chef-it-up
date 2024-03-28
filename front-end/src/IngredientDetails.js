@@ -9,8 +9,22 @@ import { useIngredientContext } from './IngredientContext';
 const IngredientDetails = () => {
 
     const { ingredientId } = useParams();
-    const { getIngredient } = useIngredientContext(); 
-    
+    const [getIngredient, setIngredient] = useState();
+    // const { getIngredient } = useIngredientContext(); 
+
+   useEffect(() => {
+    console.log("useEffect is being called ")
+    axios.get(`http://localhost:3001/api/myFridge/${ingredientId}`)
+        .then(response => {
+            setIngredient(response.data);
+            console.log(response.data)
+        })
+        .catch(error => {
+            console.error("Error fetching recipe:", error);
+
+        });
+    }, [ingredientId]);
+
     if (!getIngredient) {
         return <div>No ingredient selected!</div>;
     }

@@ -18,8 +18,55 @@ p{
     text-align: center;
 }
 
+
+
+.search-container 
+{
+    display: flex;
+    justify-content: center;
+    
+}
+.dropdown-filter{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin: auto;
+    margin-bottom: 24px;
+    font-size: 1.2em;
+}
+
+.filter-difficulty{
+    width: 150px;
+    margin-right: 12px;
+}
+
+.filter-mealType{
+    width: 150px;
+    margin-right: 12px;
+}
+#search-cuisine-name
+ {
+    padding: 10px;
+    border-radius: 6px;
+    width: 250px;
+    height: 25px;
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+
+.search-button {
+    background-color:#DDEFF5;
+    color:cadetblue;
+    border: none;
+    width: 150px;
+    height: 45px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
-    .recipes-card-container{
-        
-    }
+    
 }

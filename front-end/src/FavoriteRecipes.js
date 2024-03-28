@@ -7,6 +7,8 @@ import './FavoriteRecipes.css'
 
 const FavoriteRecipes = () =>{
     const [recipes, setRecipes] = useState([])
+    const mealType = ['breakfast', 'lunch', 'dinner', 'dessert'];
+    const difficultyLevel = ['easy', 'medium', 'hard'];
     // const [userData, setUserData] = useState([])
     // const { getCurrRecipe } = useRecipeContext();
     
@@ -35,6 +37,24 @@ const FavoriteRecipes = () =>{
     return (
         <div className="recipes-contianer">
         <h1>Favorite Recipes</h1>
+
+        <div>
+                <h2>Filter By:</h2>
+                <div>
+                    <h3>Meal Type:</h3>
+                    {mealType.map(type => (
+                        <button className="filter-buttons"  key={type} >{type}</button>
+                    ))}
+                </div>
+                <div>
+                    <h3>Difficulty Level:</h3>
+                    {difficultyLevel.map(level => (
+                        <button className="filter-buttons" key={level} >{level}</button>
+                    ))}
+                </div>
+            </div>
+
+
         <div className="recipes-card-container">
             {recipes.map(recipe => (
                 <RecipeCard key={recipe.id} recipe={recipe} baseUrl="/favoriteRecipes"/>

@@ -36,10 +36,7 @@ const AddRecipe = () =>{
         
         fetch('http://localhost:3001/api/addRecipe', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ recipeName, ingredients, instructions, prepTime, cookTime, totalTime, cuisine, difficultyLevel, mealType }),
+          body: { recipeName, ingredients, instructions, prepTime, cookTime, totalTime, cuisine, difficultyLevel, mealType },
         })
           .then(response => {
             if (response.ok){

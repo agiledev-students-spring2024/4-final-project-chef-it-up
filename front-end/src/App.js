@@ -46,8 +46,8 @@ function App() {
           <Route  path="/favoriteRecipes" element={<FavoriteRecipes/>} />
           <Route  path="/addRecipe" element={<AddRecipe />} />
           <Route  path="/generateRecipe" element={<GenerateRecipe />} />
-          <Route  path="/editRecipe" element={<EditRecipe />} />
-          <Route  path="/myProfile" element={<Profile user={user} />} />
+          <Route  path="/editRecipe/:recipeId" element={<EditRecipe />} />
+          <Route  path="/myProfile" element={<Profile user={user}/>} />
           <Route  path="/editMyProfile" element={<EditProfile user={user} setUser={setUser} />} />
           <Route path="/aboutUs" element={<AboutUs />} /> 
           <Route path="/addIngredient" element={<AddIngredient />} />
