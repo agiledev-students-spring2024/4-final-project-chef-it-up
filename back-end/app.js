@@ -30,7 +30,8 @@ let recipeData = [
         cook_time: 129,
         total_time: 230,
         cuisine: "Indian",
-        difficulty_level: "Hard"
+        difficulty_level: "Hard",
+        mealType: "dinner"
     },
     {
         id: 2,
@@ -42,7 +43,8 @@ let recipeData = [
         cook_time: 172,
         total_time: 89,
         cuisine: "Mexican",
-        difficulty_level: "Hard"
+        difficulty_level: "Hard",
+        mealType: "breakfast"
     },
     {
         id: 3,
@@ -54,7 +56,8 @@ let recipeData = [
         cook_time:54,
         total_time:103,
         cuisine:"Russion",
-        difficulty_level:"Hard"
+        difficulty_level:"Hard",
+        mealType: "dessert"
     },
 
     {
@@ -67,7 +70,8 @@ let recipeData = [
         cook_time:138,
         total_time:307,
         cuisine:"Chinese",
-        difficulty_level:"Hard"
+        difficulty_level:"Hard",
+        mealType: "lunch"
     }
        
 ];
@@ -83,7 +87,8 @@ let favoriteRecipeData = [
         cook_time:175,
         total_time:86,
         cuisine:"Mexican",
-        difficulty_level:"Medium"
+        difficulty_level:"Medium",
+        mealType: "dessert"
     },
 
     {
@@ -96,7 +101,8 @@ let favoriteRecipeData = [
         cook_time:22,
         total_time:203,
         cuisine:"Italian",
-        difficulty_level:"Medium"
+        difficulty_level:"Medium",
+        mealType: "dinner"
     }
 ];
 
@@ -111,7 +117,8 @@ let myRecipes = [
         cook_time:54,
         total_time:103,
         cuisine:"Russion",
-        difficulty_level:"Hard"
+        difficulty_level:"Hard",
+        mealType: "dinner"
     },
 
     {
@@ -124,7 +131,8 @@ let myRecipes = [
         cook_time:138,
         total_time:307,
         cuisine:"Chinese",
-        difficulty_level:"Hard"
+        difficulty_level:"Hard",
+        mealType: "dessert"
     },
     {
         id: 3,
@@ -136,7 +144,8 @@ let myRecipes = [
         cook_time:22,
         total_time:203,
         cuisine:"Italian",
-        difficulty_level:"Medium"
+        difficulty_level:"Medium",
+        mealType: "lunch"
     }
     
 ]
@@ -297,7 +306,7 @@ app.get("/api/myFridge", (req, res) => {
 app.get("/api/myFridge/:ingredientId", (req, res) => {
     const { ingredientId } = req.params;
     console.log("this is the ingredient to display: ", ingredientId);
-    const ingredient = ingredientData.find(ingredient => ingredient.id == ingredientId);
+    const ingredient = fridgeData.find(ingredient => ingredient.id == ingredientId);
 
     if (ingredient) {
         res.json(ingredient);
