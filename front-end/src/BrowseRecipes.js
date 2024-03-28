@@ -1,16 +1,16 @@
 import React, { useState, useEffect }from "react";
 import './BrowseRecipes.css';
 import RecipeCard from './RecipeCard';
-import { useRecipeContext } from './RecipeContext';
+// import { useRecipeContext } from './RecipeContext';
 import axios from 'axios';
 
 const BrowseRecipes = () =>{
-    const { getCurrRecipe } = useRecipeContext(); // gets the getrecip which is called the setSelectedRecipe
+    // const { getCurrRecipe } = useRecipeContext(); // gets the getrecip which is called the setSelectedRecipe
     const [recipes, setRecipes] = useState([])
+    console.log()
 
     useEffect(() =>{
-        console.log("fetching random data for 10 recipes")
-        axios.get(('https://my.api.mockaroo.com/recipes.json?key=5f2d0960')) //running low on free uses  https://my.api.mockaroo.com/recipes.json?key=5f2d0960
+        axios.get(('http://localhost:3001/api/browseRecipes')) //running low on free uses  https://my.api.mockaroo.com/recipes.json?key=5f2d0960
             .then(response => {
                 console.log("API response:", response.data);
                 setRecipes(response.data)
@@ -31,17 +31,7 @@ const BrowseRecipes = () =>{
                     cuisine: "Indian",
                     difficulty_level: "Hard"
                   },
-                  {
-                    id: 2,
-                    recipe_name: "Mrs",
-                    ingredients: "Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\n\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\n\nPhasellus in felis. Donec semper sapien a libero. Nam dui.",
-                    instructions: "Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.\n\nPraesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.\n\nMorbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.",
-                    prep_time: 102,
-                    cook_time: 172,
-                    total_time: 89,
-                    cuisine: "Mexican",
-                    difficulty_level: "Hard"
-                  }
+                  
                 
                 ];
 
@@ -51,18 +41,22 @@ const BrowseRecipes = () =>{
 
     }, [])
 
+   
+   /* commented out for now as may refactor 
     const handleRecipeClick = (recipe) => {
-        getCurrRecipe(recipe);
+      getCurrRecipe(recipe);
     };
+    */
 
-
+    // note: got rid of onClick={() => handleRecipeClick(recipe)} in <RecipeCard key={recipe.id} recipe={recipe} baseUrl="/individualRecipe" /> (line 59)
+                
     return (
         
         <div className="recipes-contianer">
             <h1>Browse Recipes</h1>
             <div className="recipes-card-container">
                 {recipes.map(recipe => (
-                    <RecipeCard key={recipe.id} recipe={recipe} onClick={() => handleRecipeClick(recipe)} baseUrl="/individualRecipe" />
+                    <RecipeCard key={recipe.id} recipe={recipe} baseUrl="/individualRecipe" />
                 
                 ))}
 

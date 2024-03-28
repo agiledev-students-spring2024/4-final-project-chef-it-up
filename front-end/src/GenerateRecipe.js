@@ -4,13 +4,13 @@ import axios from "axios"
 import "./GenerateRecipe.css"
 
 const GenerateRecipe = () =>{
-    const [genRecipe, setGenRecipe] = useState(["Get a piece of bread, grill it on a pan, put some butter on it, you've got butter toast. The coloring is based on preference. I suggest cooking until black."])
+    const [genRecipe, setGenRecipe] = useState([])
     const [criteria, setCriteria] = useState([])
     const [generated,setGenerated] = useState("")
     const handleSubmit = e => {
         // Placeholding until chatgpt functionality
         e.preventDefault()
-        axios.get('') //Whenever we decide to generate recipes, place url in the quotations
+        axios.get(`http://localhost:3001/api/generateRecipe`) //Whenever we decide to generate recipes, place url in the quotations
         .then(response => {
             console.log("API response: ", response.data)
             setGenRecipe(response.data)
@@ -23,16 +23,25 @@ const GenerateRecipe = () =>{
             alert("You've run out of available generated recipes for today. Here is a sample instead")
         })
     }
-
+    // Will need to discuss about this with team
+    const recipeId = 100
     const handleSaveButtonClick = () => {
         // Placeholder for saving functionality
+        axios.post(`http://localhost:3001/api/addToFavorite/${recipeId}`)
+        .then(response => {
+            console.log(" recipe has been added to favorites: ", response.data)
+
+        })
+        .catch( err =>{
+            console.log(" error trying to add recipes to favorite: ", err)
+
+        })
         alert(`You clicked the button to add the generated recipe to your favorite list.`);
     };
 
     useEffect(() => {
-        console.log("using chatgpt to generate a random recipe")
+        console.log("useEffect is being called ")
 
-            
       }, [])
 
     return (
@@ -53,7 +62,7 @@ const GenerateRecipe = () =>{
             {generated && (
                 <div className="generated-recipe-container">
                     <h2>ChatGPT Generated Recipe</h2>
-                    <p>{genRecipe}</p>
+                    <p>{genRecipe.instructions}</p>
                     <button className="save-button" onClick={handleSaveButtonClick}>
                         Add to favorite Recipes
                     </button>

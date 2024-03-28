@@ -21,17 +21,21 @@ import { RecipeProvider } from './RecipeContext';
 import { IngredientProvider } from "./IngredientContext"
 import AboutUs from "./AboutUs"
 import './App.css';
+import {useState} from "react"
 
 function App() {
+  const [user, setUser] = useState(null)
+
   return (
     <div className="App">
       <Router>
         <Header />
         <IngredientProvider>
-        <RecipeProvider>
+          {/* comment out recipe provider as my route currently does not use it as i am thinking of refactoring*/ }
+        {/*<RecipeProvider>*/}
          <Routes>
 
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Login setUser={setUser}/>} />
           <Route path="/register" element={<Register />} />
           <Route  path="/browseRecipes" element={<BrowseRecipes />} />
           <Route path="/individualRecipe/:recipeId" element={<IndividualRecipeDetail />} /> 
@@ -43,15 +47,15 @@ function App() {
           <Route  path="/addRecipe" element={<AddRecipe />} />
           <Route  path="/generateRecipe" element={<GenerateRecipe />} />
           <Route  path="/editRecipe" element={<EditRecipe />} />
-          <Route  path="/myProfile" element={<Profile />} />
-          <Route  path="/editMyProfile" element={<EditProfile />} />
+          <Route  path="/myProfile" element={<Profile user={user} />} />
+          <Route  path="/editMyProfile" element={<EditProfile user={user} setUser={setUser} />} />
           <Route path="/aboutUs" element={<AboutUs />} /> 
           <Route path="/addIngredient" element={<AddIngredient />} />
           <Route path="/IngredientDetails/:ingredientId" element={<IngredientDetails />} />
           <Route path="/editIngredient" element={<EditIngredient />} />
 
          </Routes>
-        </RecipeProvider>
+        {/*</RecipeProvider>*/}
         </IngredientProvider>
       </Router>
 

@@ -1,6 +1,6 @@
 import './Register.css'
 import { useState } from "react"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios"
 import Select from 'react-select'
 
@@ -8,6 +8,7 @@ const Register = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const navigate = useNavigate()
   
   const options = [
     { value: 'none', label: 'None' },
@@ -26,22 +27,46 @@ const Register = () => {
   const handleSubmit = e => {
     e.preventDefault()
     
-    axios
-      .post("Backend",{
-        username:username,
-        password:password,
-        starter:starter
-      })
+    fetch('http://localhost:3001/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password, starter }),
+    })
       .then(response => {
+        if (response.ok){
+          navigate('/')
+          return response.json()
+        }
+        else if (response.status === 401){
+          throw new Error('Invalid Username or Password')
+        }
         console.log(`Received server response: ${response.data}`)
       })
       .catch(err => {
         console.log(`Received server error: ${err}`)
         setError(
-          "This ain't working just yet, give us some time :)"
+          "Failed to login, invalid username or password"
         )
       })
-  }
+
+   //axios
+   //  .post("Backend",{
+   //    username:username,
+   //    password:password,
+   //    starter:starter
+   //  })
+   //  .then(response => {
+   //    console.log(`Received server response: ${response.data}`)
+   //  })
+   //  .catch(err => {
+   //    console.log(`Received server error: ${err}`)
+   //    setError(
+   //      "This ain't working just yet, give us some time :)"
+   //    )
+   //  })
+  }//
 
   return (
     <form className='register-form' onSubmit={handleSubmit}>
@@ -84,15 +109,13 @@ const Register = () => {
         )}
         <div>
           <div>
-          <Link to="/">
             <button className="submit-register-form-button" type="submit"> Register </button>
-          </Link>
-        </div>
-        <div>
-          <Link to="/">
-          <button className="navigate-to-login-button" type="submit"> Return to Login</button>
-          </Link>
-        </div>
+          </div>
+          <div>
+            <Link to="/">
+            <button className="navigate-to-login-button" type="submit"> Return to Login</button>
+            </Link>
+          </div>
 
         </div>
         

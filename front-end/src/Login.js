@@ -1,38 +1,69 @@
 import './Login.css'
 import React, { useEffect, useState } from "react"
-import { Navigate, Link } from 'react-router-dom'
+import { Navigate, Link, useNavigate } from 'react-router-dom'
 import axios from "axios"
 
-const Login = props => {
+const Login = ({ setUser }) => {
   const [status, setStatus] = useState({})
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const navigate = useNavigate()
   
   useEffect(() => {
+    setUser(null)
     if (status.success) {
       console.log(`User successfully logged in: ${status.username}`)
-      props.setuser(status)
     }
   }, [status])
 
   const handleSubmit = e => {
     e.preventDefault()
-    axios
-      .post("Backend",{
-        username:username,
-        password:password,
-      })
+
+    fetch('http://localhost:3001/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    })
       .then(response => {
+        if (response.ok){
+          return response.json()
+        }
+        else if (response.status === 401){
+          throw new Error('Invalid Username or Password')
+        }
         console.log(`Received server response: ${response.data}`)
         setStatus(response.data)
+      })
+      .then(data => {
+        setUser(data)
+        navigate('/browseRecipes')
       })
       .catch(err => {
         console.log(`Received server error: ${err}`)
         setError(
-          "This ain't working just yet, give us some time :)"
+          "Failed to login, invalid username or password"
         )
       })
+
+  // axios
+  //   
+  //   .post(`http://localhost:3001/api/login`,{
+  //     username:username,
+  //     password:password,
+  //   })
+  //   .then(response => {
+  //     console.log(`Received server response: ${response.data}`)
+  //     setStatus(response.data)
+  //   })
+  //   .catch(err => {
+  //     console.log(`Received server error: ${err}`)
+  //     setError(
+  //       "This ain't working just yet, give us some time :)"
+  //     )
+  //   })
 
       
   }
@@ -68,14 +99,11 @@ const Login = props => {
           {error && (
             <div>
               <p className="notwork">{error}</p>
-              <Link to="/browseRecipes">Bypass Login due to Non-functionality</Link>
             </div>
           )}
           <div>
             <div>
-              <Link to="/browseRecipes">
-                <button className="submit-login-form-button" type="submit"> Login </button>
-              </Link>
+              <button className="submit-login-form-button" type="submit"> Login </button>
             </div>
             <div>
               <Link to="/register">
