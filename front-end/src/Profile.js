@@ -2,7 +2,7 @@ import React, { useState, useEffect  } from "react";
 import { Link } from 'react-router-dom'
 import './Profile.css'
 
-const Profile = () =>{
+const Profile = ({ user }) =>{
   const [userData, setUserData] = useState([])
   const [error, setError] = useState("")
 
@@ -21,7 +21,9 @@ const Profile = () =>{
   }
 
   useEffect(() => {
-      fetchUserData()
+      if (user) {
+        setUserData(user)
+      }
     }, [])
   
   

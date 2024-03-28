@@ -6,7 +6,7 @@ const multer = require("multer"); // middleware to handle HTTP POST requests wit
 const axios = require("axios"); // middleware for making requests to APIs
 require("dotenv").config({ silent: true }); // load environmental variables from a hidden file named .env
 const morgan = require("morgan"); // middleware for nice logging of incoming HTTP requests
-
+const bcrypt = require('bcrypt');
 
 // use the morgan middleware to log all incoming http requests
 app.use(morgan("dev")); // morgan has a few logging default styles - dev is a nice concise color-coded style
@@ -15,7 +15,7 @@ app.use(morgan("dev")); // morgan has a few logging default styles - dev is a ni
 app.use(express.json()); // decode JSON-formatted incoming POST data
 app.use(cors());
 app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming POST data
-
+const saltRounds = 10;   
 // we will put some server logic here later...
 
 
@@ -201,6 +201,18 @@ let fridgeData = [
     }
 ]
 
+async function hash_password(password) {
+    const hashed_password = await bcrypt.hash(password, saltRounds)
+    return hashed_password
+}
+
+let backupUser = [
+    {
+        id:1,
+        username:"First Last",
+        password:"Password"
+    }
+]
 
 // browse recipe page
 app.get("/api/browseRecipes", (req, res) => {
@@ -283,7 +295,8 @@ app.post ("/api/addToFavorite/:recipeId", (req, res) => {
           cook_time: recipe.cook_time,
           total_time: recipe.total_time,
           cuisine: recipe.cuisine,
-          difficulty_level: recipe.difficulty_level
+          difficulty_level: recipe.difficulty_level,
+          mealType:recipe.mealType
   
       };
   
@@ -420,6 +433,145 @@ app.put("/editRecipe/:recipeId", (req, res) =>{
 });
 
 
+
+app.post("/api/login", async(req, res) => {
+    const { username, password } = req.body
+
+    const user = backupUser.find((user) => user.username === username)
+    if (!user) {
+        // we will change this to something more general for security, but for testing purposes it remains as is
+        return res.status(401).send('Invalid username')
+    }
+
+    try {
+        //const password_check = await bcrypt.compare(JSON.stringify(password), JSON.stringify(user.password))
+        if (!(password == user.password)) {
+            // we will change this to something more general for security, but for testing purposes it remains as is
+            return res.status(401).send('Invalid password')
+        }
+        res.status(200).send(user)
+    }
+    catch (error) {
+        console.error(error)
+        res.status(500).send('Error from server while logging in')
+    }
+  });
+
+app.post("/api/register", async(req,res) =>{
+    const { username, password, starter } = req.body;
+
+    if (!username || !password || !starter ) {
+        return res.status(400).send('Please provide a username, password, and default fridge.');
+    }
+
+    try {
+        //const hashed_password = await bcrypt.hash(password, saltRounds)
+        // currently not handling default fridges yet
+        const new_user = {
+            id:backupUser.length+1,
+            username:username,
+            password:password,
+        }
+
+        backupUser.push(new_user)
+        res.status(200).json("Successfully registered")
+    }
+    catch(error) {
+        console.error(error)
+        res.status(500).send('Error from server when registering user.')
+    }
+})
+
+// Commenting out until we get the database running, may be useful later on
+//app.get("/api/myProfile/:userid"), (req, res) => {
+//    const { userid } = req.params
+//    const user = backupUser.find((user) => user.id === userid)
+//    if (user) {
+//        res.status(200).json(user)
+//    }
+//    else {
+//        res.status(404).send("No such user exists")
+//    }
+//}
+//
+//app.get("/api/editMyProfile"), (req, res) => {
+//    const { username, password } = req.params
+//
+//    const user = backupUser.find((user) => user.username === username)
+//    if (user && user.password === password) {
+//        res.json(user.id)
+//    }
+//    else {
+//        res.status(404).send("No such user exists")
+//    }
+//}
+
+app.post("/api/editMyProfile", (req, res) => {
+    const { username, password, userid } = req.body;
+
+    if (!username || !password || !userid ) {
+        return res.status(400).send('Please provide a username, password, and be logged in.');
+    }
+    
+    const id = parseInt(userid)
+
+    // just going to physically update the backup for now
+    const userIndex = backupUser.findIndex((user) => user.id === id)
+    if (userIndex !== -1) {
+        backupUser[userIndex] = { 
+            ...backupUser[userIndex],
+            username,
+            password
+        }
+        res.status(200).json(backupUser[userIndex])
+    }
+    else{
+        res.status(403).send("No such user exists")
+    }
+})
+
+app.post("/api/addRecipe", (req, res) => {
+    const { recipeName, ingredients, instructions, prepTime, cookTime,  totalTime, cuisine, difficultyLevel, mealType } = req.params
+
+
+    try {
+        const new_recipe = {
+            id: recipeData.length + 1,
+            recipe_name: recipeName,
+            img: `https://picsum.photos/200?id=4`,
+            ingredients: ingredients,
+            instructions: instructions,
+            prep_time: prepTime,
+            cook_time: cookTime,
+            total_time: totalTime,
+            cuisine: cuisine,
+            difficulty_level: difficultyLevel,
+            mealType: mealType
+        }
+
+        recipeData.push(new_recipe)
+        res.status(200).json("Successfully added new recipe")
+    }
+    catch (error) {
+        console.error(error)
+        res.status(500).send('Error from server when adding recipe.')
+    }
+})
+
+app.get("/api/generateRecipe", (req,res) => {
+    // Since we don't have ChatGPT api yet, we will just send a hardcoded recipe as an example
+    const generated = {
+        instructions:"Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.",
+    }
+
+    if (generated) {
+        res.json(generated)
+      }
+  
+      else{
+          res.status(404).json({ error: "Error from server when sending generated recipe." });
+    }
+})
 
 
 // export the express app we created to make it available to other modules

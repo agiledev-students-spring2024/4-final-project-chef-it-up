@@ -1,5 +1,5 @@
 import React, { useState }from "react";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios"
 import Select from 'react-select'
 import './AddRecipe.css'
@@ -13,7 +13,9 @@ const AddRecipe = () =>{
     const [totalTime, setTotalTime] = useState("")
     const [cuisine, setCuisine] = useState("")
     const [difficultyLevel, setDifficultyLevel] = useState("")
+    const [mealType, setMealType] = useState("")
     const [error, setError] = useState("")
+    const navigate = useNavigate()
    
 
     const options = [
@@ -22,29 +24,57 @@ const AddRecipe = () =>{
         { value: 'hard', label: 'hard' },
     ]
 
+    const meals = [
+      { value: 'breakfast', label: 'breakfast' },
+      { value: 'lunch', label: 'lunch' },
+      { value: 'dinner', label: 'dinner' },
+      { value: 'dessert', label: 'dessert' },
+    ]
+
     const handleSubmit = e => {
         e.preventDefault()
         
-        axios
-          .post("Backend",{
-            recipeName:recipeName,
-            ingredients:ingredients,
-            instructions:instructions,
-            prepTime:prepTime,
-            cookTime:cookTime,
-            totalTime:totalTime,
-            cuisine:cuisine,
-            difficultyLevel:difficultyLevel,
-          })
+        fetch('http://localhost:3001/api/addRecipe', {
+          method: 'POST',
+          body: { recipeName, ingredients, instructions, prepTime, cookTime, totalTime, cuisine, difficultyLevel, mealType },
+        })
           .then(response => {
+            if (response.ok){
+              navigate('/browseRecipes')
+              return response.json()
+            }
+            else if (response.status === 401){
+              throw new Error('Invalid recipe')
+            }
             console.log(`Received server response: ${response.data}`)
           })
           .catch(err => {
             console.log(`Received server error: ${err}`)
             setError(
-              "This ain't working just yet, give us some time :)"
+              "Failed to add recipe"
             )
           })
+        //axios
+        //  .post("http://localhost:3001/api/addRecipe",{
+        //    recipeName:recipeName,
+        //    ingredients:ingredients,
+        //    instructions:instructions,
+        //    prepTime:prepTime,
+        //    cookTime:cookTime,
+        //    totalTime:totalTime,
+        //    cuisine:cuisine,
+        //    difficultyLevel:difficultyLevel,
+        //    mealType:mealType
+        //  })
+        //  .then(response => {
+        //    console.log(`Received server response: ${response.data}`)
+        //  })
+        //  .catch(err => {
+        //    console.log(`Received server error: ${err}`)
+        //    setError(
+        //      "This ain't working just yet, give us some time :)"
+        //    )
+        //  })
       }
 
     return (
@@ -156,6 +186,10 @@ const AddRecipe = () =>{
         <div class="dropdown">
           <Select options={options} defaultValue={options[0]} onChange={e => setDifficultyLevel(e.value)} />
         </div>
+        <h2>Select a meal type</h2>
+        <div class="dropdown">
+          <Select options={meals} defaultValue={meals[0]} onChange={e => setMealType(e.value)} />
+        </div>
 
         {error && (
             <div>
@@ -165,10 +199,7 @@ const AddRecipe = () =>{
         )}
         <div className="btn-section">
         <div>
-          <Link to="/browseRecipes">
-            <button className="submit-recipe-button" type="submit" > Add Recipe</button>
-            
-          </Link>
+          <button className="submit-recipe-button" type="submit" > Add Recipe</button>
         </div>
         <div>
           <button className="cancel-submit-recipe">

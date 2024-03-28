@@ -21,8 +21,11 @@ import { RecipeProvider } from './RecipeContext';
 import { IngredientProvider } from "./IngredientContext"
 import AboutUs from "./AboutUs"
 import './App.css';
+import {useState} from "react"
 
 function App() {
+  const [user, setUser] = useState(null)
+
   return (
     <div className="App">
       <Router>
@@ -32,7 +35,7 @@ function App() {
         {/*<RecipeProvider>*/}
          <Routes>
 
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Login setUser={setUser}/>} />
           <Route path="/register" element={<Register />} />
           <Route  path="/browseRecipes" element={<BrowseRecipes />} />
           <Route path="/individualRecipe/:recipeId" element={<IndividualRecipeDetail />} /> 
@@ -44,8 +47,8 @@ function App() {
           <Route  path="/addRecipe" element={<AddRecipe />} />
           <Route  path="/generateRecipe" element={<GenerateRecipe />} />
           <Route  path="/editRecipe/:recipeId" element={<EditRecipe />} />
-          <Route  path="/myProfile" element={<Profile />} />
-          <Route  path="/editMyProfile" element={<EditProfile />} />
+          <Route  path="/myProfile/:userId" element={<Profile user={user}/>} />
+          <Route  path="/editMyProfile:userId" element={<EditProfile user={user} setUser={setUser} />} />
           <Route path="/aboutUs" element={<AboutUs />} /> 
           <Route path="/addIngredient" element={<AddIngredient />} />
           <Route path="/IngredientDetails/:ingredientId" element={<IngredientDetails />} />
