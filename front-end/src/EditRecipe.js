@@ -14,6 +14,12 @@ const EditRecipe = () =>{
     { value: 'hard', label: 'hard' },
   ]
 
+  const mealTypes = [
+    { value: 'breakfast', label: 'breakfast' },
+    { value: 'lunch', label: 'lunch' },
+    { value: 'dinner', label: 'dinner' },
+]
+
     const [recipeName, setRecipeName] = useState("")
     const [ingredients, setIngredients] = useState("")
     const [instructions, setInstructions] = useState("")
@@ -22,6 +28,7 @@ const EditRecipe = () =>{
     const [totalTime, setTotalTime] = useState("")
     const [cuisine, setCuisine] = useState("")
     const [difficultyLevel, setDifficultyLevel] = useState("")
+    const [mealType, setMealType] = useState("")
     const [error, setError] = useState("")
 
     const [editedRecipe, setEditedRecipe] = useState();
@@ -42,6 +49,7 @@ const EditRecipe = () =>{
             setCookTime(response.data.cook_time);
             setTotalTime(response.data.total_time);
             setCuisine(response.data.cuisine);
+            setMealType(response.data.mealType)
             console.log(response.data)
           })
           .catch(error => {
@@ -69,7 +77,9 @@ const EditRecipe = () =>{
           prep_time: prepTime,
           cook_time: cookTime,
           total_time: totalTime,
+          difficulty_level: difficultyLevel,
           cuisine: cuisine,
+          mealType: mealType
 
         })
         .then(response => {
@@ -196,6 +206,11 @@ const EditRecipe = () =>{
             <h2>Select a difficulty level</h2>
             <div class="dropdown">
               <Select options={options} defaultValue={options[0]} onChange={e => setDifficultyLevel(e.value)} />
+            </div>
+
+            <h2>Select a difficulty level</h2>
+            <div class="dropdown">
+              <Select options={mealTypes} defaultValue={mealTypes[0]} onChange={e => setMealType(e.value)} />
             </div>
     
             {error && (
