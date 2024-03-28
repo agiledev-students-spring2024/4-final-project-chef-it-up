@@ -405,7 +405,7 @@ app.get("/editRecipeInfo/:recipeId", (req, res) =>{
 
 app.put("/editRecipe/:recipeId", (req, res) =>{
     const { recipeId } = req.params;
-    const { recipe_name, ingredients, instructions, prep_time, cook_time, total_time, cuisine, difficulty_level } = req.body;
+    const { recipe_name, ingredients, instructions, prep_time, cook_time, total_time, cuisine, difficulty_level, mealType} = req.body;
     
     const indexToEdit = myRecipes.findIndex(recipe => recipe.id == recipeId);
     console.log("index to edit: ", indexToEdit)
@@ -420,7 +420,8 @@ app.put("/editRecipe/:recipeId", (req, res) =>{
         cook_time,
         total_time,
         cuisine,
-        difficulty_level
+        difficulty_level,
+        mealType
     };
     res.status(200).json({ message: "Recipe updated successfully" });
   } else {
