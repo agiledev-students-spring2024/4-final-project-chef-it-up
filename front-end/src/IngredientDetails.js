@@ -3,18 +3,18 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './IngredientDetails.css'
 import { Link } from 'react-router-dom';
-import { useIngredientContext } from './IngredientContext';
+// import { useIngredientContext } from './IngredientContext';
 
 
 const IngredientDetails = () => {
 
     const { ingredientId } = useParams();
-    const [getIngredient, setIngredient] = useState();
+    const [ingredient, setIngredient] = useState();
     // const { getIngredient } = useIngredientContext(); 
 
    useEffect(() => {
     console.log("useEffect is being called ")
-    axios.get(`http://localhost:3001/api/myFridge/${recipeId}`)
+    axios.get(`http://localhost:3001/api/myFridge/${ingredientId}`)
         .then(response => {
             setIngredient(response.data);
             console.log(response.data)
@@ -25,11 +25,11 @@ const IngredientDetails = () => {
         });
     }, [ingredientId]);
 
-    if (!getIngredient) {
+    if (!ingredient) {
         return <div>No ingredient selected!</div>;
     }
 
-    const imgSrc = `https://picsum.photos/200?id=${ingredientId}`;
+    // const imgSrc = `https://picsum.photos/200?id=${ingredientId}`;
 
    
     return (
@@ -41,19 +41,19 @@ const IngredientDetails = () => {
         
             <div className='ingredient-name-and-image-container'>
                 <div>
-                <h1>{getIngredient.name}</h1>
+                <h1>{ingredient.ingredient_name}</h1>
 
                 </div>
                
-                <img src={imgSrc} alt='ingredient'/>
+                <img src={ingredient.img} alt='ingredient'/>
             </div>
 
             <div className="expiry-date-and-quantity-container">
                 <div className="expiry-date-and-quantity-box">
-                    <h4>Expiry Date: {getIngredient.expiry_date} </h4>
+                    <h4>Expiry Date: {ingredient.expiry_date} </h4>
                 </div>
                 <div className="expiry-date-and-quantity-box">
-                    <h4>Quantity: {getIngredient.quantity} </h4>
+                    <h4>Quantity: {ingredient.quantity} </h4>
                 </div>
             </div>
 

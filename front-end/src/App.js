@@ -48,7 +48,7 @@ function App() {
           <Route  path="/editMyProfile" element={<EditProfile />} />
           <Route path="/aboutUs" element={<AboutUs />} /> 
           <Route path="/addIngredient" element={<AddIngredient />} />
-          <Route path="/IngredientDetails/:ingredientId" element={<IngredientDetails />} />
+          <Route path="/ingredientDetails/:ingredientId" element={<IngredientDetails />} />
           <Route path="/editIngredient" element={<EditIngredient />} />
 
          </Routes>

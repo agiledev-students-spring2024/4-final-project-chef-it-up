@@ -41,3 +41,9 @@ p{
   color: #555;
   border-color: #ddf3e4;
 }
+
+@media screen and (max-width: 768px) {
+  .ingredients-card-container{
+      
+  }
+}
