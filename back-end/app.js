@@ -154,50 +154,65 @@ let fridgeData = [
     {   
       id: 1,
       ingredient_name: "Chicken",
+      img: `https://picsum.photos/200?id=1`,
       expiry_date: "08/26/2024",
       quantity: 1,
     },
     {
       id: 2,
       ingredient_name: "Butter",
+      img: `https://picsum.photos/200?id=2`,
       expiry_date: "05/18/2025",
       quantity: 1,
     },
     {
       id: 3,
       ingredient_name: "Tomatoes",
+      img: `https://picsum.photos/200?id=3`,
       expiry_date: "04/10/2024",
       quantity: 4,
     },
     {   
       id: 4,
       ingredient_name: "Yogurt",
+      img: `https://picsum.photos/200?id=4`,
       expiry_date: "06/21/2024",
       quantity: 2,
     },
     {
       id: 5,
       ingredient_name: "Cheese",
+      img: `https://picsum.photos/200?id=5`,
       expiry_date: "01/08/2027",
       quantity: 6,
     },
     {
       id: 6,
       ingredient_name: "Apples",
+      img: `https://picsum.photos/200?id=6`,
       expiry_date: "09/19/2031",
       quantity: 5,
     },
     {
       id: 7,
       ingredient_name: "Milk",
+      img: `https://picsum.photos/200?id=7`,
       expiry_date: "02/02/2027",
       quantity: 1,
     },
     {
       id: 8,
       ingredient_name: "Hummus",
+      img: `https://picsum.photos/200?id=8`,
       expiry_date: "10/15/2024",
       quantity: 6,
+    },
+    {
+      id: 9,
+      ingredient_name: "Orange juice",
+      img: `https://picsum.photos/200?id=9`,
+      expiry_date: "01/11/2026",
+      quantity: 2,
     }
 ]
 
