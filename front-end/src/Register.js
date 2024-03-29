@@ -11,15 +11,18 @@ const Register = () => {
   const navigate = useNavigate()
   
   const options = [
-    { value: 'none', label: 'None' },
+    { value: 'other', label: 'Other' },
     { value: 'italian', label: 'Italian' },
     { value: 'french', label: 'French' },
     { value: 'american', label: 'American' },
     { value: 'indian', label: 'Indian' },
     { value: 'mexican', label: 'Mexican' },
     { value: 'chinese', label: 'Chinese' },
-    { value: 'vegetarian', label: 'Vegetarian' },
-    { value: 'vegan', label: 'Vegan' },
+    { value: 'japanese', label: 'japanese' },
+    { value: 'korean', label: 'korean' },
+    { value: 'Thai', label: 'Thai' },
+    { value: 'Mediterranean', label: 'Mediterranean' }
+    
   ]
 
   const [starter, setStarter] = useState(options[0].value)
