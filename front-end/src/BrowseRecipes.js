@@ -4,19 +4,41 @@ import RecipeCard from './RecipeCard';
 import Select from 'react-select'
 // import { useRecipeContext } from './RecipeContext';
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
 const BrowseRecipes = () =>{
+
+    const mealTypeLabel = ['breakfast', 'lunch', 'dinner', 'dessert'];
+    const difficultyLevelLabel = ['easy', 'medium', 'hard'];
+
 
     const mealType = [
         { value: 'breakfast', label: 'breakfast' },
         { value: 'lunch', label: 'lunch' },
         { value: 'dinner', label: 'dinner' },
     ]
+
     const difficultyLevel = [
         { value: 'easy', label: 'easy' },
         { value: 'medium', label: 'medium' },
         { value: 'hard', label: 'hard' },
     ]
+
+    const CuisineOptions = [
+        { value: 'other', label: 'Other' },
+        { value: 'italian', label: 'Italian' },
+        { value: 'french', label: 'French' },
+        { value: 'american', label: 'American' },
+        { value: 'indian', label: 'Indian' },
+        { value: 'mexican', label: 'Mexican' },
+        { value: 'chinese', label: 'Chinese' },
+        { value: 'japanese', label: 'japanese' },
+        { value: 'korean', label: 'korean' },
+        { value: 'Thai', label: 'Thai' },
+        { value: 'Mediterranean', label: 'Mediterranean' }
+        
+      ]
+    
 
     // const { getCurrRecipe } = useRecipeContext(); // gets the getrecip which is called the setSelectedRecipe
     const [recipes, setRecipes] = useState([])
@@ -67,35 +89,54 @@ const BrowseRecipes = () =>{
     return (
         
         <div className="recipes-contianer">
-            <h1>Browse Recipes</h1>
+             <h1>Browse Recipes</h1>
+           
             <div className="browse-recipe-filter">
-                <h3>filter by cuisine</h3>
+
+                <h2>filter by cuisine</h2>
                 <div className="search-container">
                 
                     <form className="search-cuisine">
-                        <input
-                            id="search-cuisine-name"
-                            type="text"
-                            placeholder="search by cuisine"
-                            required
-                        />
+                    
+                         <Select className="dropdown-recipe" options={CuisineOptions} defaultValue={CuisineOptions[0]} />
                         <button type="submit" className="search-button">Search</button>
                     </form>
                 </div>
                 
-                <h3>filter by difficulty</h3>
-                <div className="dropdown-filter">
-                    
-                    <Select options = {difficultyLevel} defaultValue={difficultyLevel[0]} className="filter-difficulty"/>
-                    <button className="search-button">filter</button>
+
+                <div>
+                   
+
+                <div>
+                    <h2>filter by meal type:</h2>
+                    {mealTypeLabel.map(type => (
+                        <button className="filter-buttons"  key={type} >{type}</button>
+                    ))}
                 </div>
-                <h3>filter by food type</h3>
-                <div className="dropdown-filter">
-                    
-                    <Select options ={mealType} defaultValue={mealType[0]} className="filter-mealType" />
-                    <button className="search-button">filter</button>
+                <div className="difficulty-nav">
+                    <h2>filter by difficulty level:</h2>
+                    {difficultyLevelLabel.map(level => (
+                        <button className="filter-buttons" key={level} >{level}</button>
+                    ))}
+                </div>
+
                 </div>
                 
+                
+            </div>
+
+           
+            <div className="nav-recipes-buttons">
+                    <Link to="/myRecipes">
+                        <button className="nav-to-recipe" type="submit">To My Recipes &#8594;</button>
+                    </Link>
+                
+
+                    <Link to="/favoriteRecipes">
+                         <button className="nav-to-recipe" type="submit">To Favorite Recipes &#8594;</button>
+            
+                    </Link>
+
             </div>
             <div className="recipes-card-container">
                 {recipes.map(recipe => (

@@ -8,17 +8,6 @@ import './EditRecipe.css';
 
 const EditRecipe = () =>{
 
-  const options = [
-    { value: 'easy', label: 'easy' },
-    { value: 'medium', label: 'medium' },
-    { value: 'hard', label: 'hard' },
-  ]
-
-  const mealTypes = [
-    { value: 'breakfast', label: 'breakfast' },
-    { value: 'lunch', label: 'lunch' },
-    { value: 'dinner', label: 'dinner' },
-]
 
     const [recipeName, setRecipeName] = useState("")
     const [ingredients, setIngredients] = useState("")
@@ -33,6 +22,34 @@ const EditRecipe = () =>{
 
     const [editedRecipe, setEditedRecipe] = useState();
     const { recipeId } = useParams();
+
+    const options = [
+      { value: 'easy', label: 'easy' },
+      { value: 'medium', label: 'medium' },
+      { value: 'hard', label: 'hard' },
+    ]
+  
+    const mealTypes = [
+      { value: 'breakfast', label: 'breakfast' },
+      { value: 'lunch', label: 'lunch' },
+      { value: 'dinner', label: 'dinner' },
+      { value: 'dessert', label: 'dessert' },
+    ]
+
+    const CuisineOptions = [
+      { value: 'other', label: 'Other' },
+      { value: 'italian', label: 'Italian' },
+      { value: 'french', label: 'French' },
+      { value: 'american', label: 'American' },
+      { value: 'indian', label: 'Indian' },
+      { value: 'mexican', label: 'Mexican' },
+      { value: 'chinese', label: 'Chinese' },
+      { value: 'japanese', label: 'japanese' },
+      { value: 'korean', label: 'korean' },
+      { value: 'Thai', label: 'Thai' },
+      { value: 'Mediterranean', label: 'Mediterranean' }
+      
+    ]
     
 
     // const { getRecipe, setSelectedRecipe } = useRecipeContext();
@@ -91,8 +108,6 @@ const EditRecipe = () =>{
 
         })
 
-        alert(`You clicked the button to edit the recipe: `);
-
       
       }
 
@@ -100,7 +115,7 @@ const EditRecipe = () =>{
     return (
       //onSubmit={handleSubmit}
     
-        <form className="add-recipe-form">
+        <form className="add-recipe-form" onClick={handleSubmit}>
           <main className="App">
             <h1>Add Your Own Recipe</h1>
             <div class="formField">
@@ -192,23 +207,22 @@ const EditRecipe = () =>{
                 required
               />
             </div>
-            <div class="formField">
+
+            <div>
               <label className="add-recipe-form-field" htmlFor="cuisine">Enter Cuisine Type:</label>
-              <br />
-              <input
-                id="cuisine"
-                type="text"
-                value={cuisine}
-                onChange={e => setCuisine(e.target.value)}
-                required
-              />
+                <br />
+              <div class="dropdown">
+                <Select options={CuisineOptions} defaultValue={CuisineOptions[0]} onChange={e => setCuisine(e.value)} />
+              </div>
+
             </div>
+            
             <h2>Select a difficulty level</h2>
             <div class="dropdown">
               <Select options={options} defaultValue={options[0]} onChange={e => setDifficultyLevel(e.value)} />
             </div>
 
-            <h2>Select a difficulty level</h2>
+            <h2>Select a meal level</h2>
             <div class="dropdown">
               <Select options={mealTypes} defaultValue={mealTypes[0]} onChange={e => setMealType(e.value)} />
             </div>
@@ -222,8 +236,8 @@ const EditRecipe = () =>{
             <div className="btn-section">
             <div>
               
-                <button className="submit-edit-button" type="button" onClick={handleSubmit} >
-                  <Link to="/myRecipes" className="cancel-link" >Save Edit</Link> 
+                <button className="submit-edit-button" type="submit" >
+                  <Link to="/myRecipes" className="cancel-link">Save Edit</Link> 
                 </button>
                 
               

@@ -44,6 +44,7 @@ p{
     width: 150px;
     margin-right: 12px;
 }
+
 #search-cuisine-name
  {
     padding: 10px;
@@ -52,6 +53,18 @@ p{
     height: 25px;
     margin-right: 10px;
     font-size: 24px;
+}
+
+.browse-recipe-filter{
+    border: 7px solid rgb(234, 190, 134);
+    border-radius: 30px;
+    width: 40%;
+    margin: 10px;
+    padding: 10px;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
 }
 
 
@@ -65,6 +78,39 @@ p{
     border-radius: 5px;
     font-size: 20px;
     cursor: pointer;
+}
+
+.nav-recipes-buttons{
+    
+    justify-content: center;
+    margin-bottom: 36px;
+}
+
+.nav-to-recipe{
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #e1f2f5;
+    border-radius: 4px;
+    background-color: #e1f2f5;
+    color: #333;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    margin-left: 12px;
+    
+}
+
+.dropdown-recipe {
+    margin: auto;
+    width: 200px;
+    margin-bottom: 24px;
+    font-size: 1.2em;
+}
+
+.difficulty-nav{
+    margin-bottom: 24px;
 }
 
 @media screen and (max-width: 768px) {

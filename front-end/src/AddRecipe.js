@@ -31,6 +31,21 @@ const AddRecipe = () =>{
       { value: 'dessert', label: 'dessert' },
     ]
 
+    const CuisineOptions = [
+      { value: 'other', label: 'Other' },
+      { value: 'italian', label: 'Italian' },
+      { value: 'french', label: 'French' },
+      { value: 'american', label: 'American' },
+      { value: 'indian', label: 'Indian' },
+      { value: 'mexican', label: 'Mexican' },
+      { value: 'chinese', label: 'Chinese' },
+      { value: 'japanese', label: 'japanese' },
+      { value: 'korean', label: 'korean' },
+      { value: 'Thai', label: 'Thai' },
+      { value: 'Mediterranean', label: 'Mediterranean' }
+      
+    ]
+
     const handleSubmit = e => {
         e.preventDefault()
         
@@ -171,17 +186,18 @@ const AddRecipe = () =>{
             required
           />
         </div>
-        <div class="formField">
+
+        <div>
           <label className="add-recipe-form-field" htmlFor="cuisine">Enter Cuisine Type:</label>
-          <br />
-          <input
-            id="cuisine"
-            type="text"
-            placeholder="Cuisine"
-            onChange={e => setCuisine(e.target.value)}
-            required
-          />
+        <br />
+        <div class="dropdown">
+          <Select options={CuisineOptions} defaultValue={CuisineOptions[0]} onChange={e => setCuisine(e.value)} />
         </div>
+
+        </div>
+        
+        
+
         <h2>Select a difficulty level</h2>
         <div class="dropdown">
           <Select options={options} defaultValue={options[0]} onChange={e => setDifficultyLevel(e.value)} />

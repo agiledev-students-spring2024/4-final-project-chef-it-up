@@ -10,8 +10,6 @@ const HamburgerMenu = () => {
             <h3>Chef It Up</h3>
             <Link to="/fridge">My Fridge</Link>
             <Link to="/browseRecipes">Browse Recipes</Link>
-            <Link to="/myRecipes">My Recipes</Link>
-            <Link to="/favoriteRecipes">Favorite Recipes</Link>
             <Link to="/addRecipe">Add a Recipe</Link>
             <Link to="/generateRecipe">Generate a Recipe</Link>
             <Link to="/myProfile">My Profile</Link>
