@@ -32,6 +32,10 @@ p{
     cursor: pointer;
 }
 
+.difficulty-nav{
+  margin-bottom: 24px;
+}
+
 @media screen and (max-width: 767px) {
   img {
     max-width: 100%; 
