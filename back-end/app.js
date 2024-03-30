@@ -548,7 +548,6 @@ app.post("/api/editMyProfile", (req, res) => {
 
 app.post("/api/addRecipe", (req, res) => {
     const { recipeName, image, ingredients, instructions, prepTime, cookTime,  totalTime, cuisine, difficultyLevel, mealType } = req.body
-    console.log(recipeName)
     const prep = parseInt(prepTime)
     const cook = parseInt(cookTime)
     const total = parseInt(totalTime)
@@ -568,8 +567,7 @@ app.post("/api/addRecipe", (req, res) => {
         }
 
         recipeData.push(new_recipe)
-        // const recipe = recipeData.find((recipe) => recipe.id === recipeData.length)
-        // console.log(recipe)
+
         res.status(200).json("Successfully added new recipe")
     }
     catch (error) {
