@@ -30,7 +30,7 @@ function App() {
     <div className="App">
       <Router>
         <Header />
-        <IngredientProvider>
+        {/* <IngredientProvider> */}
           {/* comment out recipe provider as my route currently does not use it as i am thinking of refactoring*/ }
         {/*<RecipeProvider>*/}
          <Routes>
@@ -52,11 +52,11 @@ function App() {
           <Route path="/aboutUs" element={<AboutUs />} /> 
           <Route path="/addIngredient" element={<AddIngredient />} />
           <Route path="/ingredientDetails/:ingredientId" element={<IngredientDetails />} />
-          <Route path="/editIngredient" element={<EditIngredient />} />
+          <Route path="/editIngredient/:ingredientId" element={<EditIngredient />} />
 
          </Routes>
         {/*</RecipeProvider>*/}
-        </IngredientProvider>
+        {/* </IngredientProvider> */}
       </Router>
 
     </div>
