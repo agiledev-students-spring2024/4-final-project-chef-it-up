@@ -31,7 +31,20 @@ const IngredientDetails = () => {
 
     // const imgSrc = `https://picsum.photos/200?id=${ingredientId}`;
 
-   
+    const handleDeleteButtonClick = () => {
+        
+        axios.delete(`http://localhost:3001/api/deleteIngredient/${ingredientId}`)
+        .then(response => {
+            console.log(" ingredient has been removed from fridge: ", response.data)
+
+        })
+        .catch( err =>{
+            console.log(" error trying to remove ingredient: ", err)
+
+        })
+
+    }
+
     return (
         <div className="ingredient-details">
         
@@ -65,7 +78,7 @@ const IngredientDetails = () => {
                 </div>
                 <div>
                     <Link to="/fridge">
-                        <button className="delete-button" type="submit"> Delete Ingredient </button>
+                        <button className="delete-button" type="click" onClick={handleDeleteButtonClick}> Delete Ingredient </button>
             
                     </Link> 
                 </div>
