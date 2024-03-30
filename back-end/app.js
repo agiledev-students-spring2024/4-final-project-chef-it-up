@@ -155,63 +155,63 @@ let fridgeData = [
       id: 1,
       ingredient_name: "Chicken",
       img: `https://picsum.photos/200?id=1`,
-      expiry_date: "08/26/2024",
+      expiry_date: "2024-08-26",
       quantity: 1,
     },
     {
       id: 2,
       ingredient_name: "Butter",
       img: `https://picsum.photos/200?id=2`,
-      expiry_date: "05/18/2025",
+      expiry_date: "2025-05-18",
       quantity: 1,
     },
     {
       id: 3,
       ingredient_name: "Tomatoes",
       img: `https://picsum.photos/200?id=3`,
-      expiry_date: "04/10/2024",
+      expiry_date: "2024-04-10",
       quantity: 4,
     },
     {   
       id: 4,
       ingredient_name: "Yogurt",
       img: `https://picsum.photos/200?id=4`,
-      expiry_date: "06/21/2024",
+      expiry_date: "2024-06-21",
       quantity: 2,
     },
     {
       id: 5,
       ingredient_name: "Cheese",
       img: `https://picsum.photos/200?id=5`,
-      expiry_date: "01/08/2027",
+      expiry_date: "2027-01-08",
       quantity: 6,
     },
     {
       id: 6,
       ingredient_name: "Apples",
       img: `https://picsum.photos/200?id=6`,
-      expiry_date: "09/19/2031",
+      expiry_date: "2031-09-19",
       quantity: 5,
     },
     {
       id: 7,
       ingredient_name: "Milk",
       img: `https://picsum.photos/200?id=7`,
-      expiry_date: "02/02/2027",
+      expiry_date: "2027-02-02",
       quantity: 1,
     },
     {
       id: 8,
       ingredient_name: "Hummus",
       img: `https://picsum.photos/200?id=8`,
-      expiry_date: "10/15/2024",
+      expiry_date: "2024-10-15",
       quantity: 6,
     },
     {
       id: 9,
       ingredient_name: "Orange juice",
       img: `https://picsum.photos/200?id=9`,
-      expiry_date: "01/11/2026",
+      expiry_date: "2026-01-11",
       quantity: 2,
     }
 ]
@@ -365,6 +365,42 @@ app.post ("/api/addIngredient", (req, res) => {
         res.status(404).json({ error: " Recipe not found" });
     }
 });
+
+// retrieve ingredient details for editing
+app.get("/api/editIngredientInfo/:ingredientId", (req, res) => {
+  const { ingredientId } = req.params;
+  console.log(ingredientId)
+  console.log("this is the ingredient to edit: ", ingredientId);
+  const ingredient = fridgeData.find(ingredient => ingredient.id == ingredientId);
+
+  if (ingredient) {
+      res.json(ingredient);
+  }
+
+  else {
+      res.status(404).json({ error: "Ingredient not found"});
+  }
+})
+
+// edit ingredient
+app.put("/api/editIngredient/:ingredientId", (req, res) => {
+  const { ingredientId } = req.params
+  const { ingredient_name, expiry_date, quantity } = req.body
+
+  const indexToEdit = fridgeData.findIndex(ingredient => ingredient.id == ingredientId);
+  console.log("ingredient index to edit: ", indexToEdit)
+
+  if (indexToEdit !== -1) {
+      fridgeData[indexToEdit] = { ...fridgeData[indexToEdit],
+      ingredient_name,
+      quantity,
+      expiry_date,
+  };
+  res.status(200).json({ message: "Ingredient updated successfully" });
+} else {
+  res.status(404).json({ error: "Ingredient not found" });
+}
+})
 
 app.get("/api/myRecipes", (req, res) => {
     res.json(myRecipes);

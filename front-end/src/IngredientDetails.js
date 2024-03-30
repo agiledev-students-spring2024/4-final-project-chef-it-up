@@ -59,7 +59,7 @@ const IngredientDetails = () => {
 
             <div className="ingredient-btn-section" >
                 <div>
-                    <Link to="/editIngredient">
+                    <Link to={`/editIngredient/${ingredientId}`}>
                         <button className="nav-to-edit-button" type="submit"> Edit Ingredient</button>
                     </Link>
                 </div>

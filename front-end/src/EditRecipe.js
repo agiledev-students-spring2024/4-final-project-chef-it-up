@@ -128,7 +128,7 @@ const EditRecipe = () =>{
                 id="recipeName"
                 type="text"
                 value={recipeName}
-                onChange={e => setEditedRecipe(e.target.value)}
+                onChange={e => setRecipeName(e.target.value)}
                 required
               />
               </div>
@@ -145,7 +145,7 @@ const EditRecipe = () =>{
                 id="recipeImage"
                 type="file"
                 accept="image/*"
-                onChange={e => setRecipeName(e.target.value)}
+                onChange={e => setEditedRecipe(e.target.value)}
                 required
               />
               </div>
