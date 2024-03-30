@@ -9,40 +9,32 @@ import { Link } from "react-router-dom";
 const BrowseRecipes = () =>{
 
     const mealTypeLabel = ['breakfast', 'lunch', 'dinner', 'dessert'];
-    const difficultyLevelLabel = ['easy', 'medium', 'hard'];
+    const difficultyLevelLabel = ['Easy', 'Medium', 'Hard'];
 
-
-    const mealType = [
-        { value: 'breakfast', label: 'breakfast' },
-        { value: 'lunch', label: 'lunch' },
-        { value: 'dinner', label: 'dinner' },
-    ]
-
-    const difficultyLevel = [
-        { value: 'easy', label: 'easy' },
-        { value: 'medium', label: 'medium' },
-        { value: 'hard', label: 'hard' },
-    ]
 
     const CuisineOptions = [
-        { value: 'other', label: 'Other' },
-        { value: 'italian', label: 'Italian' },
-        { value: 'french', label: 'French' },
-        { value: 'american', label: 'American' },
-        { value: 'indian', label: 'Indian' },
-        { value: 'mexican', label: 'Mexican' },
-        { value: 'chinese', label: 'Chinese' },
-        { value: 'japanese', label: 'japanese' },
-        { value: 'korean', label: 'korean' },
+        { value: 'Other', label: 'Other' },
+        { value: 'Italian', label: 'Italian' },
+        { value: 'French', label: 'French' },
+        { value: 'American', label: 'American' },
+        { value: 'Indian', label: 'Indian' },
+        { value: 'Mexican', label: 'Mexican' },
+        { value: 'Chinese', label: 'Chinese' },
+        { value: 'Japanese', label: 'Japanese' },
+        { value: 'Korean', label: 'Korean' },
         { value: 'Thai', label: 'Thai' },
         { value: 'Mediterranean', label: 'Mediterranean' }
         
-      ]
+    ]
+
+    const num = 1;
     
 
     // const { getCurrRecipe } = useRecipeContext(); // gets the getrecip which is called the setSelectedRecipe
     const [recipes, setRecipes] = useState([])
-    console.log()
+    const [filteredRecipes, setFilteredRecipes] = useState([]);
+    const [cuisine, setCuisine] = useState("")
+    
 
     useEffect(() =>{
         axios.get(('http://localhost:3001/api/browseRecipes')) //running low on free uses  https://my.api.mockaroo.com/recipes.json?key=5f2d0960
@@ -77,6 +69,38 @@ const BrowseRecipes = () =>{
 
     }, [])
 
+    const filterByCuisine = async (cuisine) => {
+        try {
+            const response = await axios.get(`http://localhost:3001/api/filterRecipes/cuisine/${cuisine}/${num}`);
+            setFilteredRecipes(response.data);
+
+        }
+        catch (error){
+            console.error('Error filtering recipes by cuisine:', error);
+
+        }
+            
+    }
+
+    const filterByMealType = async (type) => {
+        try {
+            const response = await axios.get(`http://localhost:3001/api/filterRecipes/mealtypes/${type}/${num}`);
+            setFilteredRecipes(response.data);
+        } catch (error) {
+            console.error('Error filtering recipes by meal type:', error);
+        }
+    };
+
+    const filterByDifficultyLevel = async (level) => {
+        try {
+            const response = await axios.get(`http://localhost:3001/api/filterRecipes/difficulty/${level}/${num}`)
+            setFilteredRecipes(response.data)
+        }
+        catch ( error){
+            console.error("Error filtering recipes by difficulty level:", error);
+        }
+    }
+
    
    /* commented out for now as may refactor 
     const handleRecipeClick = (recipe) => {
@@ -96,30 +120,27 @@ const BrowseRecipes = () =>{
                 <h2>filter by cuisine</h2>
                 <div className="search-container">
                 
-                    <form className="search-cuisine">
-                    
-                         <Select className="dropdown-recipe" options={CuisineOptions} defaultValue={CuisineOptions[0]} />
-                        <button type="submit" className="search-button">Search</button>
-                    </form>
+                    <div className="search-cuisine" >  
+                        <Select className="dropdown-recipe" options={CuisineOptions} defaultValue={CuisineOptions[0]} onChange={e => setCuisine(e.value)}/>
+                        <button className="search-button" onClick={() => filterByCuisine(cuisine)}>Search</button>
+                    </div>
                 </div>
                 
 
                 <div>
-                   
 
                 <div>
                     <h2>filter by meal type:</h2>
                     {mealTypeLabel.map(type => (
-                        <button className="filter-buttons"  key={type} >{type}</button>
+                        <button className="filter-buttons"  key={type} onClick={() => filterByMealType(type)} >{type}</button>
                     ))}
                 </div>
                 <div className="difficulty-nav">
                     <h2>filter by difficulty level:</h2>
                     {difficultyLevelLabel.map(level => (
-                        <button className="filter-buttons" key={level} >{level}</button>
+                        <button className="filter-buttons" key={level}  onClick={() => filterByDifficultyLevel(level)} >{level}</button>
                     ))}
                 </div>
-
                 </div>
                 
                 
@@ -139,7 +160,8 @@ const BrowseRecipes = () =>{
 
             </div>
             <div className="recipes-card-container">
-                {recipes.map(recipe => (
+                {/** tenerary operator basically the first part is condisitonal if its strue then we render i teh filtered recipes else we just render in all recipes */}
+                {(filteredRecipes.length > 0 ? filteredRecipes : recipes).map(recipe => (
                     <RecipeCard key={recipe.id} recipe={recipe} baseUrl="/individualRecipe" />
                 
                 ))}
