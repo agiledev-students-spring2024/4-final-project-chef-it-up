@@ -32,6 +32,12 @@ p{
     cursor: pointer;
 }
 
+.filter-buttons:hover{
+  background-color: #ddf3e4;
+  color: #555;
+  border-color: #ddf3e4;
+}
+
 .difficulty-nav{
   margin-bottom: 24px;
 }
