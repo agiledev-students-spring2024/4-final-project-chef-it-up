@@ -402,6 +402,28 @@ app.put("/api/editIngredient/:ingredientId", (req, res) => {
 }
 })
 
+// delete ingredient 
+app.delete("/api/deleteIngredient/:ingredientId", (req, res) =>{
+  const { ingredientId } = req.params;
+  console.log(ingredientId);
+
+  const indexToRemove = fridgeData.findIndex(ingredient => ingredient.id == ingredientId);
+  console.log("index to remove: ", indexToRemove)
+
+  if (indexToRemove == -1) {
+      res.status(404).json({ error: "Ingredient not found in favorites" });
+     
+      
+  } else {
+      fridgeData.splice(indexToRemove, 1);
+      res.status(200).json({ message: "Ingredient removed from fridge" });
+     
+     
+  }
+
+
+});
+
 app.get("/api/myRecipes", (req, res) => {
     res.json(myRecipes);
 
