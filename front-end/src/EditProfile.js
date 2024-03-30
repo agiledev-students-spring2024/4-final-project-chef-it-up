@@ -16,8 +16,6 @@ const EditProfile = ({ user, setUser }) =>{
       navigate("/myProfile")
     } else {
       setId(user.id)
-      setUsername(user.username)
-      setPassword(user.password)
     }
   })
 
@@ -41,7 +39,7 @@ const EditProfile = ({ user, setUser }) =>{
         console.log(`Received server response: ${response.data}`)
       })
       .then(data => {
-        //setUser(data)
+        setUser(data)
         navigate('/myProfile')
       })
       .catch(err => {
@@ -72,13 +70,14 @@ const EditProfile = ({ user, setUser }) =>{
     <form className="edit-profile-form" onSubmit={handleSubmit}>
       <main className="App">
         <h1>Edit Your Profile</h1>
+        <h1>{ userid }</h1>
         <div class="formField">
           <label className="edit-profile-label" htmlFor="username_field">Enter your Username:</label>
           <br />
           <input
             id="username_field"
             type="text"
-            placeholder={username}
+            placeholder={user.username}
             onChange={e => setUsername(e.target.value)}
             required
           />
@@ -89,22 +88,20 @@ const EditProfile = ({ user, setUser }) =>{
           <input
             id="password_field"
             type="text"
-            placeholder={password}
+            placeholder={user.password}
             onChange={e => setPassword(e.target.value)}
             required
           />
         </div>
         <div>
-        <div>
-          <button className="submit-edit-button" type="submit"> Edit Profile</button>
-        </div>
-        <div>
-          <Link to="/myProfile">
-          <button className="cancel-edit-button" type="submit"> Cancel your Profile Changes </button>
-            
-          </Link>
-        </div>
-
+          <div>
+            <button className="submit-edit-button" type="submit"> Edit Profile</button>
+          </div>
+          <div>
+            <Link to="/myProfile">
+              <button className="cancel-edit-button" type="submit"> Cancel your Profile Changes </button>
+            </Link>
+          </div>
         </div>
         
       </main>

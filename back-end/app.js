@@ -534,11 +534,12 @@ app.post("/api/editMyProfile", (req, res) => {
     const userIndex = backupUser.findIndex((user) => user.id === id)
     if (userIndex !== -1) {
         backupUser[userIndex] = { 
-            ...backupUser[userIndex],
-            username,
-            password
+            id:id,
+            username:username,
+            password:password
         }
-        res.status(200).json(backupUser[userIndex])
+        const user = backupUser.find((user) => user.id === id)
+        res.status(200).json(user)
     }
     else{
         res.status(403).send("No such user exists")
@@ -546,9 +547,10 @@ app.post("/api/editMyProfile", (req, res) => {
 })
 
 app.post("/api/addRecipe", (req, res) => {
-    const { recipeName, ingredients, instructions, prepTime, cookTime,  totalTime, cuisine, difficultyLevel, mealType } = req.params
-
-
+    const { recipeName, image, ingredients, instructions, prepTime, cookTime,  totalTime, cuisine, difficultyLevel, mealType } = req.body
+    const prep = parseInt(prepTime)
+    const cook = parseInt(cookTime)
+    const total = parseInt(totalTime)
     try {
         const new_recipe = {
             id: recipeData.length + 1,
@@ -556,15 +558,16 @@ app.post("/api/addRecipe", (req, res) => {
             img: `https://picsum.photos/200?id=4`,
             ingredients: ingredients,
             instructions: instructions,
-            prep_time: prepTime,
-            cook_time: cookTime,
-            total_time: totalTime,
+            prep_time: prep,
+            cook_time: cook,
+            total_time: total,
             cuisine: cuisine,
             difficulty_level: difficultyLevel,
             mealType: mealType
         }
 
         recipeData.push(new_recipe)
+
         res.status(200).json("Successfully added new recipe")
     }
     catch (error) {
