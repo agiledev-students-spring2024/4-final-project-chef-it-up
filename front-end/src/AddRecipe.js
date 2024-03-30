@@ -6,6 +6,7 @@ import './AddRecipe.css'
 
 const AddRecipe = () =>{
     const [recipeName, setRecipeName] = useState("")
+    const [image, setImage] = useState([])
     const [ingredients, setIngredients] = useState("")
     const [instructions, setInstructions] = useState("")
     const [prepTime, setPrepTime] = useState("")
@@ -33,10 +34,12 @@ const AddRecipe = () =>{
 
     const handleSubmit = e => {
         e.preventDefault()
-        
         fetch('http://localhost:3001/api/addRecipe', {
           method: 'POST',
-          body: { recipeName, ingredients, instructions, prepTime, cookTime, totalTime, cuisine, difficultyLevel, mealType },
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ recipeName, image, ingredients, instructions, prepTime, cookTime, totalTime, cuisine, difficultyLevel, mealType }),
         })
           .then(response => {
             if (response.ok){
@@ -109,7 +112,7 @@ const AddRecipe = () =>{
             id="recipeImage"
             type="file"
             accept="image/*"
-            onChange={e => setRecipeName(e.target.value)}
+            onChange={e => setImage(e.target.value)}
             required
           />
           </div>
