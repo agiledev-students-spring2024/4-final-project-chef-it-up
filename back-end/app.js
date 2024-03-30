@@ -30,7 +30,7 @@ let recipeData = [
         cook_time: 129,
         total_time: 230,
         cuisine: "Indian",
-        difficulty_level: "Hard",
+        difficulty_level: "Easy",
         mealType: "dinner"
     },
     {
@@ -56,7 +56,7 @@ let recipeData = [
         cook_time:54,
         total_time:103,
         cuisine:"Russion",
-        difficulty_level:"Hard",
+        difficulty_level:"Medium",
         mealType: "dessert"
     },
 
@@ -87,7 +87,7 @@ let favoriteRecipeData = [
         cook_time:175,
         total_time:86,
         cuisine:"Mexican",
-        difficulty_level:"Medium",
+        difficulty_level:"Easy",
         mealType: "dessert"
     },
 
@@ -573,7 +573,7 @@ app.post("/api/addRecipe", (req, res) => {
     }
 })
 
-app.get("/api/generateRecipe", (req,res) => {
+app.get("/api/generateRecipe", (req, res) => {
     // Since we don't have ChatGPT api yet, we will just send a hardcoded recipe as an example
     const generated = {
         instructions:"Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.",
@@ -587,6 +587,79 @@ app.get("/api/generateRecipe", (req,res) => {
           res.status(404).json({ error: "Error from server when sending generated recipe." });
     }
 })
+
+app.get('/api/filterRecipes/mealtypes/:type/:num', async (req, res) => {
+    const mealType = req.params.type;
+    const num = req.params.num;
+    let recipes;
+    try {
+        if(num == 1){
+            recipes = recipeData.filter(recipe => recipe.mealType === mealType);
+        }
+        else if (num == 2){
+            recipes = favoriteRecipeData.filter(recipe => recipe.mealType === mealType)
+        }
+        else{
+            recipes = myRecipes.filter(recipe => recipe.mealType === mealType)
+        }
+        
+        res.json(recipes);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+app.get('/api/filterRecipes/difficulty/:level/:num', async (req, res) => {
+    const level = req.params.level;
+    const num = req.params.num;
+    let recipes;
+    console.log(level)
+    
+    try {
+        if(num == 1){
+            recipes = recipeData.filter(recipe => recipe.difficulty_level == level);
+        }
+        else if (num == 2){
+            recipes = favoriteRecipeData.filter(recipe => recipe.difficulty_level == level)
+        }
+        else{
+            recipes = myRecipes.filter(recipe => recipe.difficulty_level == level)
+        }
+        console.log(recipes)
+        
+        res.json(recipes);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+app.get('/api/filterRecipes/cuisine/:cuisine/:num', async (req, res) => {
+    const cuisine = req.params.cuisine;
+    const num = req.params.num;
+    let recipes;
+
+    
+    try {
+        if(num == 1){
+            recipes = recipeData.filter(recipe => recipe.cuisine == cuisine);
+        }
+        else if (num == 2){
+            recipes = favoriteRecipeData.filter(recipe => recipe.cuisine == cuisine)
+        }
+        else{
+            recipes = myRecipes.filter(recipe => recipe.cuisine == cuisine)
+        }
+        
+        res.json(recipes);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
 
 
 // export the express app we created to make it available to other modules
