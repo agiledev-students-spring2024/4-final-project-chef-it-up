@@ -8,6 +8,196 @@ const assert = require("assert")
 const expect = chai.expect
 
 // without these tests running, % line coverage is 45.51. After adding these tests, we get a 57.18 % line coverage -Ryan
+// Kei test went from 57.18-74.17
+
+describe('get request to get all users recipes', () => {
+    it('should return all users recipes', (done) => {
+        chai.request(app)
+            .get('/api/myRecipes')
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an('array');
+                done();
+            });
+    });
+});
+
+describe('get request to get all favorite recipes', () => {
+    it('should return all favorite recipes', (done) => {
+        chai.request(app)
+            .get('/api/favoriteRecipes')
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an('array');
+                done();
+            });
+    });
+});
+
+describe('get request to get all recipes', () => {
+    it('should return all recipes', (done) => {
+        chai.request(app)
+            .get('/api/browseRecipes')
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an('array');
+                done();
+            });
+    });
+});
+
+describe('Get request for a individual recipe info', () =>{
+    it("should return info a recipe with a valid id", (done) =>{
+        chai.request(app)
+            .get('/api/individualRecipeInfo/1')
+            .end((err, res) =>{
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('id', 1);
+                done();
+            })
+    })
+
+    it("should return a 404 when invalid id is given", (done) =>{
+        chai.request(app)
+            .get('/api/individualRecipeInfo/100')
+            .end((err, res) =>{
+                expect(res).to.have.status(404);
+                expect(res.body).to.be.an('object');
+                done();
+            })
+    })
+})
+
+
+describe('Get request for your individual recipe info', () =>{
+    it("should return info of your recipe with a valid id", (done) =>{
+        chai.request(app)
+            .get('/api/myIndividualRecipe/1')
+            .end((err, res) =>{
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('id', 1);
+                done();
+            })
+    })
+
+    it("should return a 404 when invalid id is given", (done) =>{
+        chai.request(app)
+            .get('/api/myIndividualRecipe/100')
+            .end((err, res) =>{
+                expect(res).to.have.status(404);
+                expect(res.body).to.be.an('object');
+                done();
+            })
+    })
+})
+
+describe('Get request for favorite individual recipe info', () =>{
+    it("should return info of one of your favorite recipes with a valid id", (done) =>{
+        chai.request(app)
+            .get('/api/individualFavoriteInfo/1')
+            .end((err, res) =>{
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('id', 1);
+                done();
+            })
+    })
+
+    it("should return a 404 when invalid id is given", (done) =>{
+        chai.request(app)
+            .get('/api/individualFavoriteInfo/100')
+            .end((err, res) =>{
+                expect(res).to.have.status(404);
+                expect(res.body).to.be.an('object');
+                done();
+            })
+    })
+})
+
+describe('request to remove one of your recipes from your favorite list', () =>{
+    it("should successfully remove recipe from favorite list", (done) =>{
+        chai.request(app)
+            .delete('/api/Unfavorite/1')
+            .end((err, res) =>{
+                expect(res).to.have.status(200);
+                done();
+            })
+    })
+
+    it("should unsuccessfully remove recipe from favorite list", (done) =>{
+        chai.request(app)
+            .delete('/api/Unfavorite/100')
+            .end((err, res) =>{
+                expect(res).to.have.status(404);
+                done();
+            })
+    })
+
+    
+})
+
+describe('POST request to delete one of your own recipes', () =>{
+    it("should successfully remove recipe from your recipes list", (done) =>{
+        chai.request(app)
+            .delete('/api/deleteRecipe/1')
+            .end((err, res) =>{
+                expect(res).to.have.status(200);
+                done();
+            })
+    })
+
+    it("should unsuccessfully remove recipe from favorite list", (done) =>{
+        chai.request(app)
+            .delete('/api/deleteRecipe/100')
+            .end((err, res) =>{
+                expect(res).to.have.status(404);
+                done();
+            })
+    })
+
+    
+})
+
+
+
+describe('Get request to filter recipe by difficulty level ', () =>{
+    it("should return a list of recipe that are filtered by difficulty with a number indicating which page", (done) =>{
+        chai.request(app)
+            .get('/api/filterRecipes/difficulty/Easy/1')
+            .end((err, res) =>{
+                expect(res).to.have.status(200);
+                done();
+            })
+    })
+
+})
+
+
+describe('Get request to filter recipe by meal type level ', () =>{
+    it("should return a list of recipe that are filtered by meal type with a number indicating which page", (done) =>{
+        chai.request(app)
+            .get('/api/filterRecipes/mealtypes/dinner/3')
+            .end((err, res) =>{
+                expect(res).to.have.status(200);
+                done();
+            })
+    })
+
+})
+
+describe('Get request to filter recipe by cuisine type', () =>{
+    it("should return a list of recipe that are filtered by cuisine with a number indicating which page", (done) =>{
+        chai.request(app)
+            .get('/api/filterRecipes/cuisine/Mexican/1')
+            .end((err, res) =>{
+                expect(res).to.have.status(200);
+                done();
+            })
+    })
+
+})
 
 describe('Post request to login api', () => {
     it('should login successfully and return the user info with correct condentials', (done) =>{
