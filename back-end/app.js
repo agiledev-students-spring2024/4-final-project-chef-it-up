@@ -247,6 +247,9 @@ let backupUser = [
 // browse recipe page
 app.get('/api/browseRecipes', (req, res) => {
   res.json(recipeData);
+app.get("/api/browseRecipes", (req, res) => {
+    res.status(200).json(recipeData)
+
 });
 
 // individual Recipe Info page
