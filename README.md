@@ -9,6 +9,7 @@ We want an app that will track specified ingredients for a user to prevent food 
 A common problem for many households is groceries and store goods going bad due to oversight and lack of knowledge of how to use them with whatever remaining ingredients. We wanted to make an app to combat this problem and make it much easier to avoid food wastage as well as get people to try new dishes and be more apt in the kitchen.
 
 ### Contributing
+
 [How to contribute to Chef-It-Up](./CONTRIBUTING.md)
 
 ## Team Members
@@ -19,7 +20,27 @@ A common problem for many households is groceries and store goods going bad due 
 
 ## Instruction and Methods
 
-Hit a rock against another rock in a public setting. It would be more productive than trying to figure out how to test an app with nothing currently implemented.
+To setup and run our project, follow the instructions below:
+
+#### Clone this repository to your local machine.
+
+#### Navigate into the project directory.
+
+#### Build and launch the back-end.
+
+1. Navigate into the `back-end` directory.
+2. Run `npm install` to install all dependencies listed in the `package.json` file.
+3. Run `npm start` to launch the back-end server.
+
+#### Build and launch the front-end
+
+1. Navigate into the `front-end` directory.
+2. Run `npm install` to install all dependencies listed in the `package.json` file.
+3. Run `npm start` to launch the front-end server.
+
+## Testing
+
+Run `npm test` to view the results of the unit tests and the code coverage.
 
 ## Other Notes
 
