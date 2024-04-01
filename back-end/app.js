@@ -244,9 +244,6 @@ let backupUser = [
   },
 ];
 
-// browse recipe page
-app.get('/api/browseRecipes', (req, res) => {
-  res.json(recipeData);
 app.get("/api/browseRecipes", (req, res) => {
     res.status(200).json(recipeData)
 
@@ -267,7 +264,7 @@ app.get('/api/individualRecipeInfo/:recipeId', (req, res) => {
 // favorite recipes page
 
 app.get('/api/favoriteRecipes', (req, res) => {
-  res.json(favoriteRecipeData);
+  res.status(200).json(favoriteRecipeData);
 });
 
 // individual favorite Recipe Info page
@@ -414,7 +411,7 @@ app.delete('/api/deleteIngredient/:ingredientId', (req, res) => {
 });
 
 app.get('/api/myRecipes', (req, res) => {
-  res.json(myRecipes);
+  res.status(200).json(myRecipes);
 });
 
 app.get('/api/myIndividualRecipe/:recipeId', (req, res) => {
