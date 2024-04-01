@@ -244,9 +244,8 @@ let backupUser = [
   },
 ];
 
-app.get("/api/browseRecipes", (req, res) => {
-    res.status(200).json(recipeData)
-
+app.get('/api/browseRecipes', (req, res) => {
+  res.status(200).json(recipeData);
 });
 
 // individual Recipe Info page
@@ -403,7 +402,7 @@ app.delete('/api/deleteIngredient/:ingredientId', (req, res) => {
   console.log('index to remove: ', indexToRemove);
 
   if (indexToRemove == -1) {
-    res.status(404).json({ error: 'Ingredient not found in favorites' });
+    res.status(404).json({ error: 'Ingredient not found in fridge' });
   } else {
     fridgeData.splice(indexToRemove, 1);
     res.status(200).json({ message: 'Ingredient removed from fridge' });
