@@ -7,7 +7,7 @@ const axios = require('axios'); // middleware for making requests to APIs
 require('dotenv').config({ silent: true }); // load environmental variables from a hidden file named .env
 const morgan = require('morgan'); // middleware for nice logging of incoming HTTP requests
 const bcrypt = require('bcrypt');
-
+const mongoose = require("mongoose")
 // use the morgan middleware to log all incoming http requests
 app.use(morgan('dev')); // morgan has a few logging default styles - dev is a nice concise color-coded style
 
@@ -17,6 +17,17 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming POST data
 const saltRounds = 10;
 // we will put some server logic here later...
+
+try {
+  console.log(process.env.MONGODB_URI)
+  mongoose.connect(process.env.MONGODB_URI)
+  console.log(`Connected to MongoDB.`)
+} catch (err) {
+  console.log(
+    `Error connecting to MongoDB user account authentication will fail: ${err}`
+  )
+}
+
 
 let recipeData = [
   {
