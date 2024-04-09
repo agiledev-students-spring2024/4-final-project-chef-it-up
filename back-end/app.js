@@ -28,6 +28,10 @@ try {
   )
 }
 
+const User = require("./models/User.js");
+const Recipe = require("./models/Recipe.js");
+const FavoriteRecipe = require("./models/FavoriteRecipe.js");
+const Ingredient = require("./models/Ingredient.js");
 
 let recipeData = [
   {
