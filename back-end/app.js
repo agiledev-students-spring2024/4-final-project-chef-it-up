@@ -533,9 +533,9 @@ app.post('/api/login', async (req, res) => {
       return res.status(401).json({ message: 'Error loggin in: Invalid username or password' });
     }
     
-    else if (!user.validPassword(password)) {
+    if (!user.validPassword(password)) {
       console.error(`Incorrect password.`);
-      res.status(401).json({
+      return res.status(401).json({
         success: false,
         message: "Error logging in: Incorrect password.",
       });
