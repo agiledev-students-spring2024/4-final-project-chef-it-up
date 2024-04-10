@@ -17,6 +17,7 @@ import IngredientDetails from "./IngredientDetails"
 import MyRecipesDetail from "./MyRecipesDetail"
 import EditRecipe from "./EditRecipe"
 import EditIngredient from "./EditIngredient"
+import Logout from "./Logout";
 import { RecipeProvider } from './RecipeContext';
 import { IngredientProvider } from "./IngredientContext"
 import AboutUs from "./AboutUs"
@@ -36,6 +37,7 @@ function App() {
          <Routes>
 
           <Route path="/" element={<Login setUser={setUser}/>} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Register />} />
           <Route  path="/browseRecipes" element={<BrowseRecipes />} />
           <Route path="/individualRecipe/:recipeId" element={<IndividualRecipeDetail />} /> 

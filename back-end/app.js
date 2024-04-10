@@ -1,5 +1,4 @@
 const express = require('express'); // CommonJS import style!
-const path = require('path');
 const app = express(); // instantiate an Express object
 const cors = require('cors');
 const multer = require('multer'); // middleware to handle HTTP POST requests with file uploads
@@ -8,15 +7,22 @@ require('dotenv').config({ silent: true }); // load environmental variables from
 const morgan = require('morgan'); // middleware for nice logging of incoming HTTP requests
 const bcrypt = require('bcrypt');
 const mongoose = require("mongoose")
-// use the morgan middleware to log all incoming http requests
-app.use(morgan('dev')); // morgan has a few logging default styles - dev is a nice concise color-coded style
+const jwt = require("jsonwebtoken")
+const passport = require("passport")
 
-// use express's builtin body-parser middleware to parse any data included in a request
+// use this JWT strategy within passport for authentication handling
+const jwtStrategy = require("./config/jwt-config.js") // import setup options for using JWT in passport
+passport.use(jwtStrategy)
+// tell express to use passport middleware
+app.use(passport.initialize())
+// use the morgan middleware to log all incoming http requests
+app.use(morgan('dev')); 
+
+
 app.use(express.json()); // decode JSON-formatted incoming POST data
 app.use(cors());
-app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming POST data
-const saltRounds = 10;
-// we will put some server logic here later...
+app.use(express.urlencoded({ extended: true }));
+
 
 try {
   console.log(process.env.MONGODB_URI)
@@ -246,20 +252,34 @@ let fridgeData = [
   },
 ];
 
-async function hash_password(password) {
-  const hashed_password = await bcrypt.hash(password, saltRounds);
-  return hashed_password;
-}
+const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization;
 
-let backupUser = [
-  {
-    id: 1,
-    username: 'First Last',
-    password: 'Password',
-  },
-];
+  // Check if token exists
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized: No token provided' });
+  }
 
-app.get('/api/browseRecipes', (req, res) => {
+  if (!token.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Unauthorized: Invalid token format' });
+  }
+
+  const extractedToken = token.split(' ')[1];
+
+  // Verify token
+  jwt.verify(extractedToken, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      console.log("error cannot verify page");
+      return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+    }
+    console.log("sucess token verified")
+    req.userId = decoded.id; // Attach user ID to request object
+    next(); // Proceed to the next middleware
+  });
+};
+
+
+app.get('/api/browseRecipes', verifyToken, (req, res) => {
   res.status(200).json(recipeData);
 });
 
@@ -502,21 +522,36 @@ app.put('/editRecipe/:recipeId', (req, res) => {
 });
 
 app.post('/api/login', async (req, res) => {
-  const { username, password } = req.body;
+  username = req.body.username;
+  password = req.body.password;
 
-  const user = backupUser.find((user) => user.username === username);
-  if (!user) {
-    // we will change this to something more general for security, but for testing purposes it remains as is
-    return res.status(401).send('Invalid username');
-  }
 
   try {
-    //const password_check = await bcrypt.compare(JSON.stringify(password), JSON.stringify(user.password))
-    if (!(password == user.password)) {
-      // we will change this to something more general for security, but for testing purposes it remains as is
-      return res.status(401).send('Invalid password');
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(401).json({ message: 'Error loggin in: Invalid username or password' });
     }
-    res.status(200).send(user);
+    
+    if (!user.validPassword(password)) {
+      console.error(`Incorrect password.`);
+      return res.status(401).json({
+        success: false,
+        message: "Error logging in: Incorrect password.",
+      });
+    
+    }
+
+    console.log("User logged in successfully.");
+    const token = user.generateJWT(); // generate a signed token
+    res.json({
+      success: true,
+      message: "User logged in successfully.",
+      token: token,
+      username: user.username,
+    }); // send the token to the client to store
+   
+  
   } catch (error) {
     console.error(error);
     res.status(500).send('Error from server while logging in');
@@ -524,26 +559,36 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.post('/api/register', async (req, res) => {
-  const { username, password, starter } = req.body;
+  const username = req.body.username;
+  const password = req.body.password;
+  const starter  = req.body.starter;
 
   if (!username || !password || !starter) {
     return res.status(400).send('Please provide a username, password, and default fridge.');
   }
 
   try {
+
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      return res.status(409).json({ success: false, message: 'Error cannot register: Username already exists' });
+    }
     //const hashed_password = await bcrypt.hash(password, saltRounds)
     // currently not handling default fridges yet
-    const new_user = {
-      id: backupUser.length + 1,
-      username: username,
-      password: password,
-    };
+    const new_user = new User({ username: username, password: password, });
+    await new_user.save();
+    const token = new_user.generateJWT();
+    res.status(201).json({ success: true, message: 'User registered successfully', token: token, username: username });
 
-    backupUser.push(new_user);
-    res.status(200).json('Successfully registered');
+    
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error from server when registering user.');
+    res.status(500).json({
+      success: false,
+      message: "Error registering account.",
+      error: error,
+    });
   }
 });
 
