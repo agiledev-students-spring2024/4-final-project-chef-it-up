@@ -17,10 +17,37 @@ const Login = ({ setUser }) => {
     }
   }, [status])
 
-  const handleSubmit = e => {
-    e.preventDefault()
+  const handleSubmit = async e => {
+    e.preventDefault();
 
-    fetch('http://localhost:3001/api/login', {
+    try {
+      const requestData = {
+        username: username,
+        password: password,
+       
+      }
+
+      const response = await axios.post(
+        'http://localhost:3001/api/login',
+        requestData
+      );
+
+      const token = response.data.token;
+      localStorage.setItem('jwt', token);
+      console.log(`Server response: ${JSON.stringify(response.data, null, 0)}`);
+      setStatus(response.data)
+      navigate('/browseRecipes')
+    }
+    catch (err){
+      console.log(`Received server error: ${err}`)
+        setError(
+          err.response.data.message
+        )
+
+    }
+  }
+
+   /* fetch('http://localhost:3001/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -48,25 +75,8 @@ const Login = ({ setUser }) => {
         )
       })
 
-  // axios
-  //   
-  //   .post(`http://localhost:3001/api/login`,{
-  //     username:username,
-  //     password:password,
-  //   })
-  //   .then(response => {
-  //     console.log(`Received server response: ${response.data}`)
-  //     setStatus(response.data)
-  //   })
-  //   .catch(err => {
-  //     console.log(`Received server error: ${err}`)
-  //     setError(
-  //       "This ain't working just yet, give us some time :)"
-  //     )
-  //   })
 
-      
-  }
+   */
   if (!status.success)
     return (
       <form className='login-form' onSubmit={handleSubmit}>
@@ -89,7 +99,7 @@ const Login = ({ setUser }) => {
             <br />
             <input
               id="password_field"
-              type="text"
+              type="password"
               placeholder="Password"
               value={password}
               onChange={e => setPassword(e.target.value)}

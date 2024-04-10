@@ -8,6 +8,9 @@ import { Link } from "react-router-dom";
 
 const BrowseRecipes = () =>{
 
+    const jwtToken = localStorage.getItem("jwt")
+    console.log(`JWT token: ${jwtToken}`)
+
     const mealTypeLabel = ['breakfast', 'lunch', 'dinner', 'dessert'];
     const difficultyLevelLabel = ['Easy', 'Medium', 'Hard'];
 
@@ -34,36 +37,29 @@ const BrowseRecipes = () =>{
     const [recipes, setRecipes] = useState([])
     const [filteredRecipes, setFilteredRecipes] = useState([]);
     const [cuisine, setCuisine] = useState("")
+    const [error, setError] = useState("")
+    const [isLoggedIn, setIsLoggedIn] = useState(false) // if we already have a JWT token in local storage, set this to true, otherwise false
+
     
 
-    useEffect(() =>{
-        axios.get(('http://localhost:3001/api/browseRecipes')) //running low on free uses  https://my.api.mockaroo.com/recipes.json?key=5f2d0960
+    useEffect(() => {
+        
+            axios.get('http://localhost:3001/api/browseRecipes', {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}` // Send the JWT token in the authorization header
+                }
+            }) 
             .then(response => {
                 console.log("API response:", response.data);
+                setIsLoggedIn(true);
                 setRecipes(response.data)
             })
             .catch(err =>{
-                console.log(`Sorry. No more requests allowed today!`)
-                console.error(err)
-
-                const backupData = [
-                 {   
-                    id: 1,
-                    recipe_name: "Mrs",
-                    img: `https://picsum.photos/200?id=1`,
-                    ingredients: "Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.\n\nFusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.",
-                    instructions: "Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.\n\nPellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.\n\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-                    prep_time: 64,
-                    cook_time: 129,
-                    total_time: 230,
-                    cuisine: "Indian",
-                    difficulty_level: "Hard"
-                  },
-                  
-                
-                ];
-
-                setRecipes(backupData)
+                console.log(
+                    "The server rejected the request for this protected resource... we probably do not have a valid JWT token."
+                )
+                setError("you are not authorized to view this page please log in first")
+                setIsLoggedIn(false)
 
             })
 
@@ -113,8 +109,11 @@ const BrowseRecipes = () =>{
     return (
         
         <div className="recipes-contianer">
-             <h1>Browse Recipes</h1>
-           
+
+        {isLoggedIn ? (
+            <>
+            <h1>Browse Recipes</h1>
+        
             <div className="browse-recipe-filter">
 
                 <h2>filter by cuisine</h2>
@@ -143,10 +142,9 @@ const BrowseRecipes = () =>{
                 </div>
                 </div>
                 
-                
             </div>
 
-           
+            
             <div className="nav-recipes-buttons">
                     <Link to="/myRecipes">
                         <button className="nav-to-recipe" type="submit">To My Recipes &#8594;</button>
@@ -154,7 +152,7 @@ const BrowseRecipes = () =>{
                 
 
                     <Link to="/favoriteRecipes">
-                         <button className="nav-to-recipe" type="submit">To Favorite Recipes &#8594;</button>
+                            <button className="nav-to-recipe" type="submit">To Favorite Recipes &#8594;</button>
             
                     </Link>
 
@@ -167,7 +165,15 @@ const BrowseRecipes = () =>{
                 ))}
 
             </div>
-            
+        
+        </>
+
+        ) : (
+            <div>
+              <p className="notwork">{error}</p>
+            </div>
+
+        )};
         </div>
         
     )

@@ -8,29 +8,46 @@ const Register = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [response, setResponse] = useState({});
   const navigate = useNavigate()
   
   const options = [
-    { value: 'other', label: 'Other' },
-    { value: 'italian', label: 'Italian' },
-    { value: 'french', label: 'French' },
-    { value: 'american', label: 'American' },
-    { value: 'indian', label: 'Indian' },
-    { value: 'mexican', label: 'Mexican' },
-    { value: 'chinese', label: 'Chinese' },
-    { value: 'japanese', label: 'japanese' },
-    { value: 'korean', label: 'korean' },
-    { value: 'Thai', label: 'Thai' },
-    { value: 'Mediterranean', label: 'Mediterranean' }
-    
+    { value: 'Basic-Fridge', label: 'Basic-Fridge' },
+    { value: 'Vegetarian', label: 'Vegetarian' },
+    { value: 'Meat-focused', label: 'Meat-focused' },
   ]
-
   const [starter, setStarter] = useState(options[0].value)
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
-    
-    fetch('http://localhost:3001/api/register', {
+
+    try {
+      const requestData = {
+        username: username,
+        password: password,
+        starter: starter,
+      }
+
+      const response = await axios.post(
+        'http://localhost:3001/api/register',
+        requestData
+      );
+      
+      const token = response.data.token;
+      localStorage.setItem('jwt', token);
+      console.log(`Server response: ${JSON.stringify(response.data, null, 0)}`);
+      setResponse(response.data);
+      navigate('/browseRecipes')
+    }
+    catch (err){
+      setError(
+        err.response.data.message
+      );
+    }
+       
+  }
+
+  /*fetch('http://localhost:3001/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,23 +70,7 @@ const Register = () => {
           "Failed to login, invalid username or password"
         )
       })
-
-   //axios
-   //  .post("Backend",{
-   //    username:username,
-   //    password:password,
-   //    starter:starter
-   //  })
-   //  .then(response => {
-   //    console.log(`Received server response: ${response.data}`)
-   //  })
-   //  .catch(err => {
-   //    console.log(`Received server error: ${err}`)
-   //    setError(
-   //      "This ain't working just yet, give us some time :)"
-   //    )
-   //  })
-  }//
+      */
 
   return (
     <form className='register-form' onSubmit={handleSubmit}>
@@ -92,7 +93,7 @@ const Register = () => {
           <br />
           <input
             id="password_field"
-            type="text"
+            type="password"
             placeholder="Password"
             value={password}
             onChange={e => setPassword(e.target.value)}
@@ -107,7 +108,6 @@ const Register = () => {
         {error && (
             <div>
               <p className="notwork">{error}</p>
-              <Link to="/browseRecipes">Bypass Login due to Non-functionality</Link>
             </div>
         )}
         <div>
