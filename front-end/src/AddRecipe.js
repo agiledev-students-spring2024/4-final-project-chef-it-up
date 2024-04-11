@@ -45,64 +45,52 @@ const AddRecipe = () => {
     { value: "Mediterranean", label: "Mediterranean" },
   ];
 
-  const handleSubmit = (e) => {
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]; // Assuming you're allowing only one image to be uploaded
+    setImage([file]);
+  };
+
+  const handleSubmit = async (e) => {
+
+    
     e.preventDefault();
-    fetch("http://localhost:3001/api/addRecipe", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        recipeName,
-        image,
-        ingredients,
-        instructions,
-        prepTime,
-        cookTime,
-        totalTime,
-        cuisine,
-        difficultyLevel,
-        mealType,
-      }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          navigate("/browseRecipes");
-          return response.json();
-        } else if (response.status === 401) {
-          throw new Error("Invalid recipe");
-        }
-        console.log(`Received server response: ${response.data}`);
-      })
-      .catch((err) => {
-        console.log(`Received server error: ${err}`);
-        setError("Failed to add recipe");
+
+    const formData = new FormData();
+
+    formData.append("recipeName", recipeName);
+    formData.append("image", image[0]); // Assuming image is an array containing the file
+    formData.append("ingredients", ingredients);
+    formData.append("instructions", instructions);
+    formData.append("prepTime", prepTime);
+    formData.append("cookTime", cookTime);
+    formData.append("totalTime", totalTime);
+    formData.append("cuisine", cuisine);
+    formData.append("difficultyLevel", difficultyLevel);
+    formData.append("mealType", mealType);
+
+    try {
+      const jwtToken = localStorage.getItem("jwt")
+      console.log("this is token", jwtToken)
+      const response = await axios.post("http://localhost:3001/api/addRecipe", formData, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+          "Content-Type": "multipart/form-data",
+        },
       });
-    //axios
-    //  .post("http://localhost:3001/api/addRecipe",{
-    //    recipeName:recipeName,
-    //    ingredients:ingredients,
-    //    instructions:instructions,
-    //    prepTime:prepTime,
-    //    cookTime:cookTime,
-    //    totalTime:totalTime,
-    //    cuisine:cuisine,
-    //    difficultyLevel:difficultyLevel,
-    //    mealType:mealType
-    //  })
-    //  .then(response => {
-    //    console.log(`Received server response: ${response.data}`)
-    //  })
-    //  .catch(err => {
-    //    console.log(`Received server error: ${err}`)
-    //    setError(
-    //      "This ain't working just yet, give us some time :)"
-    //    )
-    //  })
+
+      console.log("Received server response:", response.data);
+      navigate("/browseRecipes");
+
+    } catch (error) {
+        console.log(`Received server error: ${error}`);
+        setError("Failed to add recipe");
+
+    }
+
   };
 
   return (
-    <form className="add-recipe-form" onSubmit={handleSubmit}>
+    <form className="add-recipe-form" onSubmit={handleSubmit} encType='multipart/form-data'>
       <main className="App">
         <h1>Add Your Own Recipe</h1>
         <div class="formField">
@@ -132,10 +120,10 @@ const AddRecipe = () => {
 
           <div>
             <input
-              id="recipeImage"
+              name="image"
               type="file"
               accept="image/*"
-              onChange={(e) => setImage(e.target.value)}
+              onChange={handleImageChange}
               required
             />
           </div>
