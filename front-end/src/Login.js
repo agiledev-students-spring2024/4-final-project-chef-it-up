@@ -33,8 +33,10 @@ const Login = ({ setUser }) => {
       );
 
       const token = response.data.token;
+      const userId = response.data.userId
       localStorage.setItem('jwt', token);
-      console.log(`Server response: ${JSON.stringify(response.data, null, 0)}`);
+      localStorage.setItem('userId', userId);
+      //console.log(`Server response: ${JSON.stringify(response.data, null, 0)}`);
       setStatus(response.data)
       navigate('/browseRecipes')
     }
@@ -47,36 +49,6 @@ const Login = ({ setUser }) => {
     }
   }
 
-   /* fetch('http://localhost:3001/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password }),
-    })
-      .then(response => {
-        if (response.ok){
-          return response.json()
-        }
-        else if (response.status === 401){
-          throw new Error('Invalid Username or Password')
-        }
-        console.log(`Received server response: ${response.data}`)
-        setStatus(response.data)
-      })
-      .then(data => {
-        setUser(data)
-        navigate('/browseRecipes')
-      })
-      .catch(err => {
-        console.log(`Received server error: ${err}`)
-        setError(
-          "Failed to login, invalid username or password"
-        )
-      })
-
-
-   */
   if (!status.success)
     return (
       <form className='login-form' onSubmit={handleSubmit}>

@@ -1,5 +1,6 @@
 const express = require('express'); // CommonJS import style!
 const app = express(); // instantiate an Express object
+const path = require('path');
 const cors = require('cors');
 const multer = require('multer'); // middleware to handle HTTP POST requests with file uploads
 const axios = require('axios'); // middleware for making requests to APIs
@@ -22,10 +23,10 @@ app.use(morgan('dev'));
 app.use(express.json()); // decode JSON-formatted incoming POST data
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 try {
-  console.log(process.env.MONGODB_URI)
   mongoose.connect(process.env.MONGODB_URI)
   console.log(`Connected to MongoDB.`)
 } catch (err) {
@@ -279,15 +280,23 @@ const verifyToken = (req, res, next) => {
 };
 
 
-app.get('/api/browseRecipes', verifyToken, (req, res) => {
-  res.status(200).json(recipeData);
+app.get('/api/browseRecipes', verifyToken, async (req, res) => {
+  try {
+    
+    const recipes = await Recipe.find();
+    res.status(200).json(recipes);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching recipe data' });
+  }
 });
 
 // individual Recipe Info page
-app.get('/api/individualRecipeInfo/:recipeId', (req, res) => {
+app.get('/api/individualRecipeInfo/:recipeId', async (req, res) => {
   const { recipeId } = req.params;
-  console.log(recipeId);
-  const recipe = recipeData.find((recipe) => recipe.id == recipeId);
+  const recipe = await Recipe.findById(recipeId);
+    
   if (recipe) {
     res.json(recipe);
   } else {
@@ -548,6 +557,7 @@ app.post('/api/login', async (req, res) => {
       success: true,
       message: "User logged in successfully.",
       token: token,
+      userId: user._id,
       username: user.username,
     }); // send the token to the client to store
    
@@ -640,10 +650,26 @@ app.post('/api/editMyProfile', (req, res) => {
   }
 });
 
-app.post('/api/addRecipe', (req, res) => {
+const  storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // store files into a directory named 'uploads'
+    cb(null, "./uploads")
+  },
+  filename: function (req, file, cb) {
+    // rename the files to include the current time and date
+    cb(null, `${Date.now()}--${file.originalname}`)
+  },
+})
+
+const upload = multer({ storage: storage })
+
+app.post('/api/addRecipe', verifyToken, upload.single('image'), async (req, res) => {
+
+  const userId = req.userId;
+ 
+
   const {
     recipeName,
-    image,
     ingredients,
     instructions,
     prepTime,
@@ -656,11 +682,12 @@ app.post('/api/addRecipe', (req, res) => {
   const prep = parseInt(prepTime);
   const cook = parseInt(cookTime);
   const total = parseInt(totalTime);
+
+
   try {
-    const new_recipe = {
-      id: recipeData.length + 1,
+    const new_recipe = Recipe({
       recipe_name: recipeName,
-      img: `https://picsum.photos/200?id=4`,
+      img: req.file.path,
       ingredients: ingredients,
       instructions: instructions,
       prep_time: prep,
@@ -669,9 +696,11 @@ app.post('/api/addRecipe', (req, res) => {
       cuisine: cuisine,
       difficulty_level: difficultyLevel,
       mealType: mealType,
-    };
+      createdBy: userId,
+      
+    });
 
-    recipeData.push(new_recipe);
+    await new_recipe.save();
 
     res.status(200).json('Successfully added new recipe');
   } catch (error) {

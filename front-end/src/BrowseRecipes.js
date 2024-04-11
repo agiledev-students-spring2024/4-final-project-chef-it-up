@@ -9,8 +9,6 @@ import { Link } from "react-router-dom";
 const BrowseRecipes = () =>{
 
     const jwtToken = localStorage.getItem("jwt")
-    console.log(`JWT token: ${jwtToken}`)
-
     const mealTypeLabel = ['breakfast', 'lunch', 'dinner', 'dessert'];
     const difficultyLevelLabel = ['Easy', 'Medium', 'Hard'];
 
@@ -50,7 +48,6 @@ const BrowseRecipes = () =>{
                 }
             }) 
             .then(response => {
-                console.log("API response:", response.data);
                 setIsLoggedIn(true);
                 setRecipes(response.data)
             })
@@ -58,7 +55,7 @@ const BrowseRecipes = () =>{
                 console.log(
                     "The server rejected the request for this protected resource... we probably do not have a valid JWT token."
                 )
-                setError("you are not authorized to view this page please log in first")
+                setError("you are not authorized to view this page please log in first");
                 setIsLoggedIn(false)
 
             })
@@ -160,7 +157,7 @@ const BrowseRecipes = () =>{
             <div className="recipes-card-container">
                 {/** tenerary operator basically the first part is condisitonal if its strue then we render i teh filtered recipes else we just render in all recipes */}
                 {(filteredRecipes.length > 0 ? filteredRecipes : recipes).map(recipe => (
-                    <RecipeCard key={recipe.id} recipe={recipe} baseUrl="/individualRecipe" />
+                    <RecipeCard key={recipe._id} recipe={recipe} baseUrl="/individualRecipe" />
                 
                 ))}
 
@@ -173,7 +170,7 @@ const BrowseRecipes = () =>{
               <p className="notwork">{error}</p>
             </div>
 
-        )};
+        )}
         </div>
         
     )

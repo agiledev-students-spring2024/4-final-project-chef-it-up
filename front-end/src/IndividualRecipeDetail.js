@@ -61,7 +61,7 @@ const IndividualRecipeDetail = () => {
                     <h1>{getRecipe.recipe_name}</h1>
                 </div>
                
-                <img src={getRecipe.img} alt='picture of dish'/>
+                <img src={ `http://localhost:3001/${getRecipe.img}`} alt='picture of dish'/>
 
                 <div className='difficulty-and-cuisine-container'>
                     <div className="diff-and-cuisine-box">

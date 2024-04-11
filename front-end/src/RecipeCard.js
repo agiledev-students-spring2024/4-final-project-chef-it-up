@@ -7,15 +7,15 @@ import './RecipeCard.css';
 
 const RecipeCard = ({ recipe, baseUrl}) => {
     
-    //const imgSrc = `https://picsum.photos/200?id=${recipe.id}`;
+    const imgSrc = `http://localhost:3001/${recipe.img}`
 
     return (
         <div className="recipe-card">
-        <Link className="recipe-link" to={`${baseUrl}/${recipe.id}`}>
+        <Link className="recipe-link" to={`${baseUrl}/${recipe._id}`}>
                  
                 <h1>{recipe.id}</h1>
                 <h1 className='receipe-title'>{recipe.recipe_name}</h1>
-                <img className='recipe-card-img' src={recipe.img} alt={`Image of ${recipe.name}`} />
+                <img className='recipe-card-img' src={imgSrc} alt={`Image of ${recipe.recipe_name}`} />
                 <h2>Cuisine type: {recipe.cuisine}</h2>
                 <h2>Difficulty: {recipe.difficulty_level}</h2>
             
@@ -25,3 +25,4 @@ const RecipeCard = ({ recipe, baseUrl}) => {
 };
 
 export default RecipeCard;
+
