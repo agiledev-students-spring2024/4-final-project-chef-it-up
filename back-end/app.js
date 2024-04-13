@@ -36,6 +36,19 @@ const Recipe = require('./models/Recipe.js');
 const FavoriteRecipe = require('./models/FavoriteRecipe.js');
 const Ingredient = require('./models/Ingredient.js');
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // store files into a directory named 'uploads'
+    cb(null, './uploads');
+  },
+  filename: function (req, file, cb) {
+    // rename the files to include the current time and date
+    cb(null, `${Date.now()}--${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage: storage });
+
 let recipeData = [
   {
     id: 1,
@@ -403,21 +416,28 @@ app.get('/api/myFridge/:ingredientId', (req, res) => {
 });
 
 // add ingredient to fridge
-app.post('/api/addIngredient', (req, res) => {
-  const Quantity = parseInt(req.body.quantity);
+app.post('/api/addIngredient', verifyToken, upload.single('image'), async (req, res) => {
+  const userId = req.userId;
+
+  const { ingredientName, quantity, expiryDate } = req.body;
+
+  const Quantity = parseInt(quantity);
+
   try {
-    const ingredient = {
-      id: fridgeData.length + 1,
-      img: `https://picsum.photos/200?id=15`,
-      ingredient_name: req.body.ingredientName,
+    const ingredient = Ingredient({
+      ingredient_name: ingredientName,
+      img: req.file.path,
       quantity: Quantity,
-      expiry_date: req.body.expiry_date,
-    };
-    fridgeData.push(ingredient);
-    res.status(200).json('successfully added ingredient to fridge');
+      expiry_date: expiryDate,
+      createdBy: userId,
+    });
+
+    await ingredient.save();
+
+    res.status(200).json('Successfully added ingredient to fridge');
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error from server when adding recipe.');
+    res.status(500).send('Error from server when adding ingredient.');
   }
 });
 
@@ -675,19 +695,6 @@ app.post('/api/editMyProfile', (req, res) => {
     res.status(403).send('No such user exists');
   }
 });
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    // store files into a directory named 'uploads'
-    cb(null, './uploads');
-  },
-  filename: function (req, file, cb) {
-    // rename the files to include the current time and date
-    cb(null, `${Date.now()}--${file.originalname}`);
-  },
-});
-
-const upload = multer({ storage: storage });
 
 app.post('/api/addRecipe', verifyToken, upload.single('image'), async (req, res) => {
   const userId = req.userId;
