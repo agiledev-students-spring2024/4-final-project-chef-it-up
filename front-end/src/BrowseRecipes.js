@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 const BrowseRecipes = () =>{
 
     const jwtToken = localStorage.getItem("jwt")
+    const userId = localStorage.getItem("userId");
     const mealTypeLabel = ['breakfast', 'lunch', 'dinner', 'dessert'];
     const difficultyLevelLabel = ['Easy', 'Medium', 'Hard'];
 
@@ -64,7 +65,7 @@ const BrowseRecipes = () =>{
 
     const filterByCuisine = async (cuisine) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/filterRecipes/cuisine/${cuisine}/${num}`);
+            const response = await axios.get(`http://localhost:3001/api/filterRecipes/cuisine/${cuisine}/${num}/${userId}`);
             setFilteredRecipes(response.data);
 
         }
@@ -77,7 +78,7 @@ const BrowseRecipes = () =>{
 
     const filterByMealType = async (type) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/filterRecipes/mealtypes/${type}/${num}`);
+            const response = await axios.get(`http://localhost:3001/api/filterRecipes/mealtypes/${type}/${num}/${userId}`);
             setFilteredRecipes(response.data);
         } catch (error) {
             console.error('Error filtering recipes by meal type:', error);
@@ -86,7 +87,7 @@ const BrowseRecipes = () =>{
 
     const filterByDifficultyLevel = async (level) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/filterRecipes/difficulty/${level}/${num}`)
+            const response = await axios.get(`http://localhost:3001/api/filterRecipes/difficulty/${level}/${num}/${userId}`)
             setFilteredRecipes(response.data)
         }
         catch ( error){
