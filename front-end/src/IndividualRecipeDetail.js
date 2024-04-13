@@ -10,6 +10,8 @@ const IndividualRecipeDetail = () => {
 
     const { recipeId } = useParams();
     const [getRecipe, setRecipe] = useState();
+    const userId = localStorage.getItem("userId");
+
   
     // const { getRecipe } = useRecipeContext(); // getting the cards related recipe details
 
@@ -35,7 +37,7 @@ const IndividualRecipeDetail = () => {
 
     const handleSaveButtonClick = () => {
 
-        axios.post(`http://localhost:3001/api/addToFavorite/${recipeId}`)
+        axios.post(`http://localhost:3001/api/addToFavorite/${recipeId}/${userId}`)
         .then(response => {
             console.log(" recipe has been added to favorites: ", response.data)
 

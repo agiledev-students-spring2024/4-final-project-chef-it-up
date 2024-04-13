@@ -19,9 +19,9 @@ const AddRecipe = () => {
   const navigate = useNavigate();
 
   const options = [
-    { value: "easy", label: "easy" },
-    { value: "medium", label: "medium" },
-    { value: "hard", label: "hard" },
+    { value: "Easy", label: "Easy" },
+    { value: "Medium", label: "Medium" },
+    { value: "Hard", label: "Hard" },
   ];
 
   const meals = [
@@ -32,18 +32,19 @@ const AddRecipe = () => {
   ];
 
   const CuisineOptions = [
-    { value: "other", label: "Other" },
-    { value: "italian", label: "Italian" },
-    { value: "french", label: "French" },
-    { value: "american", label: "American" },
-    { value: "indian", label: "Indian" },
-    { value: "mexican", label: "Mexican" },
-    { value: "chinese", label: "Chinese" },
-    { value: "japanese", label: "japanese" },
-    { value: "korean", label: "korean" },
-    { value: "Thai", label: "Thai" },
-    { value: "Mediterranean", label: "Mediterranean" },
-  ];
+    { value: 'Other', label: 'Other' },
+    { value: 'Italian', label: 'Italian' },
+    { value: 'French', label: 'French' },
+    { value: 'American', label: 'American' },
+    { value: 'Indian', label: 'Indian' },
+    { value: 'Mexican', label: 'Mexican' },
+    { value: 'Chinese', label: 'Chinese' },
+    { value: 'Japanese', label: 'Japanese' },
+    { value: 'Korean', label: 'Korean' },
+    { value: 'Thai', label: 'Thai' },
+    { value: 'Mediterranean', label: 'Mediterranean' }
+    
+]
 
   const handleImageChange = (e) => {
     const file = e.target.files[0]; // Assuming you're allowing only one image to be uploaded

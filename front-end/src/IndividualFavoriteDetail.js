@@ -10,11 +10,12 @@ const IndividualFavoriteDetail = () =>{
 
     const { recipeId } = useParams();
     const [getRecipe, setRecipe] = useState();
+    const userId = localStorage.getItem("userId")
    //  const { getRecipe } = useRecipeContext();
 
    useEffect(() => {
     console.log("useEffect is beig called ")
-    axios.get(`http://localhost:3001/api/individualRecipeInfo/${recipeId}`)
+    axios.get(`http://localhost:3001/api/individualFavoriteInfo/${recipeId}/${userId}`)
         .then(response => {
             setRecipe(response.data);
             console.log(response.data)
@@ -28,8 +29,6 @@ const IndividualFavoriteDetail = () =>{
     if (!getRecipe) {
         return <div>still loading!</div>;
     }
-
-    // const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
 
     const handleUnfavoriteButtonClick= () => {
         axios.delete(`http://localhost:3001/api/Unfavorite/${recipeId}`)
@@ -61,7 +60,7 @@ const IndividualFavoriteDetail = () =>{
 
                 </div>
                
-                <img src={getRecipe.img} alt='pciture of dish'/>
+                <img src={`http://localhost:3001/${getRecipe.img}`} alt='pciture of dish'/>
                 <div className='difficulty-and-cuisine-container'>
                     <div className="diff-and-cuisine-box">
                         <h3>Cuisine: {getRecipe.cuisine}</h3>

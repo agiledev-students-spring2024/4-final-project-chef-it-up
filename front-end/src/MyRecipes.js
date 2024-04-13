@@ -11,6 +11,10 @@ import RecipeCard from './RecipeCard';
 
 
 const MyRecipes= () =>{
+    const jwtToken = localStorage.getItem("jwt")
+    const userId = localStorage.getItem("userId");
+
+
     // const { getCurrRecipe } = useRecipeContext(); // gets the getrecip which is called the setSelectedRecipe
     const [recipes, setRecipes] = useState([])
     const [filteredRecipes, setFilteredRecipes] = useState([]);
@@ -36,8 +40,12 @@ const MyRecipes= () =>{
     ]
 
     useEffect(() =>{
-        console.log("fetching random data for 10 recipes")
-        axios.get("http://localhost:3001/api/myRecipes")
+        
+        axios.get("http://localhost:3001/api/myRecipes", {
+            headers: {
+                Authorization: `Bearer ${jwtToken}` // Send the JWT token in the authorization header
+            }
+            })
             .then(response => {
                 console.log("my recipes:", response.data);
                 setRecipes(response.data)
@@ -53,7 +61,7 @@ const MyRecipes= () =>{
 
     const filterByCuisine = async (cuisine) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/filterRecipes/cuisine/${cuisine}/${num}`);
+            const response = await axios.get(`http://localhost:3001/api/filterRecipes/cuisine/${cuisine}/${num}/${userId}`);
             setFilteredRecipes(response.data);
 
         }
@@ -67,7 +75,7 @@ const MyRecipes= () =>{
 
     const filterByMealType = async (type) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/filterRecipes/mealtypes/${type}/${num}`);
+            const response = await axios.get(`http://localhost:3001/api/filterRecipes/mealtypes/${type}/${num}/${userId}`);
             setFilteredRecipes(response.data);
         } catch (error) {
             console.error('Error filtering recipes by meal type:', error);
@@ -76,7 +84,7 @@ const MyRecipes= () =>{
 
     const filterByDifficultyLevel = async (level) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/filterRecipes/difficulty/${level}/${num}`)
+            const response = await axios.get(`http://localhost:3001/api/filterRecipes/difficulty/${level}/${num}/${userId}`)
             setFilteredRecipes(response.data)
         }
         catch ( error){
@@ -146,7 +154,7 @@ const MyRecipes= () =>{
 
             <div className="recipes-card-container">
                 {(filteredRecipes.length > 0 ? filteredRecipes : recipes).map(recipe => (
-                    <RecipeCard key={recipe.id} recipe={recipe}  baseUrl="/myRecipes"/>
+                    <RecipeCard key={recipe._id} recipe={recipe}  baseUrl="/myRecipes"/>
                 
                 ))}
 

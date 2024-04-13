@@ -306,20 +306,43 @@ app.get('/api/individualRecipeInfo/:recipeId', async (req, res) => {
 
 // favorite recipes page
 
-app.get('/api/favoriteRecipes', (req, res) => {
-  res.status(200).json(favoriteRecipeData);
+app.get('/api/favoriteRecipes/:id', async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const user = await User.findById(id).populate('favoriteRecipes');
+    const favoriteRecipes = user.favoriteRecipes;
+
+    res.status(200).json(favoriteRecipes);
+
+  } catch (error){
+    console.error(error);
+    res.status(404).json({ error: 'Server error could not fetch favorite recipes' });
+  }
+  
 });
 
 // individual favorite Recipe Info page
-app.get('/api/individualFavoriteInfo/:recipeId', (req, res) => {
-  const { recipeId } = req.params;
-  console.log(recipeId);
-  const recipe = favoriteRecipeData.find((recipe) => recipe.id == recipeId);
-  if (recipe) {
-    res.json(recipe);
-  } else {
-    res.status(404).json({ error: 'Favorite Recipe not found' });
+app.get('/api/individualFavoriteInfo/:recipeId/:id', async (req, res) => {
+
+  const recipeId = req.params.recipeId;
+  const id = req.params.id;
+
+  try{
+    const user = await User.findById(id).populate('favoriteRecipes');
+    const favoriteRecipe = user.favoriteRecipes.find(recipe => recipe._id.toString() === recipeId);
+
+    if (!favoriteRecipe) {
+      return res.status(404).json({ error: 'Favorite Recipe not found' });
+    }
+
+    res.json(favoriteRecipe);
+
+  } catch (error){
+    console.error(error);
+    res.status(404).json({ error: 'Server error cannot get favorite recipe details' });
   }
+
 });
 
 // deleting a favorited recipe from the favorited list for now
@@ -339,30 +362,34 @@ app.delete('/api/Unfavorite/:recipeId', (req, res) => {
 });
 
 // adding a receips to your favorite recipes list
-app.post('/api/addToFavorite/:recipeId', (req, res) => {
-  const { recipeId } = req.params;
-  console.log('this is recipe to add to favorite', recipeId);
-  const recipe = recipeData.find((recipe) => recipe.id == recipeId);
+app.post('/api/addToFavorite/:recipeId/:id', async (req, res) => {
+  const recipeId  = req.params.recipeId;
+  const id  = req.params.id;
 
-  if (recipe) {
-    const toAddToFavorite = {
-      id: favoriteRecipeData.length + 1,
-      recipe_name: recipe.recipe_name,
-      img: `https://picsum.photos/200?id=${recipeId}`,
-      ingredients: recipe.ingredients,
-      instructions: recipe.instructions,
-      cook_time: recipe.cook_time,
-      total_time: recipe.total_time,
-      cuisine: recipe.cuisine,
-      difficulty_level: recipe.difficulty_level,
-      mealType: recipe.mealType,
-    };
+  console.log('this is recipe to add to favorite', );
+  
+  try {
+    const user = await User.findById(id);
 
-    favoriteRecipeData.push(toAddToFavorite);
-    res.status(200).json('successfully pushed to favorite list');
-  } else {
-    res.status(404).json({ error: ' Recipe not found' });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    if (user.favoriteRecipes.includes(recipeId)) {
+      return res.status(400).json({ error: 'Recipe already exists in favorites' });
+    }
+
+    user.favoriteRecipes.push(recipeId);
+    await user.save();
+    res.status(200).json({ message: 'Recipe added to favorites'});
+
+
+  } catch (error){
+      console.error(error);
+      res.status(500).json({ error: 'Server error cannot add to favorites' });
+
   }
+
 });
 
 // display items in fridge
@@ -453,14 +480,24 @@ app.delete('/api/deleteIngredient/:ingredientId', (req, res) => {
   }
 });
 
-app.get('/api/myRecipes', (req, res) => {
-  res.status(200).json(myRecipes);
+app.get('/api/myRecipes', verifyToken, async (req, res) => {
+  const userId = req.userId;
+  try{
+    const recipes = await Recipe.find({ createdBy: userId });
+    res.status(200).json(recipes);
+
+  } catch(error){
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching recipe data' });
+  }
+    
 });
 
-app.get('/api/myIndividualRecipe/:recipeId', (req, res) => {
+app.get('/api/myIndividualRecipe/:recipeId', async (req, res) => {
   const { recipeId } = req.params;
+  const recipe = await Recipe.findById(recipeId);
 
-  const recipe = myRecipes.find((recipe) => recipe.id == recipeId);
+  
   if (recipe) {
     res.json(recipe);
   } else {
@@ -723,17 +760,19 @@ app.get('/api/generateRecipe', (req, res) => {
   }
 });
 
-app.get('/api/filterRecipes/mealtypes/:type/:num', async (req, res) => {
+app.get('/api/filterRecipes/mealtypes/:type/:num/:id', async (req, res) => {
   const mealType = req.params.type;
   const num = req.params.num;
+  const id = req.params.id;
+
   let recipes;
   try {
     if (num == 1) {
-      recipes = recipeData.filter((recipe) => recipe.mealType === mealType);
+      recipes = await Recipe.find({ mealType: mealType });
     } else if (num == 2) {
       recipes = favoriteRecipeData.filter((recipe) => recipe.mealType === mealType);
     } else {
-      recipes = myRecipes.filter((recipe) => recipe.mealType === mealType);
+      recipes = await Recipe.find({ mealType: mealType, createdBy: id});
     }
 
     res.json(recipes);
@@ -743,21 +782,21 @@ app.get('/api/filterRecipes/mealtypes/:type/:num', async (req, res) => {
   }
 });
 
-app.get('/api/filterRecipes/difficulty/:level/:num', async (req, res) => {
+app.get('/api/filterRecipes/difficulty/:level/:num/:id', async (req, res) => {
   const level = req.params.level;
   const num = req.params.num;
-  let recipes;
-  console.log(level);
+  const id = req.params.id;
 
+  let recipes;
+  
   try {
     if (num == 1) {
-      recipes = recipeData.filter((recipe) => recipe.difficulty_level == level);
+      recipes = await Recipe.find({ difficulty_level: level })
     } else if (num == 2) {
       recipes = favoriteRecipeData.filter((recipe) => recipe.difficulty_level == level);
     } else {
-      recipes = myRecipes.filter((recipe) => recipe.difficulty_level == level);
+      recipes = await Recipe.find({ difficulty_level: level, createdBy: id})
     }
-    console.log(recipes);
 
     res.json(recipes);
   } catch (error) {
@@ -766,18 +805,19 @@ app.get('/api/filterRecipes/difficulty/:level/:num', async (req, res) => {
   }
 });
 
-app.get('/api/filterRecipes/cuisine/:cuisine/:num', async (req, res) => {
+app.get('/api/filterRecipes/cuisine/:cuisine/:num/:id', async (req, res) => {
   const cuisine = req.params.cuisine;
   const num = req.params.num;
+  const id = req.params.id;
   let recipes;
 
   try {
     if (num == 1) {
-      recipes = recipeData.filter((recipe) => recipe.cuisine == cuisine);
+      recipes = await Recipe.find({cuisine: cuisine })
     } else if (num == 2) {
       recipes = favoriteRecipeData.filter((recipe) => recipe.cuisine == cuisine);
     } else {
-      recipes = myRecipes.filter((recipe) => recipe.cuisine == cuisine);
+      recipes = await Recipe.find({cuisine: cuisine, createdBy: id})
     }
 
     res.json(recipes);

@@ -12,6 +12,8 @@ const FavoriteRecipes = () =>{
     const [filteredRecipes, setFilteredRecipes] = useState([]);
     const [cuisine, setCuisine] = useState("")
 
+    const userId = localStorage.getItem("userId");
+
     const mealTypeLabel = ['breakfast', 'lunch', 'dinner', 'dessert'];
     const difficultyLevelLabel = ['Easy', 'Medium', 'Hard'];
     const num = 2
@@ -35,7 +37,7 @@ const FavoriteRecipes = () =>{
     
     useEffect(() =>{
         console.log("fetching random data for 2 recipes")
-        axios.get(('http://localhost:3001/api/favoriteRecipes')) //running low on free uses https://my.api.mockaroo.com/recipes.json?key=5f2d0960
+        axios.get((`http://localhost:3001/api/favoriteRecipes/${userId}`)) //running low on free uses https://my.api.mockaroo.com/recipes.json?key=5f2d0960
             .then(response => {
                 console.log("API response:", response.data);
                 setRecipes(response.data)
@@ -131,7 +133,7 @@ const FavoriteRecipes = () =>{
    
         <div className="recipes-card-container">
             {(filteredRecipes.length > 0 ? filteredRecipes : recipes).map(recipe => (
-                <RecipeCard key={recipe.id} recipe={recipe} baseUrl="/favoriteRecipes"/>
+                <RecipeCard key={recipe._id} recipe={recipe} baseUrl="/favoriteRecipes"/>
             
             ))}
 
