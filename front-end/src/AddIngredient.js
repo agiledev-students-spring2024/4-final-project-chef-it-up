@@ -2,65 +2,50 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AddIngredient.css";
-import Select from "react-select";
 
 const AddIngredient = () => {
   const [ingredientName, setIngredientName] = useState("");
   const [image, setImage] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [expiry_date, setExpiryDate] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    console.log("handleSubmit called");
-    e.preventDefault();
-    fetch("http://localhost:3001/api/addIngredient", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ingredientName,
-        image,
-        quantity,
-        expiry_date,
-      }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          navigate("/fridge");
-          return response.json();
-        } else if (response.status === 401) {
-          throw new Error("Invalid ingredient");
-        }
-        console.log(`Received server response: ${response.data}`);
-      })
-      .catch((err) => {
-        console.log(`Received server error: ${err}`);
-        setError("Failed to add ingredient");
-      });
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]; // allowing only one image
+    setImage([file]);
   };
 
-  // const handleSubmit = e => {
-  //     e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
 
-  //     axios
-  //       .post("http://localhost:3001/api/addIngredient",{
-  //         ingredient_name:ingredient_name,
-  //         quantity:quantity,
-  //         expiry_date:expiry_date,
-  //       })
-  //       .then(response => {
-  //         console.log(`Received server response: ${response.data}`)
-  //       })
-  //       .catch(err => {
-  //         console.log(`Received server error: ${err}`)
-  //         setError(
-  //           "This ain't working just yet, give us some time :)"
-  //         )
-  //       })
-  //   }
+    formData.append("ingredientName", ingredientName);
+    formData.append("image", image[0]);
+    formData.append("quantity", quantity);
+    formData.append("expiryDate", expiryDate);
+
+    try {
+      const jwtToken = localStorage.getItem("jwt");
+      console.log("token: ", jwtToken);
+      const response = await axios.post(
+        "http://localhost:3001/api/addIngredient",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Received server response: ", response.data);
+      navigate("/fridge");
+    } catch (error) {
+      console.log(`Received server error: ${error}`);
+      setError("Failed to add ingredient");
+    }
+  };
 
   return (
     <form className="add-ingredient-form" onSubmit={handleSubmit}>
@@ -99,10 +84,10 @@ const AddIngredient = () => {
 
           <div>
             <input
-              id="ingredientImage"
+              name="image"
               type="file"
               accept="image/*"
-              onChange={(e) => setImage(e.target.value)}
+              onChange={handleImageChange}
               required
             />
           </div>
