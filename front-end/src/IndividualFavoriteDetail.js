@@ -15,7 +15,7 @@ const IndividualFavoriteDetail = () =>{
 
    useEffect(() => {
     console.log("useEffect is beig called ")
-    axios.get(`http://localhost:3001/api/individualFavoriteInfo/${recipeId}/${userId}`)
+    axios.get(`http://localhost:3001/api/individualFavoriteInfo/${recipeId}`)
         .then(response => {
             setRecipe(response.data);
             console.log(response.data)
