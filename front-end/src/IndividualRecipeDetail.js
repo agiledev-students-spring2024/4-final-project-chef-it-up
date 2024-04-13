@@ -37,7 +37,21 @@ const IndividualRecipeDetail = () => {
 
     const handleSaveButtonClick = () => {
 
-        axios.post(`http://localhost:3001/api/addToFavorite/${recipeId}/${userId}`)
+        const favoriteRecipeData = {
+            recipe_name: getRecipe.recipe_name,
+            img: getRecipe.img,
+            ingredients: getRecipe.ingredients,
+            instructions: getRecipe.instructions,
+            prep_time: getRecipe.prep_time,
+            cook_time: getRecipe.cook_time,
+            total_time: getRecipe.total_time,
+            cuisine: getRecipe.cuisine,
+            difficulty_level: getRecipe.difficulty_level,
+            mealType: getRecipe.mealType,
+            
+        }
+
+        axios.post(`http://localhost:3001/api/addToFavorite/${recipeId}/${userId}`, favoriteRecipeData)
         .then(response => {
             console.log(" recipe has been added to favorites: ", response.data)
 

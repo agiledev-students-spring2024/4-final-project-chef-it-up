@@ -16,7 +16,7 @@ const UserSchema = new Schema({
     },
     ingredients: [{ type: Schema.Types.ObjectId, ref: 'Ingredient' }],
     recipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
-    favoriteRecipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }]
+    
 })
 
 

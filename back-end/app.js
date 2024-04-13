@@ -303,9 +303,7 @@ app.get('/api/favoriteRecipes/:id', async (req, res) => {
   const id = req.params.id;
 
   try {
-    const user = await User.findById(id).populate('favoriteRecipes');
-    const favoriteRecipes = user.favoriteRecipes;
-
+    const favoriteRecipes = await FavoriteRecipe.find({ userFavorited: id})
     res.status(200).json(favoriteRecipes);
   } catch (error) {
     console.error(error);
@@ -314,16 +312,12 @@ app.get('/api/favoriteRecipes/:id', async (req, res) => {
 });
 
 // individual favorite Recipe Info page
-app.get('/api/individualFavoriteInfo/:recipeId/:id', async (req, res) => {
+app.get('/api/individualFavoriteInfo/:recipeId', async (req, res) => {
   const recipeId = req.params.recipeId;
   const id = req.params.id;
 
   try {
-    const user = await User.findById(id).populate('favoriteRecipes');
-    const favoriteRecipe = user.favoriteRecipes.find(
-      (recipe) => recipe._id.toString() === recipeId
-    );
-
+    const favoriteRecipe = await FavoriteRecipe.findById(recipeId);
     if (!favoriteRecipe) {
       return res.status(404).json({ error: 'Favorite Recipe not found' });
     }
@@ -336,18 +330,15 @@ app.get('/api/individualFavoriteInfo/:recipeId/:id', async (req, res) => {
 });
 
 // deleting a favorited recipe from the favorited list for now
-app.delete('/api/Unfavorite/:recipeId', (req, res) => {
+app.delete('/api/Unfavorite/:recipeId', async (req, res) => {
   const { recipeId } = req.params;
-  console.log(recipeId);
+  try{
+    await FavoriteRecipe.findByIdAndDelete(recipeId);
+    res.status(200).json({ message: 'Favorite recipe successfully removed from favorite list' });
 
-  const indexToRemove = favoriteRecipeData.findIndex((recipe) => recipe.id == recipeId);
-  console.log('index to remove: ', indexToRemove);
-
-  if (indexToRemove == -1) {
-    res.status(404).json({ error: 'Recipe not found in favorites' });
-  } else {
-    favoriteRecipeData.splice(indexToRemove, 1);
-    res.status(200).json({ message: 'Recipe removed from favorites' });
+  } catch (error){
+    console.error(error);
+    res.status(404).json({ error: 'Server error unable to remove from favorite recipe list' });
   }
 });
 
@@ -356,25 +347,34 @@ app.post('/api/addToFavorite/:recipeId/:id', async (req, res) => {
   const recipeId = req.params.recipeId;
   const id = req.params.id;
 
-  console.log('this is recipe to add to favorite');
 
   try {
-    const user = await User.findById(id);
 
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    if (user.favoriteRecipes.includes(recipeId)) {
+    const existingFavorite = await FavoriteRecipe.findOne({ userFavorited: id, createdby: recipeId });
+    if (existingFavorite) {
       return res.status(400).json({ error: 'Recipe already exists in favorites' });
     }
 
-    user.favoriteRecipes.push(recipeId);
-    await user.save();
+    const newFavoriteRecipe = new FavoriteRecipe ({
+      recipe_name: req.body.recipe_name,
+      img: req.body.img,
+      ingredients: req.body.ingredients,
+      instructions: req.body.instructions,
+      prep_time: req.body.prep_time,
+      cook_time: req.body.cook_time,
+      total_time: req.body.total_time,
+      cuisine: req.body.cuisine,
+      difficulty_level: req.body.difficulty_level,
+      mealType: req.body.mealType,
+      userFavorited: id,
+      createdBy: recipeId,
+    });
+
+    await newFavoriteRecipe.save();
     res.status(200).json({ message: 'Recipe added to favorites' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error cannot add to favorites' });
+    res.status(404).json({ error: 'Server error cannot add to favorites' });
   }
 });
 
@@ -755,7 +755,7 @@ app.get('/api/filterRecipes/mealtypes/:type/:num/:id', async (req, res) => {
     if (num == 1) {
       recipes = await Recipe.find({ mealType: mealType });
     } else if (num == 2) {
-      recipes = favoriteRecipeData.filter((recipe) => recipe.mealType === mealType);
+      recipes = await FavoriteRecipe.find({mealType: mealType, userFavorited: id})
     } else {
       recipes = await Recipe.find({ mealType: mealType, createdBy: id });
     }
@@ -778,7 +778,7 @@ app.get('/api/filterRecipes/difficulty/:level/:num/:id', async (req, res) => {
     if (num == 1) {
       recipes = await Recipe.find({ difficulty_level: level });
     } else if (num == 2) {
-      recipes = favoriteRecipeData.filter((recipe) => recipe.difficulty_level == level);
+      recipes = await FavoriteRecipe.find({difficulty_level: level, userFavorited: id})
     } else {
       recipes = await Recipe.find({ difficulty_level: level, createdBy: id });
     }
@@ -800,7 +800,7 @@ app.get('/api/filterRecipes/cuisine/:cuisine/:num/:id', async (req, res) => {
     if (num == 1) {
       recipes = await Recipe.find({ cuisine: cuisine });
     } else if (num == 2) {
-      recipes = favoriteRecipeData.filter((recipe) => recipe.cuisine == cuisine);
+      recipes = await FavoriteRecipe.find({cuisine: cuisine, userFavorited: id})
     } else {
       recipes = await Recipe.find({ cuisine: cuisine, createdBy: id });
     }
