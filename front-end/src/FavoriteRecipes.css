@@ -11,10 +11,6 @@ h3{
   text-align: center;
 }
 
-img{
-  width: 400px;
-  height: 400px;
-}
 
 p{
   font-size: 24px;
@@ -43,15 +39,15 @@ p{
 }
 
 @media screen and (max-width: 767px) {
-  img {
-    max-width: 100%; 
-    height: auto; 
-  }
+  .nav-to-recipe{
+    margin-bottom: 24px;
 }
 
-@media screen and (min-width: 768px) {
-  img {
-    max-width: 100%; 
-    height: auto; 
-  }
+.filter-buttons{
+    display: block;
+    width: 100%;
+    margin: 10px auto; 
+    text-align: center;
 }
+}
+

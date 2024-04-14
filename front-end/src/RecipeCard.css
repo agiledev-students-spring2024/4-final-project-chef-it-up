@@ -23,16 +23,23 @@
     color:#150c00
 }
 
+.recipe-card-img{
+    width: 400px;
+    height: 400px
 
-.recipe-card-img {
-    width: 100%; 
-    max-width: 100%; 
-    height: auto; 
 }
 
 @media screen and (max-width: 768px) {
     .recipe-card {
         width: 80%; /* Adjusted width for smaller screens */
     }
+
+    .recipe-card-img {
+        width: 100%; 
+        max-width: 100%; 
+        height: auto; 
+    }
+
+    
 
 }
