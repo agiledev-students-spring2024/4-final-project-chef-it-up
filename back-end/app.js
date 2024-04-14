@@ -403,10 +403,9 @@ app.get('/api/myFridge', verifyToken, async (req, res) => {
 });
 
 // retrieve ingredient details
-app.get('/api/myFridge/:ingredientId', (req, res) => {
+app.get('/api/myFridge/:ingredientId', async (req, res) => {
   const { ingredientId } = req.params;
-  console.log('this is the ingredient to display: ', ingredientId);
-  const ingredient = fridgeData.find((ingredient) => ingredient.id == ingredientId);
+  const ingredient = await Ingredient.findById(ingredientId);
 
   if (ingredient) {
     res.json(ingredient);
