@@ -112,15 +112,14 @@ const FavoriteRecipes = () =>{
 
                 <div>
                    
-
+                <h2>filter by meal type:</h2>
                 <div>
-                    <h2>filter by meal type:</h2>
                     {mealTypeLabel.map(type => (
                         <button className="filter-buttons"  key={type} onClick={() => filterByMealType(type)} >{type}</button>
                     ))}
                 </div>
+                <h2>filter by difficulty level:</h2>
                 <div className="difficulty-nav">
-                    <h2>filter by difficulty level:</h2>
                     {difficultyLevelLabel.map(level => (
                         <button className="filter-buttons" key={level}  onClick={() => filterByDifficultyLevel(level)} >{level}</button>
                     ))}

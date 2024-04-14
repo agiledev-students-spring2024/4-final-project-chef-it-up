@@ -96,6 +96,10 @@ body{
   .formField input {
     font-size: 14px;
   }
+
+  .btn-section{
+    text-align: center;
+  }
 }
 
 @media all and (max-width:800px) {
