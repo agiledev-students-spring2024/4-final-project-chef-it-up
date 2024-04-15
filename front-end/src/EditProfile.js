@@ -105,7 +105,8 @@ const EditProfile = () =>{
           <input
             id="username_field"
             type="text"
-            placeholder={oldUsername}
+            placeholder = "Username"
+            value = {oldUsername}
             onChange={e => setUsername(e.target.value)}
             required
           />

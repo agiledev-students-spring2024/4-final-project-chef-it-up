@@ -16,7 +16,7 @@ const IndividualRecipeDetail = () => {
     // const { getRecipe } = useRecipeContext(); // getting the cards related recipe details
 
     useEffect(() => {
-        console.log("useEffect is beig called ")
+        console.log("useEffect is being called ")
         axios.get(`http://localhost:3001/api/individualRecipeInfo/${recipeId}`)
             .then(response => {
                 setRecipe(response.data);

@@ -1,111 +1,111 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link , useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import './EditRecipe.css';
 // import { useRecipeContext } from './RecipeContext';
 
-const EditRecipe = () =>{
+const EditRecipe = () => {
 
+  const [image, setImage] = useState([]);
+  const [recipeName, setRecipeName] = useState("")
+  const [ingredients, setIngredients] = useState("")
+  const [instructions, setInstructions] = useState("")
+  const [prepTime, setPrepTime] = useState("")
+  const [cookTime, setCookTime] = useState("")
+  const [totalTime, setTotalTime] = useState("")
+  const [cuisine, setCuisine] = useState("")
+  const [difficultyLevel, setDifficultyLevel] = useState("")
+  const [mealType, setMealType] = useState("")
+  const [error, setError] = useState("")
+  const navigate = useNavigate();
 
-    const [recipeName, setRecipeName] = useState("")
-    const [ingredients, setIngredients] = useState("")
-    const [instructions, setInstructions] = useState("")
-    const [prepTime, setPrepTime] = useState("")
-    const [cookTime, setCookTime] = useState("")
-    const [totalTime, setTotalTime] = useState("")
-    const [cuisine, setCuisine] = useState("")
-    const [difficultyLevel, setDifficultyLevel] = useState("")
-    const [mealType, setMealType] = useState("")
-    const [error, setError] = useState("")
+  const [editedRecipe, setEditedRecipe] = useState();
+  const { recipeId } = useParams();
 
-    const [editedRecipe, setEditedRecipe] = useState();
-    const { recipeId } = useParams();
+  const options = [
+    { value: 'easy', label: 'easy' },
+    { value: 'medium', label: 'medium' },
+    { value: 'hard', label: 'hard' },
+  ]
 
-    const options = [
-      { value: 'easy', label: 'easy' },
-      { value: 'medium', label: 'medium' },
-      { value: 'hard', label: 'hard' },
-    ]
-  
-    const mealTypes = [
-      { value: 'breakfast', label: 'breakfast' },
-      { value: 'lunch', label: 'lunch' },
-      { value: 'dinner', label: 'dinner' },
-      { value: 'dessert', label: 'dessert' },
-    ]
+  const mealTypes = [
+    { value: 'breakfast', label: 'breakfast' },
+    { value: 'lunch', label: 'lunch' },
+    { value: 'dinner', label: 'dinner' },
+    { value: 'dessert', label: 'dessert' },
+  ]
 
-    const CuisineOptions = [
-      { value: 'other', label: 'Other' },
-      { value: 'italian', label: 'Italian' },
-      { value: 'french', label: 'French' },
-      { value: 'american', label: 'American' },
-      { value: 'indian', label: 'Indian' },
-      { value: 'mexican', label: 'Mexican' },
-      { value: 'chinese', label: 'Chinese' },
-      { value: 'japanese', label: 'japanese' },
-      { value: 'korean', label: 'korean' },
-      { value: 'Thai', label: 'Thai' },
-      { value: 'Mediterranean', label: 'Mediterranean' }
-      
-    ]
+  const CuisineOptions = [
+    { value: 'other', label: 'Other' },
+    { value: 'italian', label: 'Italian' },
+    { value: 'french', label: 'French' },
+    { value: 'american', label: 'American' },
+    { value: 'indian', label: 'Indian' },
+    { value: 'mexican', label: 'Mexican' },
+    { value: 'chinese', label: 'Chinese' },
+    { value: 'japanese', label: 'japanese' },
+    { value: 'korean', label: 'korean' },
+    { value: 'Thai', label: 'Thai' },
+    { value: 'Mediterranean', label: 'Mediterranean' }
+    
+  ]
     
 
     // const { getRecipe, setSelectedRecipe } = useRecipeContext();
     
     useEffect(() => {
-      console.log("useEffect is beig called ")
-      axios.get(`http://localhost:3001/editRecipeInfo/${recipeId}`)
+      console.log("useEffect is being called ")
+      console.log({recipeId})
+      axios.get(`http://localhost:3001/api/editRecipeInfo/${recipeId}`)
           .then(response => {
-            setEditedRecipe(response.data)
-            setRecipeName(response.data.recipe_name);
-            setIngredients(response.data.ingredients);
-            setInstructions(response.data.instructions);
-            setPrepTime(response.data.prep_time);
-            setCookTime(response.data.cook_time);
-            setTotalTime(response.data.total_time);
-            setCuisine(response.data.cuisine);
-            setMealType(response.data.mealType)
-            console.log(response.data)
+           setEditedRecipe(response.data)
+           setRecipeName(response.data.recipe_name);
+           setIngredients(response.data.ingredients);
+           setInstructions(response.data.instructions);
+           setPrepTime(response.data.prep_time);
+           setCookTime(response.data.cook_time);
+           setTotalTime(response.data.total_time);
+           setCuisine(response.data.cuisine);
+           setMealType(response.data.mealType)
+           setDifficultyLevel(response.data.difficulty_level)
           })
           .catch(error => {
               console.error("Error fetching recipe:", error);
-  
           });
       }, [recipeId]);
       
-      if (!editedRecipe) {
-          return <div>still loading!</div>;
-      }
+      const handleImageChange = (e) => {
+        const file = e.target.files[0]; // Assuming you're allowing only one image to be uploaded
+        setImage([file]);
+      };
 
       const handleSubmit = (e) => {
-        
-        
+        e.preventDefault()
         console.log("api to submit edit is being called")
+        
+        const formData = new FormData();
 
-        axios.put(`http://localhost:3001/editRecipe/${recipeId}`, 
-        {
-          id: recipeId,
-          recipe_name: recipeName,
-          imgSrc: `https://picsum.photos/200?id=${recipeId}`,
-          ingredients: ingredients,
-          instructions: instructions,
-          prep_time: prepTime,
-          cook_time: cookTime,
-          total_time: totalTime,
-          difficulty_level: difficultyLevel,
-          cuisine: cuisine,
-          mealType: mealType
+        formData.append("recipeId", recipeId)
+        formData.append("recipeName", recipeName)
+        formData.append("image", image[0]) // Assuming image is an array containing the file
+        formData.append("ingredients", ingredients)
+        formData.append("instructions", instructions)
+        formData.append("prepTime", prepTime)
+        formData.append("cookTime", cookTime)
+        formData.append("totalTime", totalTime)
+        formData.append("difficultyLevel", difficultyLevel)
+        formData.append("cuisine", cuisine)
+        formData.append("mealType", mealType)
 
-        })
+        axios.post(`http://localhost:3001/api/editRecipe/${recipeId}`, formData)
         .then(response => {
           console.log("recipe has been edited: ", response.data)
-
+          navigate("/myRecipes")
         })
         .catch( err =>{
           console.log("error trying to edit recipe: ", err)
-
+          setError(err)
         })
 
       
@@ -115,9 +115,10 @@ const EditRecipe = () =>{
     return (
       //onSubmit={handleSubmit}
     
-        <form className="add-recipe-form" onClick={handleSubmit}>
+        <form className="add-recipe-form" onSubmit={handleSubmit}>
           <main className="App">
             <h1>Add Your Own Recipe</h1>
+            <h2>{error}</h2>
             <div class="formField">
               <div>
               <label className="add-recipe-form-field"  htmlFor="recipeName" >Enter your recipe name:</label>
@@ -128,7 +129,7 @@ const EditRecipe = () =>{
                 id="recipeName"
                 type="text"
                 value={recipeName}
-                onChange={e => setRecipeName(e.target.value)}
+                onChange={(e) => setRecipeName(e.target.value)}
                 required
               />
               </div>
@@ -142,10 +143,10 @@ const EditRecipe = () =>{
              
               <div>
               <input
-                id="recipeImage"
+                name="image"
                 type="file"
                 accept="image/*"
-                onChange={e => setEditedRecipe(e.target.value)}
+                onChange={handleImageChange}
                 required
               />
               </div>
@@ -159,7 +160,7 @@ const EditRecipe = () =>{
                 id="ingredients"
                 type="text"
                 value={ingredients}
-                onChange={e => setIngredients(e.target.value)}
+                onChange={(e) => setIngredients(e.target.value)}
                 required
               />
             </div>
@@ -170,7 +171,7 @@ const EditRecipe = () =>{
                 id="instructions"
                 type="text"
                 value={instructions}
-                onChange={e => setInstructions(e.target.value)}
+                onChange={(e) => setInstructions(e.target.value)}
                 required
               />
             </div>
@@ -181,7 +182,7 @@ const EditRecipe = () =>{
                 id="prepTime"
                 type="text"
                 value={prepTime}
-                onChange={e => setPrepTime(e.target.value)}
+                onChange={(e) => setPrepTime(e.target.value)}
                 required
               />
             </div>
@@ -192,7 +193,7 @@ const EditRecipe = () =>{
                 id="cookTime"
                 type="text"
                 value={cookTime}
-                onChange={e => setCookTime(e.target.value)}
+                onChange={(e) => setCookTime(e.target.value)}
                 required
               />
             </div>
@@ -203,7 +204,7 @@ const EditRecipe = () =>{
                 id="totalTime"
                 type="text"
                 value={totalTime}
-                onChange={e => setTotalTime(e.target.value)}
+                onChange={(e) => setTotalTime(e.target.value)}
                 required
               />
             </div>
@@ -219,26 +220,25 @@ const EditRecipe = () =>{
             
             <h2>Select a difficulty level</h2>
             <div class="dropdown">
-              <Select options={options} defaultValue={options[0]} onChange={e => setDifficultyLevel(e.value)} />
+              <Select 
+              options={options} 
+              defaultValue={options[0]} 
+              onChange={e => setDifficultyLevel(e.value)} 
+              required />
             </div>
 
             <h2>Select a meal level</h2>
             <div class="dropdown">
-              <Select options={mealTypes} defaultValue={mealTypes[0]} onChange={e => setMealType(e.value)} />
+              <Select 
+              options={mealTypes} 
+              defaultValue={mealTypes[0]} 
+              onChange={e => setMealType(e.value)}
+              required />
             </div>
-    
-            {error && (
-                <div>
-                  <p className="notwork">{error}</p>
-                  <Link to="/">Bypass due to error</Link>
-                </div>
-            )}
             <div className="btn-section">
             <div>
               
-                <button className="submit-edit-button" type="submit" >
-                  <Link to="/myRecipes" className="cancel-link">Save Edit</Link> 
-                </button>
+                <button className="submit-edit-button" type="submit" >Save Edit</button>
                 
               
             </div>
