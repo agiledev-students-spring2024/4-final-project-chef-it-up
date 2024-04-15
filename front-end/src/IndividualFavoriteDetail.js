@@ -10,11 +10,11 @@ const IndividualFavoriteDetail = () =>{
 
     const { recipeId } = useParams();
     const [getRecipe, setRecipe] = useState();
-    const userId = localStorage.getItem("userId")
+    
    //  const { getRecipe } = useRecipeContext();
 
    useEffect(() => {
-    console.log("useEffect is beig called ")
+    console.log("useEffect is being called ")
     axios.get(`http://localhost:3001/api/individualFavoriteInfo/${recipeId}`)
         .then(response => {
             setRecipe(response.data);
@@ -37,7 +37,7 @@ const IndividualFavoriteDetail = () =>{
 
         })
         .catch( err =>{
-            console.log(" error trying to remove fomr favorite: ", err)
+            console.log(" error trying to remove from favorite: ", err)
 
         })
 
