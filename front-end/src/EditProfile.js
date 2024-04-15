@@ -49,48 +49,6 @@ const EditProfile = () =>{
       )
 
     }
-  // fetch(`http://localhost:3001/api/editMyProfile/:userId}`, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify({ username, password, userid }),
-  // })
-  //   .then(response => {
-  //     if (response.ok){
-  //       return response.json()
-  //     }
-  //     else if (response.status === 401){
-  //       throw new Error('Invalid Username or Password')
-  //     }
-  //     console.log(`Received server response: ${response.data}`)
-  //   })
-  //   .then(data => {
-  //     setUser(data)
-  //     navigate('/myProfile')
-  //   })
-  //   .catch(err => {
-  //     console.log(`Received server error: ${err}`)
-  //     setError(
-  //       "Failed to edit profile, invalid username or password"
-  //     )
-  //   })
-
-  // axios
-  //   .post("Backend",{
-  //     userid: user.id,
-  //     username:username,
-  //     password:password,
-  //   })
-  //   .then(response => {
-  //     console.log(`Received server response: ${response.data}`)
-  //   })
-  //   .catch(err => {
-  //     console.log(`Received server error: ${err}`)
-  //     setError(
-  //       "This ain't working just yet, give us some time :)"
-  //     )
-  //   })
   }
   
   return (
@@ -106,7 +64,6 @@ const EditProfile = () =>{
             id="username_field"
             type="text"
             placeholder = "Username"
-            value = {oldUsername}
             onChange={e => setUsername(e.target.value)}
             required
           />
