@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Select from "react-select";
@@ -45,6 +45,12 @@ const AddRecipe = () => {
     { value: 'Mediterranean', label: 'Mediterranean' }
     
 ]
+
+  useEffect(() => {
+    setMealType('breakfast')
+    setDifficultyLevel('Easy')
+    setCuisine('Other')
+  },[])
 
   const handleImageChange = (e) => {
     const file = e.target.files[0]; // Assuming you're allowing only one image to be uploaded

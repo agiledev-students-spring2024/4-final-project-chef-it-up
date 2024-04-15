@@ -13,7 +13,7 @@ const MyRecipesDetail = () =>{
     // const { getRecipe } = useRecipeContext();
 
     useEffect(() => {
-        console.log("useEffect is beig called ")
+        console.log("useEffect is being called ")
         axios.get(`http://localhost:3001/api/myIndividualRecipe/${recipeId}`)
             .then(response => {
                 setRecipe(response.data);
@@ -33,7 +33,6 @@ const MyRecipesDetail = () =>{
     const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
 
     const handleDeleteButtonClick = () => {
-        
 
         axios.delete(`http://localhost:3001/api/deleteRecipe/${recipeId}`)
         .then(response => {
@@ -41,7 +40,7 @@ const MyRecipesDetail = () =>{
 
         })
         .catch( err =>{
-            console.log(" error trying to remove fomr favorite: ", err)
+            console.log(" error trying to remove from favorite: ", err)
 
         })
 
@@ -122,14 +121,13 @@ const MyRecipesDetail = () =>{
 
             <div className="my-recipe-btn-section" >
                 <div>
-                    <Link to={`/editRecipe/${getRecipe.id}`}>
+                    <Link to={`/editRecipe/${recipeId}`}>
                         <button className="nav-to-edit-button" type="submit"> Edit Recipe</button>
                     </Link>
                 </div>
                 <div>
                     <Link to="/myRecipes">
                         <button className="delete-button" type="click" onClick={handleDeleteButtonClick}> Delete Recipe </button>
-            
                     </Link> 
                 </div>
 

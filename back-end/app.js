@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const fs = require('fs')
 
 // use this JWT strategy within passport for authentication handling
 const jwtStrategy = require('./config/jwt-config.js'); // import setup options for using JWT in passport
@@ -513,25 +514,39 @@ app.get('/api/myIndividualRecipe/:recipeId', async (req, res) => {
   }
 });
 
-app.delete('/api/deleteRecipe/:recipeId', (req, res) => {
+app.delete('/api/deleteRecipe/:recipeId', async (req, res) => {
   const { recipeId } = req.params;
   console.log(recipeId);
-
-  const indexToRemove = myRecipes.findIndex((recipe) => recipe.id == recipeId);
-  console.log('index to remove: ', indexToRemove);
-
-  if (indexToRemove == -1) {
-    res.status(404).json({ error: 'Recipe not found in favorites' });
-  } else {
-    myRecipes.splice(indexToRemove, 1);
-    res.status(200).json({ message: 'Recipe removed from favorites' });
+  try{
+    const recipe = await Recipe.findById(recipeId)
+    const { imageLocation } = recipe.img
+    if(recipe){
+      try{
+        await recipe.deleteOne();
+      } catch (err){
+        console.error(err);
+        res.status(500).send('Error from server when deleting recipe.');
+      }
+      //try{
+      //  fs.unlinkSync(imageLocation)
+      //} catch (err){
+      //  console.error(err);
+      //  res.status(500).send('Error from server when deleting recipe image.');
+      //}
+      res.status(200).send('recipe successfully deleted')
+    }
+  } catch (err){
+    console.error(err);
+    res.status(500).send('Error from server when deleting recipe.');
   }
+  
+
 });
 
-app.get('/editRecipeInfo/:recipeId', (req, res) => {
+app.get('/api/editRecipeInfo/:recipeId', async (req, res) => {
   const { recipeId } = req.params;
-
-  const recipe = myRecipes.find((recipe) => recipe.id == recipeId);
+  
+  const recipe = await Recipe.findById(recipeId);
   if (recipe) {
     res.json(recipe);
   } else {
@@ -539,7 +554,7 @@ app.get('/editRecipeInfo/:recipeId', (req, res) => {
   }
 });
 
-app.put('/editRecipe/:recipeId', (req, res) => {
+app.post('/api/editRecipe/:recipeId', upload.single('image'), async (req, res) => {
   const { recipeId } = req.params;
   const {
     recipe_name,
@@ -549,29 +564,34 @@ app.put('/editRecipe/:recipeId', (req, res) => {
     cook_time,
     total_time,
     cuisine,
-    difficulty_level,
+    difficultyLevel,
     mealType,
   } = req.body;
-
-  const indexToEdit = myRecipes.findIndex((recipe) => recipe.id == recipeId);
-  console.log('index to edit: ', indexToEdit);
-
-  if (indexToEdit !== -1) {
-    myRecipes[indexToEdit] = {
-      ...myRecipes[indexToEdit],
-      recipe_name,
-      ingredients,
-      instructions,
-      prep_time,
-      cook_time,
-      total_time,
-      cuisine,
-      difficulty_level,
-      mealType,
-    };
-    res.status(200).json({ message: 'Recipe updated successfully' });
-  } else {
-    res.status(404).json({ error: 'Recipe not found' });
+  
+  try{
+    const recipeToEdit = Recipe.findById(recipeId);
+     console.log('Recipe to edit: ', difficultyLevel);
+    if (recipeToEdit) {
+      const updatedUser = await Recipe.findByIdAndUpdate({_id:recipeId},{$set:{
+        recipe_name: recipe_name,
+        img: req.file.path,
+        ingredients: ingredients,
+        instructions: instructions,
+        prep_time: prep_time,
+        cook_time: cook_time,
+        total_time: total_time,
+        cuisine: cuisine,
+        difficulty_level: difficultyLevel,
+        mealType: mealType,
+      }})
+      if(updatedUser){return res.json({status:"success",message:"user updated"})}
+  }} catch (error){
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Error editing recipe.',
+      error: error,
+    });
   }
 });
 
@@ -647,11 +667,10 @@ app.get('/api/myProfile/:userId', async (req, res) => {
     const { userId } = req.params
     const user = await User.findById(userId)
     if (user) {
-      console.log(user)
-        res.status(200).json(user)
+      res.status(200).json(user)
     }
     else {
-        res.status(404).send("No such user exists")
+      res.status(404).send("No such user exists")
     }
 })
 
