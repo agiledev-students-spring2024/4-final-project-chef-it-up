@@ -49,8 +49,8 @@ function App() {
           <Route  path="/addRecipe" element={<AddRecipe />} />
           <Route  path="/generateRecipe" element={<GenerateRecipe />} />
           <Route  path="/editRecipe/:recipeId" element={<EditRecipe />} />
-          <Route  path="/myProfile" element={<Profile user={user}/>} />
-          <Route  path="/editMyProfile" element={<EditProfile user={user} setUser={setUser} />} />
+          <Route  path="/myProfile/:userId" element={<Profile />} />
+          <Route  path="/editMyProfile/:userId" element={<EditProfile />} />
           <Route path="/aboutUs" element={<AboutUs />} /> 
           <Route path="/addIngredient" element={<AddIngredient />} />
           <Route path="/ingredientDetails/:ingredientId" element={<IngredientDetails />} />

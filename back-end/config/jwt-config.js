@@ -6,6 +6,7 @@ const User = require("../models/User.js")
 const passportJWT = require("passport-jwt")
 const ExtractJwt = passportJWT.ExtractJwt
 const JwtStrategy = passportJWT.Strategy
+require('dotenv').config({ silent: true });
 
 // set up some JWT authentication options for passport
 let jwtOptions = {

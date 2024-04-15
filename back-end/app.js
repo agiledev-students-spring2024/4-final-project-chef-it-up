@@ -638,60 +638,55 @@ app.post('/api/register', async (req, res) => {
       username: username,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: 'Error registering account.',
-      error: error,
-    });
+
   }
 });
 
 // Commenting out until we get the database running, may be useful later on
-//app.get("/api/myProfile/:userid"), (req, res) => {
-//    const { userid } = req.params
-//    const user = backupUser.find((user) => user.id === userid)
-//    if (user) {
-//        res.status(200).json(user)
-//    }
-//    else {
-//        res.status(404).send("No such user exists")
-//    }
-//}
-//
-//app.get("/api/editMyProfile"), (req, res) => {
-//    const { username, password } = req.params
-//
-//    const user = backupUser.find((user) => user.username === username)
-//    if (user && user.password === password) {
-//        res.json(user.id)
-//    }
-//    else {
-//        res.status(404).send("No such user exists")
-//    }
-//}
+app.get('/api/myProfile/:userId', async (req, res) => {
+    const { userId } = req.params
+    const user = await User.findById(userId)
+    if (user) {
+      console.log(user)
+        res.status(200).json(user)
+    }
+    else {
+        res.status(404).send("No such user exists")
+    }
+})
 
-app.post('/api/editMyProfile', (req, res) => {
-  const { username, password, userid } = req.body;
+app.post('/api/editMyProfile/:userId', async (req, res) => {
+  const { userId } = req.params
+  oldUsername = req.body.oldUsername
+  username = req.body.username;
+  oldPassword = req.body.oldPassword;
+  newPassword = req.body.newPassword;
+  
+  try {
+    const user = await User.findOne({ username:oldUsername });
 
-  if (!username || !password || !userid) {
-    return res.status(400).send('Please provide a username, password, and be logged in.');
-  }
+    if (!user) {
+      return res.status(401).json({ message: 'Error editing profile: Could not find user'})
+    }
 
-  const id = parseInt(userid);
-
-  // just going to physically update the backup for now
-  const userIndex = backupUser.findIndex((user) => user.id === id);
-  if (userIndex !== -1) {
-    backupUser[userIndex] = {
-      id: id,
-      username: username,
-      password: password,
-    };
-    const user = backupUser.find((user) => user.id === id);
-    res.status(200).json(user);
-  } else {
-    res.status(403).send('No such user exists');
+    if (!user.validPassword(oldPassword)) {
+      console.error(`Incorrect former password.`)
+      return res.status(401).json({ message: 'Error editing profile: Incorrect Password'})
+    }
+    bcrypt.hash(newPassword, 10, async function(err, hash) {
+      if (err) {
+          return res.status(500).json({ status: "error", message: "Error hashing password" });
+      }
+      const updatedUser = await User.findByIdAndUpdate({_id:userId},{$set:{username:username, password:hash}})
+      if(updatedUser){return res.json({status:"success",message:"user updated"})}
+    })
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Error editing profile.',
+      error: error,
+    });
   }
 });
 
