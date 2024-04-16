@@ -59,7 +59,7 @@ const Profile = () =>{
           <p>{ userData.username }</p>
         </div>
         <div>
-          <Link to="/editMyProfile/:userId">Edit your Profile</Link>
+          <Link to="/editMyProfile/:userId"> <button className="submit-recipe-button">Edit your Profile</button></Link>
       </div>
     </form>
     )

@@ -106,7 +106,6 @@
     right: 0;
 }
 
-.nav-to-edit-button,
 .delete-button{
     display: inline-block;
     padding: 10px 20px;
@@ -131,17 +130,28 @@
 
 
 @media screen and (max-width: 768px) {
+
+    .img-and-cuisine-container{
+        max-width: 70%;
+    }
     .navigate-back-my-recipe {
         margin-left: 50px; 
     }
 
-    .time-container {
+    .time-container,
+    .difficulty-and-cuisine-container
+    {
         flex-direction: column;
-      }
+    }
+
+    .diff-and-cuisine-box{
+        padding: 4px;
+    }
     
-    .time-box {
+    .time-box,
+    .diff-and-cuisine-box
+    {
         margin: 0 auto 15px; /* Center the time boxes */
-        
     }
     
     .ingredient-container,
