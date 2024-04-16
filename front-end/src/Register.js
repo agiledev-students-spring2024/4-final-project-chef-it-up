@@ -13,8 +13,8 @@ const Register = () => {
   
   const options = [
     { value: 'Basic-Fridge', label: 'Basic-Fridge' },
-    { value: 'Vegetarian', label: 'Vegetarian' },
-    { value: 'Meat-focused', label: 'Meat-focused' },
+    { value: 'Vegetarian-Fridge', label: 'Vegetarian-Fridge' },
+    { value: 'Meat-Fridge', label: 'Meat-Fridge' },
   ]
   const [starter, setStarter] = useState(options[0].value)
 
