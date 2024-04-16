@@ -51,56 +51,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-
-let myRecipes = [
-  {
-    id: 1,
-    recipe_name: 'Mr',
-    img: `https://picsum.photos/200?id=1`,
-    ingredients:
-      'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.\n\nDonec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.',
-    instructions:
-      'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.',
-    prep_time: 35,
-    cook_time: 54,
-    total_time: 103,
-    cuisine: 'Russion',
-    difficulty_level: 'Hard',
-    mealType: 'dinner',
-  },
-
-  {
-    id: 2,
-    recipe_name: 'Mrs',
-    img: `https://picsum.photos/200?id=2`,
-    ingredients:
-      'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\n\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\n\nDuis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.',
-    instructions:
-      'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.',
-    prep_time: 37,
-    cook_time: 138,
-    total_time: 307,
-    cuisine: 'Chinese',
-    difficulty_level: 'Hard',
-    mealType: 'dessert',
-  },
-  {
-    id: 3,
-    recipe_name: 'Dr',
-    img: `https://picsum.photos/200?id=3`,
-    ingredients:
-      'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\n\nCras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\n\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.',
-    instructions:
-      'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.',
-    prep_time: 53,
-    cook_time: 22,
-    total_time: 203,
-    cuisine: 'Italian',
-    difficulty_level: 'Medium',
-    mealType: 'lunch',
-  },
-];
-
 let currentDate = new Date();
 let defaultExpiryDate = new Date(currentDate.getTime() + (3 * 24 * 60 * 60 * 1000));
 
@@ -362,72 +312,6 @@ let vegetarianFridge = [
     quantity: 3,
   },
 ]
-
-let fridgeData = [
-  {
-    id: 1,
-    ingredient_name: 'Chicken',
-    img: `https://picsum.photos/200?id=1`,
-    expiry_date: '2024-08-26',
-    quantity: 1,
-  },
-  {
-    id: 2,
-    ingredient_name: 'Butter',
-    img: `https://picsum.photos/200?id=2`,
-    expiry_date: '2025-05-18',
-    quantity: 1,
-  },
-  {
-    id: 3,
-    ingredient_name: 'Tomatoes',
-    img: `https://picsum.photos/200?id=3`,
-    expiry_date: '2024-04-10',
-    quantity: 4,
-  },
-  {
-    id: 4,
-    ingredient_name: 'Yogurt',
-    img: `https://picsum.photos/200?id=4`,
-    expiry_date: '2024-06-21',
-    quantity: 2,
-  },
-  {
-    id: 5,
-    ingredient_name: 'Cheese',
-    img: `https://picsum.photos/200?id=5`,
-    expiry_date: '2027-01-08',
-    quantity: 6,
-  },
-  {
-    id: 6,
-    ingredient_name: 'Apples',
-    img: `https://picsum.photos/200?id=6`,
-    expiry_date: '2031-09-19',
-    quantity: 5,
-  },
-  {
-    id: 7,
-    ingredient_name: 'Milk',
-    img: `https://picsum.photos/200?id=7`,
-    expiry_date: '2027-02-02',
-    quantity: 1,
-  },
-  {
-    id: 8,
-    ingredient_name: 'Hummus',
-    img: `https://picsum.photos/200?id=8`,
-    expiry_date: '2024-10-15',
-    quantity: 6,
-  },
-  {
-    id: 9,
-    ingredient_name: 'Orange juice',
-    img: `https://picsum.photos/200?id=9`,
-    expiry_date: '2026-01-11',
-    quantity: 2,
-  },
-];
 
 const verifyToken = (req, res, next) => {
   const token = req.headers.authorization;
@@ -723,12 +607,12 @@ app.get('/api/editRecipeInfo/:recipeId', async (req, res) => {
 app.post('/api/editRecipe/:recipeId', upload.single('image'), async (req, res) => {
   const { recipeId } = req.params;
   const {
-    recipe_name,
+    recipeName,
     ingredients,
     instructions,
-    prep_time,
-    cook_time,
-    total_time,
+    prepTime,
+    cookTime,
+    totalTime,
     cuisine,
     difficultyLevel,
     mealType,
@@ -739,13 +623,13 @@ app.post('/api/editRecipe/:recipeId', upload.single('image'), async (req, res) =
      console.log('Recipe to edit: ', difficultyLevel);
     if (recipeToEdit) {
       const updatedUser = await Recipe.findByIdAndUpdate({_id:recipeId},{$set:{
-        recipe_name: recipe_name,
+        recipe_name: recipeName,
         img: req.file.path,
         ingredients: ingredients,
         instructions: instructions,
-        prep_time: prep_time,
-        cook_time: cook_time,
-        total_time: total_time,
+        prep_time: prepTime,
+        cook_time: cookTime,
+        total_time: totalTime,
         cuisine: cuisine,
         difficulty_level: difficultyLevel,
         mealType: mealType,
