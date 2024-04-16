@@ -24,6 +24,7 @@ app.use(express.json()); // decode JSON-formatted incoming POST data
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/ingredients', express.static(path.join(__dirname, 'ingredients')));
 
 try {
   mongoose.connect(process.env.MONGODB_URI);
@@ -50,103 +51,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-let recipeData = [
-  {
-    id: 1,
-    recipe_name: 'Mrs',
-    img: `https://picsum.photos/200?id=1`,
-    ingredients:
-      'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.\n\nFusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.',
-    instructions:
-      'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.\n\nPellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.\n\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-    prep_time: 64,
-    cook_time: 129,
-    total_time: 230,
-    cuisine: 'Indian',
-    difficulty_level: 'Easy',
-    mealType: 'dinner',
-  },
-  {
-    id: 2,
-    recipe_name: 'Mrs',
-    img: `https://picsum.photos/200?id=2`,
-    ingredients:
-      'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\n\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\n\nPhasellus in felis. Donec semper sapien a libero. Nam dui.',
-    instructions:
-      'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.\n\nPraesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.\n\nMorbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.',
-    prep_time: 102,
-    cook_time: 172,
-    total_time: 89,
-    cuisine: 'Mexican',
-    difficulty_level: 'Hard',
-    mealType: 'breakfast',
-  },
-  {
-    id: 3,
-    recipe_name: 'Mr',
-    img: `https://picsum.photos/200?id=3`,
-    ingredients:
-      'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.\n\nDonec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.',
-    instructions:
-      'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.',
-    prep_time: 35,
-    cook_time: 54,
-    total_time: 103,
-    cuisine: 'Russion',
-    difficulty_level: 'Medium',
-    mealType: 'dessert',
-  },
-
-  {
-    id: 4,
-    recipe_name: 'Mrs',
-    img: `https://picsum.photos/200?id=4`,
-    ingredients:
-      'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\n\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\n\nDuis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.',
-    instructions:
-      'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.',
-    prep_time: 37,
-    cook_time: 138,
-    total_time: 307,
-    cuisine: 'Chinese',
-    difficulty_level: 'Hard',
-    mealType: 'lunch',
-  },
-];
-
-let favoriteRecipeData = [
-  {
-    id: 1,
-    recipe_name: 'Rev',
-    img: `https://picsum.photos/200?id=1`,
-    ingredients:
-      'Fusce consequat. Nulla nisl. Nunc nisl.\n\nDuis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.\n\nIn hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.',
-    instructions:
-      'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.',
-    prep_time: 63,
-    cook_time: 175,
-    total_time: 86,
-    cuisine: 'Mexican',
-    difficulty_level: 'Easy',
-    mealType: 'dessert',
-  },
-
-  {
-    id: 2,
-    recipe_name: 'Dr',
-    img: `https://picsum.photos/200?id=2`,
-    ingredients:
-      'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\n\nCras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\n\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.',
-    instructions:
-      'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.',
-    prep_time: 53,
-    cook_time: 22,
-    total_time: 203,
-    cuisine: 'Italian',
-    difficulty_level: 'Medium',
-    mealType: 'dinner',
-  },
-];
 
 let myRecipes = [
   {
@@ -196,6 +100,268 @@ let myRecipes = [
     mealType: 'lunch',
   },
 ];
+
+let currentDate = new Date();
+let defaultExpiryDate = new Date(currentDate.getTime() + (3 * 24 * 60 * 60 * 1000));
+
+// Format the expiry date as YYYY-MM-DD
+let formattedDefaultDate = defaultExpiryDate.toISOString().split('T')[0];
+
+let basicFridge = [
+
+  {
+    ingredient_name: 'Chicken breast',
+    img: 'ingredients/chicken-breast.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 2,
+  },
+  {
+    ingredient_name: 'Ground beef',
+    img: 'ingredients/ground-meat.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 2,
+  },
+  
+  {
+    ingredient_name: 'Carrots',
+    img: 'ingredients/carrots.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 2,
+  },
+  {
+    ingredient_name: 'Broccoli',
+    img: 'ingredients/broccoli.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'Onion',
+    img: 'ingredients/onion.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'Potatoes',
+    img: 'ingredients/potatoes.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'Garlic',
+    img: 'ingredients/garlic.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'Mushroom',
+    img: 'ingredients/mushrooms.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+ 
+  {
+    ingredient_name: 'milk',
+    img: 'ingredients/milk.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'bread',
+    img: 'ingredients/bread.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'butter',
+    img: 'ingredients/butter.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'cheese',
+    img: 'ingredients/cheese.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'apple',
+    img: 'ingredients/apple.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'bananas',
+    img: 'ingredients/bananas.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'mandarins',
+    img: 'ingredients/mandarins.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'strawberry',
+    img: 'ingredients/strawberry.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+
+]
+
+let meatFridge = [
+
+  {
+    ingredient_name: 'Chicken breast',
+    img: 'ingredients/chicken-breast.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 2,
+  },
+  {
+    ingredient_name: 'Ground beef',
+    img: 'ingredients/ground-meat.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 2,
+  },
+  {
+    ingredient_name: 'Bacon',
+    img: 'ingredients/bacon.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 5,
+  },
+  {
+    ingredient_name: 'Eggs',
+    img: 'ingredients/eggs.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 12,
+  },
+  {
+    ingredient_name: 'Lamb',
+    img: 'ingredients/lamb.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 1,
+  },
+  {
+    ingredient_name: 'Pork',
+    img: 'ingredients/pork.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 1,
+  },
+  {
+    ingredient_name: 'Salmon',
+    img: 'ingredients/salmon.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 1,
+  },
+  {
+    ingredient_name: 'Shrimp',
+    img: 'ingredients/shrimp.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 1,
+  },
+  {
+    ingredient_name: 'Sausage',
+    img: 'ingredients/sausage.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 1,
+  },
+  {
+    ingredient_name: 'Steak',
+    img: 'ingredients/steak.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 1,
+  },
+  {
+    ingredient_name: 'Tuna',
+    img: 'ingredients/tuna.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 1,
+  },
+
+];
+
+let vegetarianFridge = [
+  {
+    ingredient_name: 'Carrots',
+    img: 'ingredients/carrots.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 2,
+  },
+  {
+    ingredient_name: 'Broccoli',
+    img: 'ingredients/broccoli.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'Onion',
+    img: 'ingredients/onion.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'Potatoes',
+    img: 'ingredients/potatoes.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'Garlic',
+    img: 'ingredients/garlic.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'Mushroom',
+    img: 'ingredients/mushrooms.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'Asparagus',
+    img: 'ingredients/asparagus.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'brussels sprouts',
+    img: 'ingredients/brussels-sprouts.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'Corn',
+    img: 'ingredients/corn.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+
+  {
+    ingredient_name: 'Cucumber',
+    img: 'ingredients/cucumbers.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'Peas',
+    img: 'ingredients/green.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'Spinach',
+    img: 'ingredients/spinach.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+  {
+    ingredient_name: 'Tomatoes',
+    img: 'ingredients/tomatoes.jpg',
+    expiry_date: formattedDefaultDate,
+    quantity: 3,
+  },
+]
 
 let fridgeData = [
   {
@@ -646,10 +812,34 @@ app.post('/api/register', async (req, res) => {
         .status(409)
         .json({ success: false, message: 'Error cannot register: Username already exists' });
     }
-    //const hashed_password = await bcrypt.hash(password, saltRounds)
-    // currently not handling default fridges yet
+
+    let defaultFridge;
+    if (starter === 'Basic-Fridge') {
+      defaultFridge = basicFridge;
+    } 
+    else if (starter === 'Meat-Fridge') {
+      defaultFridge = meatFridge;
+    } 
+    else if (starter === 'Vegetarian-Fridge') {
+      defaultFridge = vegetarianFridge;
+    } 
+    else {
+      return res.status(400).json({ success: false, message: 'Error: Invalid default fridge selection' });
+    }
     const new_user = new User({ username: username, password: password });
     await new_user.save();
+
+    const ingredients = defaultFridge.map(ingredientData => ({
+      ingredient_name: ingredientData.ingredient_name,
+      img: ingredientData.img,
+      quantity: ingredientData.quantity,
+      expiry_date: ingredientData.expiry_date,
+      createdBy: new_user._id, // Set createdBy to the _id of the new user
+    }));
+
+    // Insert all starter data into Ingredient schema at once
+    await Ingredient.insertMany(ingredients);
+
     const token = new_user.generateJWT();
     res.status(201).json({
       success: true,
