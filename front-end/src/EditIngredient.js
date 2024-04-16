@@ -64,7 +64,7 @@ const EditIngredient = () => {
   };
 
   return (
-    <form className="add-ingredient-form" onClick={handleSubmit}>
+    <form className="add-ingredient-form" onSubmit={handleSubmit}>
       <main className="App">
         <h1>Edit Ingredient</h1>
         <div class="formField">

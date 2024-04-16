@@ -51,7 +51,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-
 let myRecipes = [
   {
     id: 1,
@@ -102,13 +101,12 @@ let myRecipes = [
 ];
 
 let currentDate = new Date();
-let defaultExpiryDate = new Date(currentDate.getTime() + (3 * 24 * 60 * 60 * 1000));
+let defaultExpiryDate = new Date(currentDate.getTime() + 3 * 24 * 60 * 60 * 1000);
 
 // Format the expiry date as YYYY-MM-DD
 let formattedDefaultDate = defaultExpiryDate.toISOString().split('T')[0];
 
 let basicFridge = [
-
   {
     ingredient_name: 'Chicken breast',
     img: 'ingredients/chicken-breast.jpg',
@@ -121,7 +119,7 @@ let basicFridge = [
     expiry_date: formattedDefaultDate,
     quantity: 2,
   },
-  
+
   {
     ingredient_name: 'Carrots',
     img: 'ingredients/carrots.jpg',
@@ -158,7 +156,7 @@ let basicFridge = [
     expiry_date: formattedDefaultDate,
     quantity: 3,
   },
- 
+
   {
     ingredient_name: 'milk',
     img: 'ingredients/milk.jpg',
@@ -207,11 +205,9 @@ let basicFridge = [
     expiry_date: formattedDefaultDate,
     quantity: 3,
   },
-
-]
+];
 
 let meatFridge = [
-
   {
     ingredient_name: 'Chicken breast',
     img: 'ingredients/chicken-breast.jpg',
@@ -278,7 +274,6 @@ let meatFridge = [
     expiry_date: formattedDefaultDate,
     quantity: 1,
   },
-
 ];
 
 let vegetarianFridge = [
@@ -361,7 +356,7 @@ let vegetarianFridge = [
     expiry_date: formattedDefaultDate,
     quantity: 3,
   },
-]
+];
 
 let fridgeData = [
   {
@@ -621,13 +616,14 @@ app.get('/api/editIngredientInfo/:ingredientId', async (req, res) => {
 });
 
 // edit ingredient
-app.post('/api/editIngredient/:ingredientId', async (req, res) => {
+app.post('/api/editIngredient/:ingredientId', upload.single('image'), async (req, res) => {
   const { ingredientId } = req.params;
   const { ingredient_name, expiry_date, quantity } = req.body;
 
   try {
     const ingredientToEdit = Ingredient.findById(ingredientId);
     console.log('Ingredient to edit: ', ingredient_name);
+    console.log(req.file.path);
     if (ingredientToEdit) {
       const updatedIngredient = await Ingredient.findByIdAndUpdate(
         { _id: ingredientId },
@@ -834,20 +830,19 @@ app.post('/api/register', async (req, res) => {
     let defaultFridge;
     if (starter === 'Basic-Fridge') {
       defaultFridge = basicFridge;
-    } 
-    else if (starter === 'Meat-Fridge') {
+    } else if (starter === 'Meat-Fridge') {
       defaultFridge = meatFridge;
-    } 
-    else if (starter === 'Vegetarian-Fridge') {
+    } else if (starter === 'Vegetarian-Fridge') {
       defaultFridge = vegetarianFridge;
-    } 
-    else {
-      return res.status(400).json({ success: false, message: 'Error: Invalid default fridge selection' });
+    } else {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Error: Invalid default fridge selection' });
     }
     const new_user = new User({ username: username, password: password });
     await new_user.save();
 
-    const ingredients = defaultFridge.map(ingredientData => ({
+    const ingredients = defaultFridge.map((ingredientData) => ({
       ingredient_name: ingredientData.ingredient_name,
       img: ingredientData.img,
       quantity: ingredientData.quantity,
