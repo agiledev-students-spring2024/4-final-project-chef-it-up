@@ -49,6 +49,13 @@ h3{
         width: 60%;
     }
 
+    .btn-my-receipe-section{
+      flex-direction: column;
+    }
+    .nav-to-add-recipe{
+      margin-bottom: 24px;
+    }
+
     .nav-to-recipe{
         margin-bottom: 24px;
     }

@@ -92,11 +92,7 @@ const IndividualRecipeDetail = () => {
                 </div>
 
             </div>
-
-            <div className='rating-container'>
-                <h2>Rating: 10</h2>
-            </div>
-
+            
             <div className="time-container">
                 <div className="time-box">
                     <h4>Prep Time: {getRecipe.prep_time} minutes</h4>
