@@ -11,12 +11,13 @@ const EditIngredient = () => {
   const [expiryDate, setExpiryDate] = useState("");
   const [error, setError] = useState("");
 
-  const [editedIngredient, setEditedIngredient] = useState("");
+  const [editedIngredient, setEditedIngredient] = useState();
 
   const { ingredientId } = useParams();
 
   useEffect(() => {
     console.log("useEffect is being called");
+    console.log({ ingredientId });
     axios
       .get(`http://localhost:3001/api/editIngredientInfo/${ingredientId}`)
       .then((response) => {
@@ -100,7 +101,7 @@ const EditIngredient = () => {
 
           <div>
             <input
-              id="ingredientImage"
+              name="image"
               type="file"
               accept="image/*"
               onChange={handleImageChange}
@@ -125,7 +126,7 @@ const EditIngredient = () => {
               type="date"
               value={expiryDate}
               onChange={(e) => setExpiryDate(e.target.value)}
-              // required
+              required
             />
           </div>
         </div>

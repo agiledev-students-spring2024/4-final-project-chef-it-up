@@ -503,21 +503,21 @@ app.get('/api/editIngredientInfo/:ingredientId', async (req, res) => {
 // edit ingredient
 app.post('/api/editIngredient/:ingredientId', upload.single('image'), async (req, res) => {
   const { ingredientId } = req.params;
-  const { ingredient_name, expiry_date, quantity } = req.body;
+  const { ingredientName, expiryDate, quantity } = req.body;
 
   try {
     const ingredientToEdit = Ingredient.findById(ingredientId);
-    console.log('Ingredient to edit: ', ingredient_name);
+    console.log('Ingredient to edit: ', ingredientName);
     console.log(req.file.path);
     if (ingredientToEdit) {
       const updatedIngredient = await Ingredient.findByIdAndUpdate(
         { _id: ingredientId },
         {
           $set: {
-            ingredient_name: ingredient_name,
+            ingredient_name: ingredientName,
             img: req.file.path,
             quantity: quantity,
-            expiry_date: expiry_date,
+            expiry_date: expiryDate,
           },
         }
       );
