@@ -533,18 +533,25 @@ app.post('/api/editIngredient/:ingredientId', upload.single('image'), async (req
 });
 
 // delete ingredient
-app.delete('/api/deleteIngredient/:ingredientId', (req, res) => {
+app.delete('/api/deleteIngredient/:ingredientId', async (req, res) => {
   const { ingredientId } = req.params;
   console.log(ingredientId);
 
-  const indexToRemove = fridgeData.findIndex((ingredient) => ingredient.id == ingredientId);
-  console.log('index to remove: ', indexToRemove);
-
-  if (indexToRemove == -1) {
-    res.status(404).json({ error: 'Ingredient not found in fridge' });
-  } else {
-    fridgeData.splice(indexToRemove, 1);
-    res.status(200).json({ message: 'Ingredient removed from fridge' });
+  try {
+    const ingredient = await Ingredient.findById(ingredientId);
+    const { imageLocation } = ingredient.img;
+    if (ingredient) {
+      try {
+        await ingredient.deleteOne();
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Error from server when deleting ingredient.');
+      }
+      res.status(200).send('ingredient successfully deleted');
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error from server when deleting ingredient.');
   }
 });
 

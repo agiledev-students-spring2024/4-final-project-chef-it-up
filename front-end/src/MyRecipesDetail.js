@@ -30,7 +30,6 @@ const MyRecipesDetail = () =>{
     }
     
     
-    const imgSrc = `https://picsum.photos/200?id=${recipeId}`;
 
     const handleDeleteButtonClick = () => {
 
