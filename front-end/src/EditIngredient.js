@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import './EditIngredient.css';
 import axios from 'axios';
 
 const EditIngredient = () =>{
+    const [image, setImage] = useState([]);
     const [ingredientName, setIngredientName] = useState("")
     const [quantity, setQuantity] = useState("")
     const [expiryDate, setExpiryDate] = useState("")
     const [error, setError] = useState("")
 
-    const [editedIngredient, setEditedIngredient] = useState("");
+    const [editedIngredient, setEditedIngredient] = useState();
 
     const { ingredientId } = useParams();
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -36,34 +38,39 @@ const EditIngredient = () =>{
       return <div>Ingredient to edit not found!</div>;
   }
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]; // Assuming you're allowing only one image to be uploaded
+    setImage([file]);
+  };
+
   const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("ingredientId", ingredientId);
+    formData.append("ingredientName", ingredientName);
+    formData.append("image", image[0]);
+    formData.append("quantity", quantity);
+    formData.append("expiryDate", expiryDate);
     
     console.log("api to submit edit is being called")
 
-    axios.put(`http://localhost:3001/api/editIngredient/${ingredientId}`, 
-    {
-      id: ingredientId,
-      ingredient_name: ingredientName,
-      img: `https://picsum.photos/200?id=${ingredientId}`,
-      expiry_date: expiryDate,
-      quantity: quantity,
-
+    axios.post(`http://localhost:3001/api/editIngredient/${ingredientId}`, formData)
+    .then(response =>{
+      console.log("ingredient has been edited: ", response.data);
+      navigate("/fridge")
     })
-    .then(response => {
-      console.log("ingredient has been edited: ", response.data)
+    .catch((error) =>{
+      console.log("error trying to edit ingredient: ", error);
+      setError(error);
+    });
 
-    })
-    .catch( err =>{
-      console.log("error trying to edit ingredient: ", err)
-
-    })
-
-  
-  }
+  };
 
     return (
     
-        <form className="add-ingredient-form" onClick={handleSubmit}>
+        <form className="add-ingredient-form" onSubmit={handleSubmit}>
           <main className="App">
             <h1>Edit Ingredient</h1>
             <div class="formField">
@@ -90,11 +97,12 @@ const EditIngredient = () =>{
                 
                 <div>
                 <input
-                    id="ingredientImage"
+                    name="image"
                     type="file"
                     accept="image/*"
-                    onChange={e => setIngredientName(e.target.value)}
+                    onChange={handleImageChange}
                     required
+                  
                 />
             </div>
               
@@ -140,10 +148,9 @@ const EditIngredient = () =>{
             )}
             <div className="btn-section">
             <div>
-              <Link to="/fridge">
+              
                 <button className="submit-edit-button" type="submit" >Save Edit</button>
                 
-              </Link>
             </div>
             <div>
               <button className="cancel-edit-ingredient">
