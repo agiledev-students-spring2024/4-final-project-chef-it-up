@@ -492,12 +492,10 @@ app.post('/api/addIngredient', verifyToken, upload.single('image'), async (req, 
 });
 
 // retrieve ingredient details for editing
-app.get('/api/editIngredientInfo/:ingredientId', (req, res) => {
+app.get('/api/editIngredientInfo/:ingredientId', async  (req, res) => {
   const { ingredientId } = req.params;
-  console.log(ingredientId);
-  console.log('this is the ingredient to edit: ', ingredientId);
-  const ingredient = fridgeData.find((ingredient) => ingredient.id == ingredientId);
-
+ 
+  const ingredient = await Ingredient.findById(ingredientId);
   if (ingredient) {
     res.json(ingredient);
   } else {
@@ -506,23 +504,35 @@ app.get('/api/editIngredientInfo/:ingredientId', (req, res) => {
 });
 
 // edit ingredient
-app.put('/api/editIngredient/:ingredientId', (req, res) => {
+app.post('/api/editIngredient/:ingredientId', upload.single('image'), async (req, res) => {
   const { ingredientId } = req.params;
-  const { ingredient_name, expiry_date, quantity } = req.body;
-
-  const indexToEdit = fridgeData.findIndex((ingredient) => ingredient.id == ingredientId);
-  console.log('ingredient index to edit: ', indexToEdit);
-
-  if (indexToEdit !== -1) {
-    fridgeData[indexToEdit] = {
-      ...fridgeData[indexToEdit],
-      ingredient_name,
-      quantity,
-      expiry_date,
-    };
-    res.status(200).json({ message: 'Ingredient updated successfully' });
-  } else {
-    res.status(404).json({ error: 'Ingredient not found' });
+  const { ingredientName, expiryDate, quantity } = req.body;
+  try {
+    const ingredientToEdit = Ingredient.findById(ingredientId);
+    console.log('Ingredient to edit: ', ingredientName);
+    if (ingredientToEdit) {
+      const updatedIngredient = await Ingredient.findByIdAndUpdate(
+        { _id: ingredientId },
+        {
+          $set: {
+            ingredient_name: ingredientName,
+            img: req.file.path,
+            quantity: quantity,
+            expiry_date: expiryDate,
+          },
+        }
+      );
+      if (updatedIngredient) {
+        return res.json({ status: 'success', message: 'ingredient updated' });
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Error editing ingredient.',
+      error: error,
+    });
   }
 });
 
