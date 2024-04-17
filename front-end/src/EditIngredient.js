@@ -159,10 +159,9 @@ const EditIngredient = () =>{
             )}
             <div className="btn-section">
             <div>
-              <Link to="/fridge">
+              
                 <button className="submit-edit-button" type="submit" >Save Edit</button>
                 
-              </Link>
             </div>
             <div>
               <button className="cancel-edit-ingredient">
