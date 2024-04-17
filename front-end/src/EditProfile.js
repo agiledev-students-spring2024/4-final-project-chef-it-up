@@ -10,12 +10,16 @@ const EditProfile = () =>{
   const [oldPassword, setOldPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [error, setError] = useState("")
-  const [userid,setId] = useState("")
   const navigate = useNavigate()
+  const jwtToken = localStorage.getItem("jwt");
 
   useEffect(() =>{
     console.log("useEffect is being called ")
-    axios.get(`http://localhost:3001/api/myProfile/${userId}`)
+    axios.get(`http://localhost:3001/api/myProfile/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`, // Send the JWT token in the authorization header
+      },
+    })
       .then(response => {
         setOldUsername(response.data.username)
         console.log(response.data)
@@ -23,7 +27,7 @@ const EditProfile = () =>{
       .catch(error => {
         console.error("Error fetching user")
       })
-  }, [userId])
+  }, [userId, jwtToken])
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -39,6 +43,7 @@ const EditProfile = () =>{
           `http://localhost:3001/api/editMyProfile/${userId}`,
           updateData
         )
+        console.group(response)
 
         navigate('/myProfile/:userId')
 

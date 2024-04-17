@@ -32,7 +32,6 @@ const BrowseRecipes = () => {
   const [recipes, setRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [cuisine, setCuisine] = useState("");
-  const [error, setError] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false); // if we already have a JWT token in local storage, set this to true, otherwise false
 
   useEffect(() => {
@@ -49,9 +48,6 @@ const BrowseRecipes = () => {
       .catch((err) => {
         console.log(
           "The server rejected the request for this protected resource... we probably do not have a valid JWT token."
-        );
-        setError(
-          "you are not authorized to view this page please log in first"
         );
         setIsLoggedIn(false);
       });
@@ -181,7 +177,7 @@ const BrowseRecipes = () => {
         </>
       ) : (
         <div>
-          <p className="notwork">{error}</p>
+          <p>You are not authorized to use this feature. Please <Link to="/">log in</Link> first</p>
         </div>
       )}
     </div>

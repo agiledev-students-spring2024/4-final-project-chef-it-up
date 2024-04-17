@@ -24,9 +24,9 @@ const EditRecipe = () => {
   const { recipeId } = useParams();
 
   const options = [
-    { value: 'easy', label: 'easy' },
-    { value: 'medium', label: 'medium' },
-    { value: 'hard', label: 'hard' },
+    { value: 'Easy', label: 'Easy' },
+    { value: 'Medium', label: 'Medium' },
+    { value: 'Hard', label: 'Hard' },
   ]
 
   const mealTypes = [
@@ -37,19 +37,19 @@ const EditRecipe = () => {
   ]
 
   const CuisineOptions = [
-    { value: 'other', label: 'Other' },
-    { value: 'italian', label: 'Italian' },
-    { value: 'french', label: 'French' },
-    { value: 'american', label: 'American' },
-    { value: 'indian', label: 'Indian' },
-    { value: 'mexican', label: 'Mexican' },
-    { value: 'chinese', label: 'Chinese' },
-    { value: 'japanese', label: 'japanese' },
-    { value: 'korean', label: 'korean' },
+    { value: 'Other', label: 'Other' },
+    { value: 'Italian', label: 'Italian' },
+    { value: 'French', label: 'French' },
+    { value: 'American', label: 'American' },
+    { value: 'Indian', label: 'Indian' },
+    { value: 'Mexican', label: 'Mexican' },
+    { value: 'Chinese', label: 'Chinese' },
+    { value: 'Japanese', label: 'Japanese' },
+    { value: 'Korean', label: 'Korean' },
     { value: 'Thai', label: 'Thai' },
     { value: 'Mediterranean', label: 'Mediterranean' }
     
-  ]
+]
     
 
     // const { getRecipe, setSelectedRecipe } = useRecipeContext();

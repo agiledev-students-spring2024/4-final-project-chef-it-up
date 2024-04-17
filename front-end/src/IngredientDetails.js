@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./IngredientDetails.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { useIngredientContext } from './IngredientContext';
 
 const IngredientDetails = () => {
   const { ingredientId } = useParams();
   const [ingredient, setIngredient] = useState();
-  const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("useEffect is being called ");
@@ -35,6 +35,8 @@ const IngredientDetails = () => {
           " ingredient has been removed from fridge: ",
           response.data
         );
+        navigate('/fridge')
+
       })
       .catch((err) => {
         console.log(" error trying to remove ingredient: ", err);
@@ -74,7 +76,7 @@ const IngredientDetails = () => {
           </Link>
         </div>
         <div>
-          <Link to="/fridge">
+          
             <button
               className="delete-button"
               type="click"
@@ -83,7 +85,7 @@ const IngredientDetails = () => {
               {" "}
               Delete Ingredient{" "}
             </button>
-          </Link>
+    
         </div>
       </div>
     </div>

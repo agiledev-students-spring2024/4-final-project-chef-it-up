@@ -14,6 +14,7 @@ const IngredientCard = ({ ingredient, baseUrl }) => {
           src={imgSrc}
           alt={`${ingredient.name}`}
         />
+        <h2>Quantity: {ingredient.quantity}</h2>
       </Link>
     </div>
   );
