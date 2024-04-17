@@ -488,11 +488,10 @@ app.post('/api/addIngredient', verifyToken, upload.single('image'), async (req, 
 });
 
 // retrieve ingredient details for editing
-app.get('/api/editIngredientInfo/:ingredientId', async (req, res) => {
+app.get('/api/editIngredientInfo/:ingredientId', async  (req, res) => {
   const { ingredientId } = req.params;
-
+ 
   const ingredient = await Ingredient.findById(ingredientId);
-
   if (ingredient) {
     res.json(ingredient);
   } else {
@@ -504,11 +503,9 @@ app.get('/api/editIngredientInfo/:ingredientId', async (req, res) => {
 app.post('/api/editIngredient/:ingredientId', upload.single('image'), async (req, res) => {
   const { ingredientId } = req.params;
   const { ingredientName, expiryDate, quantity } = req.body;
-
   try {
     const ingredientToEdit = Ingredient.findById(ingredientId);
     console.log('Ingredient to edit: ', ingredientName);
-    console.log(req.file.path);
     if (ingredientToEdit) {
       const updatedIngredient = await Ingredient.findByIdAndUpdate(
         { _id: ingredientId },

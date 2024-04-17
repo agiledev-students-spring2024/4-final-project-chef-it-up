@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
-import "./EditIngredient.css";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import Select from 'react-select';
+import { Link } from 'react-router-dom';
+import './EditIngredient.css';
+import axios from 'axios';
 
-const EditIngredient = () => {
-  const [image, setImage] = useState([]);
-  const [ingredientName, setIngredientName] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [error, setError] = useState("");
+const EditIngredient = () =>{
+    const [image, setImage] = useState([]);
+    const [ingredientName, setIngredientName] = useState("")
+    const [quantity, setQuantity] = useState("")
+    const [expiryDate, setExpiryDate] = useState("")
+    const [error, setError] = useState("")
 
-  const [editedIngredient, setEditedIngredient] = useState();
+    const [editedIngredient, setEditedIngredient] = useState();
 
-  const { ingredientId } = useParams();
+    const { ingredientId } = useParams();
+    const navigate = useNavigate();
+
 
   useEffect(() => {
     console.log("useEffect is being called");
@@ -43,7 +46,6 @@ const EditIngredient = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("api to submit edit is being called");
 
     const formData = new FormData();
 
@@ -52,63 +54,60 @@ const EditIngredient = () => {
     formData.append("image", image[0]);
     formData.append("quantity", quantity);
     formData.append("expiryDate", expiryDate);
+    
+    console.log("api to submit edit is being called")
 
-    axios
-      .post(`http://localhost:3001/api/editIngredient/${ingredientId}`)
-      .then((response) => {
-        console.log("ingredient has been edited: ", response.data);
-      })
-      .catch((err) => {
-        console.log("error trying to edit ingredient: ", err);
-        setError(err);
-      });
+    axios.post(`http://localhost:3001/api/editIngredient/${ingredientId}`, formData)
+    .then(response =>{
+      console.log("ingredient has been edited: ", response.data);
+      navigate("/fridge")
+    })
+    .catch((error) =>{
+      console.log("error trying to edit ingredient: ", error);
+      setError(error);
+    });
+
   };
 
-  return (
-    <form className="add-ingredient-form" onSubmit={handleSubmit}>
-      <main className="App">
-        <h1>Edit Ingredient</h1>
-        <div class="formField">
-          <div>
-            <label
-              className="add-ingredient-form-field"
-              htmlFor="ingredientName"
-            >
-              Enter your ingredient name:
-            </label>
-          </div>
-
-          <div>
-            <input
-              id="ingredientName"
-              type="text"
-              value={ingredientName}
-              onChange={(e) => setIngredientName(e.target.value)}
-              required
-            />
-          </div>
-        </div>
-
-        <div class="formField">
-          <div>
-            <label
-              className="add-ingredient-form-field"
-              htmlFor="ingredientImage"
-            >
-              Upload image of ingredient:
-            </label>
-          </div>
-
-          <div>
-            <input
-              name="image"
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              // required
-            />
-          </div>
-        </div>
+    return (
+    
+        <form className="add-ingredient-form" onSubmit={handleSubmit}>
+          <main className="App">
+            <h1>Edit Ingredient</h1>
+            <div class="formField">
+              <div>
+              <label className="add-ingredient-form-field"  htmlFor="ingredientName" >Enter your ingredient name:</label>
+              </div>
+             
+              <div>
+              <input
+                id="ingredientName"
+                type="text"
+                value={ingredientName}
+                onChange={e => setIngredientName(e.target.value)}
+                required
+              />
+              </div>
+              
+            </div>
+    
+            <div class="formField">
+                <div>
+                <label className="add-ingredient-form-field"  htmlFor="ingredientImage">Upload image of ingredient:</label>
+                </div>
+                
+                <div>
+                <input
+                    name="image"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    required
+                  
+                />
+            </div>
+              
+            </div>
 
         <div class="formField">
           <div>
@@ -152,31 +151,33 @@ const EditIngredient = () => {
           </div>
         </div>
 
-        {error && (
-          <div>
-            <p className="notwork">{error}</p>
-            <Link to="/">Bypass due to error</Link>
-          </div>
-        )}
-        <div className="btn-section">
-          <div>
-            <Link to="/fridge">
-              <button className="submit-edit-button" type="submit">
-                Save Edit
-              </button>
-            </Link>
-          </div>
-          <div>
-            <button className="cancel-edit-ingredient">
-              <Link to="/fridge" className="cancel-link">
-                Cancel Edit
+            {error && (
+                <div>
+                  <p className="notwork">{error}</p>
+                  <Link to="/">Bypass due to error</Link>
+                </div>
+            )}
+            <div className="btn-section">
+            <div>
+              <Link to="/fridge">
+                <button className="submit-edit-button" type="submit" >Save Edit</button>
+                
               </Link>
-            </button>
-          </div>
-        </div>
-      </main>
-    </form>
-  );
+            </div>
+            <div>
+              <button className="cancel-edit-ingredient">
+                <Link to="/fridge" className="cancel-link">Cancel Edit</Link>
+    
+              </button>
+              
+            </div>
+    
+            </div>
+            
+          </main>
+        </form>
+    )
+
 };
 
 export default EditIngredient;
