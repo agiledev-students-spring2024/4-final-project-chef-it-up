@@ -1,56 +1,39 @@
 import React, { useState, useEffect  } from "react"
-import { Link, useParams } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 import axios  from 'axios'
 import './Profile.css'
 
 const Profile = () =>{
 
   const userId = localStorage.getItem('userId')
+  const jwtToken = localStorage.getItem("jwt");
   const [userData, setUserData] = useState([])
-  const [error, setError] = useState("")
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   useEffect(() => {
     console.log("useEffect is being called ")
-    axios.get(`http://localhost:3001/api/myProfile/${userId}`)
+    axios.get(`http://localhost:3001/api/myProfile/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`, // Send the JWT token in the authorization header
+      },
+    })
       .then(response => {
         setUserData(response.data)
+        setIsLoggedIn(true);
         console.log(response.data)
       })
       .catch(error => {
         console.error("Error fetching user")
       })
-    }, [userId])
+    }, [userId, jwtToken])
 
-    const fetchUserData = () => {
-      fetch("Backend")
-        .then((response) => {
-          response.json()
-        })
-        .then((data) => setUserData(data.results))
-        .catch(err => {
-          console.log(`Received server error: ${err}`)
-          setError(
-            "This ain't working just yet, give us some time :)"
-          )
-        })
+
+    if (!isLoggedIn) {
+      return <p>You are not authorized to use this feature. Please <Link to="/">log in</Link> first</p>;
     }
+    
 
-  if (error)
-    return (
-      <form className="profile-form">
-        <p>Profile</p>
-          <div class="formField">
-            <h1>Username:</h1>
-            <h2>Guest</h2>
-            
-          </div>
-          <div>
-            <Link to="/editMyProfile"><button className="submit-recipe-button" type="submit" > Edit Your Profile</button>
-            </Link>
-        </div>
-      </form>
-    )
-  else
+  
     return (
       <form className="profile-form">
         <h1>Profile</h1>
