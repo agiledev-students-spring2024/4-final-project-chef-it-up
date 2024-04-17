@@ -12,13 +12,10 @@ const MyFridge = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // if we already have a JWT token in local storage, set this to true, otherwise false
   const [error, setError] = useState("");
 
-  const userId = localStorage.getItem("userId");
-
   useEffect(() => {
     console.log("fetching data for ingredients");
-    console.log(userId)
     axios
-      .get(`http://localhost:3001/api/myFridge/${userId}`, {
+      .get("http://localhost:3001/api/myFridge", {
         headers: {
           Authorization: `Bearer ${jwtToken}`, // Send the JWT token in the authorization header
         },
