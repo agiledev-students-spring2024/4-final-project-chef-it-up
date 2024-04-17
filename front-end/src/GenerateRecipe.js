@@ -5,67 +5,86 @@ import "./GenerateRecipe.css"
 
 const GenerateRecipe = () =>{
     const [genRecipe, setGenRecipe] = useState([])
-    const [criteria, setCriteria] = useState([])
-    const [generated,setGenerated] = useState("")
-    const handleSubmit = e => {
+    const [generated,setGenerated] = useState(false)
+
+    const userId = localStorage.getItem("userId");
+
+    
+    const handleSubmit = async (e) => {
         // Placeholding until chatgpt functionality
-        e.preventDefault()
-        axios.get(`http://localhost:3001/api/generateRecipe`) //Whenever we decide to generate recipes, place url in the quotations
-        .then(response => {
-            console.log("API response: ", response.data)
-            setGenRecipe(response.data)
-            setGenerated("True")
-        })
-        .catch(err => {
-            console.log("You've run out of available generated recipes for today. Please try again tomorrow")
-            console.error(err)
-            setGenerated("True")
-            alert("You've run out of available generated recipes for today. Here is a sample instead")
-        })
+        e.preventDefault();
+
+        try {
+            const response = await axios.get(`http://localhost:3001/api/generateRecipe/${userId}`);
+            
+            console.log("API RESPONSE:", response.data)
+            setGenRecipe(response.data[0]);
+            setGenerated(true);
+        }
+        catch (error) {
+            console.error("generating recipes has failed: ", error);
+        }
     }
-    // Will need to discuss about this with team
-    const recipeId = 100
-    const handleSaveButtonClick = () => {
-        // Placeholder for saving functionality
-        axios.post(`http://localhost:3001/api/addToFavorite/${recipeId}`)
-        .then(response => {
-            console.log(" recipe has been added to favorites: ", response.data)
-
-        })
-        .catch( err =>{
-            console.log(" error trying to add recipes to favorite: ", err)
-
-        })
-        alert(`You clicked the button to add the generated recipe to your favorite list.`);
-    };
+    
 
     useEffect(() => {
-        console.log("useEffect is being called ")
+        console.log("genRecipe:", genRecipe);
 
-      }, [])
+      }, [genRecipe])
 
     return (
         <>
             <form className="profile-form" onSubmit={handleSubmit}>
                 <h1>Generate Recipes</h1>
-                <div class='formField'>
-                    <input
-                    id="criteria"
-                    type="text"
-                    placeholder="Base Ingredients"
-                    onChange={e => setCriteria(e.target.value)}
-                    />
-                </div>
-                <p>Generate a Recipe</p>
+                
+                <p>Click the button below to generate a random recipe based on the ingredeints in your fridge or if you dont have any ingredeints it will generate a random one. After pressing please wait a moment as it takes time to generate the recipe.</p>
+
                 <button className="generate-recipe-button" type="submit">Generate</button>
             </form>
-            {generated && (
+            <h2>ChatGPT Generated Recipe</h2>
+            {generated && genRecipe &&(
                 <div className="generated-recipe-container">
-                    <h2>ChatGPT Generated Recipe</h2>
-                    <p>{genRecipe.instructions}</p>
-                    <button className="save-button" onClick={handleSaveButtonClick}>
-                        Add to favorite Recipes
-                    </button>
+                    
+                    <h1>{genRecipe.recipe_name}</h1>
+                    <div className='difficulty-and-cuisine-container'>
+                        <div className="diff-and-cuisine-box">
+                            <h3>Cuisine: {genRecipe.cuisine_type}</h3>
+                        </div>
+                        <div className="diff-and-cuisine-box">
+                            <h3>Difficulty: {genRecipe.difficulty_level}</h3>
+                        </div>
+                        <div className="diff-and-cuisine-box">
+                            <h3>Meal type: {genRecipe.mealType}</h3>
+                        </div>
+                    </div>
+
+                    <div className="time-container">
+                        <div className="time-box">
+                            <h4>Prep Time: {genRecipe.prep_time} minutes</h4>
+                        </div>
+                        <div className="time-box">
+                            <h4>Cook Time: {genRecipe.cook_time} minutes</h4>
+                        </div>
+                        <div className="time-box">
+                            <h4>Total Time: {genRecipe.total_time} minutes</h4>
+                        </div>
+                    </div>
+                    
+
+                    <h3>Ingredients</h3>
+                    <ul>
+                        {genRecipe.ingredients?.map((ingredient, index) => (
+                            <li key={index}>{ingredient}</li>
+                        ))}
+                    </ul>
+                    <h3>Instructions</h3>
+                    <ol>
+                        {genRecipe.instructions?.map((instruction, index) => (
+                            <li key={index}>{instruction}</li>
+                        ))}
+                    </ol>
+                   
+                    
                 </div>
             )}
             <form className="return-form">
