@@ -16,6 +16,7 @@ const AddRecipe = () => {
   const [difficultyLevel, setDifficultyLevel] = useState("");
   const [mealType, setMealType] = useState("");
   const [error, setError] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   const options = [
@@ -47,9 +48,14 @@ const AddRecipe = () => {
 ]
 
   useEffect(() => {
-    setMealType('breakfast')
-    setDifficultyLevel('Easy')
-    setCuisine('Other')
+    const jwtToken = localStorage.getItem("jwt");
+    if (jwtToken) {
+      setLoggedIn(true);
+      setMealType('breakfast')
+      setDifficultyLevel('Easy')
+      setCuisine('Other')
+    }
+    
   },[])
 
   const handleImageChange = (e) => {
@@ -95,6 +101,10 @@ const AddRecipe = () => {
     }
 
   };
+
+  if (!loggedIn) {
+    return <p>You are not authorized to use this feature. Please <Link to="/">log in</Link> first</p>;
+  }
 
   return (
     <form className="add-recipe-form" onSubmit={handleSubmit} encType='multipart/form-data'>

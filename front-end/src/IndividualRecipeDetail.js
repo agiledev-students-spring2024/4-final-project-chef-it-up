@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './individualRecipeDetail.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -11,6 +11,7 @@ const IndividualRecipeDetail = () => {
     const { recipeId } = useParams();
     const [getRecipe, setRecipe] = useState();
     const userId = localStorage.getItem("userId");
+    const navigate = useNavigate();
 
   
     // const { getRecipe } = useRecipeContext(); // getting the cards related recipe details
@@ -54,6 +55,8 @@ const IndividualRecipeDetail = () => {
         axios.post(`http://localhost:3001/api/addToFavorite/${recipeId}/${userId}`, favoriteRecipeData)
         .then(response => {
             console.log(" recipe has been added to favorites: ", response.data)
+            navigate('/favoriteRecipes');
+
 
         })
         .catch( err =>{
@@ -123,11 +126,11 @@ const IndividualRecipeDetail = () => {
                 </ol>
             </div>
            
-            <Link>
+            
                 <button className="favrorite-recipe-button" onClick={handleSaveButtonClick}>
                     Add to favorite Recipes
                 </button> 
-            </Link>
+            
     
         </div>
 

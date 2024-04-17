@@ -446,10 +446,10 @@ app.post('/api/addToFavorite/:recipeId/:id', async (req, res) => {
 });
 
 // display items in fridge
-app.get('/api/myFridge/:id', verifyToken, async (req, res) => {
+app.get('/api/myFridge', verifyToken, async (req, res) => {
+  const userId = req.userId;
   try {
-    const id = req.params.id;
-    const ingredients = await Ingredient.find( {createdBy: id} );
+    const ingredients = await Ingredient.find({createdBy: userId});
     res.status(200).json(ingredients);
   } catch (error) {
     console.error(error);
@@ -482,7 +482,7 @@ app.post('/api/addIngredient', verifyToken, upload.single('image'), async (req, 
     const ingredient = Ingredient({
       ingredient_name: ingredientName,
       img: req.file.path,
-      quantity: Quantity,
+      quantity: quantity,
       expiry_date: expiryDate,
       createdBy: userId,
     });
@@ -758,13 +758,18 @@ app.post('/api/register', async (req, res) => {
       token: token,
       username: username,
     });
-    console.log(new_user._id);
-    console.log(new_user.id);
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Error registering account.',
+      error: error,
+    });
+  }
 });
 
 // Commenting out until we get the database running, may be useful later on
-app.get('/api/myProfile/:userId', async (req, res) => {
+app.get('/api/myProfile/:userId', verifyToken, async (req, res) => {
   const { userId } = req.params;
   const user = await User.findById(userId);
   if (user) {

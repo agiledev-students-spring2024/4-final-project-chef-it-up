@@ -97,7 +97,7 @@ const MyFridge = () => {
         </>
       ) : (
         <div>
-          <p className="notwork">{error}</p>
+          <p className="notwork">You are not authorized to use this feature. Please <Link to="/">log in</Link> first</p>
         </div>
       )}
     </div>

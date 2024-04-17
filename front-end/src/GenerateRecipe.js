@@ -6,6 +6,7 @@ import "./GenerateRecipe.css"
 const GenerateRecipe = () =>{
     const [genRecipe, setGenRecipe] = useState([])
     const [generated,setGenerated] = useState(false)
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const userId = localStorage.getItem("userId");
 
@@ -28,9 +29,16 @@ const GenerateRecipe = () =>{
     
 
     useEffect(() => {
-        console.log("genRecipe:", genRecipe);
+        const jwtToken = localStorage.getItem("jwt");
+        if (jwtToken) {
+            setLoggedIn(true);
+        }
 
-      }, [genRecipe])
+    }, )
+
+    if (!loggedIn) {
+        return <p>You are not authorized to use this feature. Please <Link to="/">log in</Link> first</p>;
+    }
 
     return (
         <>
