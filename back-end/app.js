@@ -446,9 +446,10 @@ app.post('/api/addToFavorite/:recipeId/:id', async (req, res) => {
 });
 
 // display items in fridge
-app.get('/api/myFridge', verifyToken, async (req, res) => {
+app.get('/api/myFridge/:id', verifyToken, async (req, res) => {
   try {
-    const ingredients = await Ingredient.find();
+    const id = req.params.id;
+    const ingredients = await Ingredient.find( {createdBy: id} );
     res.status(200).json(ingredients);
   } catch (error) {
     console.error(error);
@@ -471,6 +472,7 @@ app.get('/api/myFridge/:ingredientId', async (req, res) => {
 // add ingredient to fridge
 app.post('/api/addIngredient', verifyToken, upload.single('image'), async (req, res) => {
   const userId = req.userId;
+  // const id = req.params.id;
 
   const { ingredientName, quantity, expiryDate } = req.body;
 
@@ -756,6 +758,8 @@ app.post('/api/register', async (req, res) => {
       token: token,
       username: username,
     });
+    console.log(new_user._id);
+    console.log(new_user.id);
   } catch (error) {}
 });
 
