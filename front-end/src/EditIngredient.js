@@ -18,24 +18,25 @@ const EditIngredient = () =>{
     const navigate = useNavigate();
 
 
-    useEffect(() => {
-      console.log("useEffect is being called")
-      axios.get(`http://localhost:3001/api/editIngredientInfo/${ingredientId}`)
-          .then(response => {
-            setEditedIngredient(response.data)
-            setIngredientName(response.data.ingredient_name)
-            setQuantity(response.data.quantity)
-            setExpiryDate(response.data.expiry_date)
-            console.log(response.data)
-          })
-          .catch(error => {
-            console.error("Error fetching ingredient: ", error)
-          });
-
-    }, [ingredientId]);
+  useEffect(() => {
+    console.log("useEffect is being called");
+    console.log({ ingredientId });
+    axios
+      .get(`http://localhost:3001/api/editIngredientInfo/${ingredientId}`)
+      .then((response) => {
+        setEditedIngredient(response.data);
+        setIngredientName(response.data.ingredient_name);
+        setQuantity(response.data.quantity);
+        setExpiryDate(response.data.expiry_date);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching ingredient: ", error);
+      });
+  }, [ingredientId]);
 
   if (!editedIngredient) {
-      return <div>Ingredient to edit not found!</div>;
+    return <div>Ingredient to edit not found!</div>;
   }
 
   const handleImageChange = (e) => {
@@ -108,36 +109,46 @@ const EditIngredient = () =>{
               
             </div>
 
-            <div class="formField">
-            <div>
-            <label className="add-ingredient-form-field" htmlFor="ingredientExpiryDate">Enter expiry date</label>
-            </div>
+        <div class="formField">
+          <div>
+            <label
+              className="add-ingredient-form-field"
+              htmlFor="ingredientExpiryDate"
+            >
+              Enter expiry date
+            </label>
+          </div>
 
-            <div>
+          <div>
             <input
-                id="ingredientExpiryDate"
-                type="date"
-                value={expiryDate}
-                onChange={e => setExpiryDate(e.target.value)}
-                required
+              id="ingredientExpiryDate"
+              type="date"
+              value={expiryDate}
+              onChange={(e) => setExpiryDate(e.target.value)}
+              required
             />
-            </div>
+          </div>
         </div>
 
-            <div class="formField">
-            <div>
-            <label className="add-ingredient-form-field" htmlFor="ingredientQuantity">Enter quantity</label>
-            </div>
+        <div class="formField">
+          <div>
+            <label
+              className="add-ingredient-form-field"
+              htmlFor="ingredientQuantity"
+            >
+              Enter quantity
+            </label>
+          </div>
 
-            <div>
+          <div>
             <input
-                id="ingredientQuantity"
-                type="number"
-                value={quantity}
-                onChange={e => setQuantity(e.target.value)}
-                required
+              id="ingredientQuantity"
+              type="number"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              required
             />
-            </div>
+          </div>
         </div>
 
             {error && (

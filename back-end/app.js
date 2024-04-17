@@ -59,13 +59,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 let currentDate = new Date();
-let defaultExpiryDate = new Date(currentDate.getTime() + (3 * 24 * 60 * 60 * 1000));
+let defaultExpiryDate = new Date(currentDate.getTime() + 3 * 24 * 60 * 60 * 1000);
 
 // Format the expiry date as YYYY-MM-DD
 let formattedDefaultDate = defaultExpiryDate.toISOString().split('T')[0];
 
 let basicFridge = [
-
   {
     ingredient_name: 'Chicken breast',
     img: 'ingredients/chicken-breast.jpg',
@@ -78,7 +77,7 @@ let basicFridge = [
     expiry_date: formattedDefaultDate,
     quantity: 2,
   },
-  
+
   {
     ingredient_name: 'Carrots',
     img: 'ingredients/carrots.jpg',
@@ -115,7 +114,7 @@ let basicFridge = [
     expiry_date: formattedDefaultDate,
     quantity: 3,
   },
- 
+
   {
     ingredient_name: 'milk',
     img: 'ingredients/milk.jpg',
@@ -164,11 +163,9 @@ let basicFridge = [
     expiry_date: formattedDefaultDate,
     quantity: 3,
   },
-
-]
+];
 
 let meatFridge = [
-
   {
     ingredient_name: 'Chicken breast',
     img: 'ingredients/chicken-breast.jpg',
@@ -235,7 +232,6 @@ let meatFridge = [
     expiry_date: formattedDefaultDate,
     quantity: 1,
   },
-
 ];
 
 let vegetarianFridge = [
@@ -318,7 +314,7 @@ let vegetarianFridge = [
     expiry_date: formattedDefaultDate,
     quantity: 3,
   },
-]
+];
 
 const verifyToken = (req, res, next) => {
   const token = req.headers.authorization;
@@ -374,7 +370,7 @@ app.get('/api/favoriteRecipes/:id', async (req, res) => {
   const id = req.params.id;
 
   try {
-    const favoriteRecipes = await FavoriteRecipe.find({ userFavorited: id})
+    const favoriteRecipes = await FavoriteRecipe.find({ userFavorited: id });
     res.status(200).json(favoriteRecipes);
   } catch (error) {
     console.error(error);
@@ -403,11 +399,10 @@ app.get('/api/individualFavoriteInfo/:recipeId', async (req, res) => {
 // deleting a favorited recipe from the favorited list for now
 app.delete('/api/Unfavorite/:recipeId', async (req, res) => {
   const { recipeId } = req.params;
-  try{
+  try {
     await FavoriteRecipe.findByIdAndDelete(recipeId);
     res.status(200).json({ message: 'Favorite recipe successfully removed from favorite list' });
-
-  } catch (error){
+  } catch (error) {
     console.error(error);
     res.status(404).json({ error: 'Server error unable to remove from favorite recipe list' });
   }
@@ -418,15 +413,16 @@ app.post('/api/addToFavorite/:recipeId/:id', async (req, res) => {
   const recipeId = req.params.recipeId;
   const id = req.params.id;
 
-
   try {
-
-    const existingFavorite = await FavoriteRecipe.findOne({ userFavorited: id, createdby: recipeId });
+    const existingFavorite = await FavoriteRecipe.findOne({
+      userFavorited: id,
+      createdby: recipeId,
+    });
     if (existingFavorite) {
       return res.status(400).json({ error: 'Recipe already exists in favorites' });
     }
 
-    const newFavoriteRecipe = new FavoriteRecipe ({
+    const newFavoriteRecipe = new FavoriteRecipe({
       recipe_name: req.body.recipe_name,
       img: req.body.img,
       ingredients: req.body.ingredients,
@@ -544,18 +540,25 @@ app.post('/api/editIngredient/:ingredientId', upload.single('image'), async (req
 });
 
 // delete ingredient
-app.delete('/api/deleteIngredient/:ingredientId', (req, res) => {
+app.delete('/api/deleteIngredient/:ingredientId', async (req, res) => {
   const { ingredientId } = req.params;
   console.log(ingredientId);
 
-  const indexToRemove = fridgeData.findIndex((ingredient) => ingredient.id == ingredientId);
-  console.log('index to remove: ', indexToRemove);
-
-  if (indexToRemove == -1) {
-    res.status(404).json({ error: 'Ingredient not found in fridge' });
-  } else {
-    fridgeData.splice(indexToRemove, 1);
-    res.status(200).json({ message: 'Ingredient removed from fridge' });
+  try {
+    const ingredient = await Ingredient.findById(ingredientId);
+    const { imageLocation } = ingredient.img;
+    if (ingredient) {
+      try {
+        await ingredient.deleteOne();
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Error from server when deleting ingredient.');
+      }
+      res.status(200).send('ingredient successfully deleted');
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error from server when deleting ingredient.');
   }
 });
 
@@ -584,13 +587,13 @@ app.get('/api/myIndividualRecipe/:recipeId', async (req, res) => {
 app.delete('/api/deleteRecipe/:recipeId', async (req, res) => {
   const { recipeId } = req.params;
   console.log(recipeId);
-  try{
-    const recipe = await Recipe.findById(recipeId)
-    const { imageLocation } = recipe.img
-    if(recipe){
-      try{
+  try {
+    const recipe = await Recipe.findById(recipeId);
+    const { imageLocation } = recipe.img;
+    if (recipe) {
+      try {
         await recipe.deleteOne();
-      } catch (err){
+      } catch (err) {
         console.error(err);
         res.status(500).send('Error from server when deleting recipe.');
       }
@@ -600,19 +603,17 @@ app.delete('/api/deleteRecipe/:recipeId', async (req, res) => {
       //  console.error(err);
       //  res.status(500).send('Error from server when deleting recipe image.');
       //}
-      res.status(200).send('recipe successfully deleted')
+      res.status(200).send('recipe successfully deleted');
     }
-  } catch (err){
+  } catch (err) {
     console.error(err);
     res.status(500).send('Error from server when deleting recipe.');
   }
-  
-
 });
 
 app.get('/api/editRecipeInfo/:recipeId', async (req, res) => {
   const { recipeId } = req.params;
-  
+
   const recipe = await Recipe.findById(recipeId);
   if (recipe) {
     res.json(recipe);
@@ -634,25 +635,33 @@ app.post('/api/editRecipe/:recipeId', upload.single('image'), async (req, res) =
     difficultyLevel,
     mealType,
   } = req.body;
-  
-  try{
+
+  try {
     const recipeToEdit = Recipe.findById(recipeId);
-     console.log('Recipe to edit: ', difficultyLevel);
+    console.log('Recipe to edit: ', difficultyLevel);
     if (recipeToEdit) {
-      const updatedUser = await Recipe.findByIdAndUpdate({_id:recipeId},{$set:{
-        recipe_name: recipeName,
-        img: req.file.path,
-        ingredients: ingredients,
-        instructions: instructions,
-        prep_time: prepTime,
-        cook_time: cookTime,
-        total_time: totalTime,
-        cuisine: cuisine,
-        difficulty_level: difficultyLevel,
-        mealType: mealType,
-      }})
-      if(updatedUser){return res.json({status:"success",message:"user updated"})}
-  }} catch (error){
+      const updatedUser = await Recipe.findByIdAndUpdate(
+        { _id: recipeId },
+        {
+          $set: {
+            recipe_name: recipeName,
+            img: req.file.path,
+            ingredients: ingredients,
+            instructions: instructions,
+            prep_time: prepTime,
+            cook_time: cookTime,
+            total_time: totalTime,
+            cuisine: cuisine,
+            difficulty_level: difficultyLevel,
+            mealType: mealType,
+          },
+        }
+      );
+      if (updatedUser) {
+        return res.json({ status: 'success', message: 'user updated' });
+      }
+    }
+  } catch (error) {
     console.error(error);
     res.status(500).json({
       success: false,
@@ -717,20 +726,19 @@ app.post('/api/register', async (req, res) => {
     let defaultFridge;
     if (starter === 'Basic-Fridge') {
       defaultFridge = basicFridge;
-    } 
-    else if (starter === 'Meat-Fridge') {
+    } else if (starter === 'Meat-Fridge') {
       defaultFridge = meatFridge;
-    } 
-    else if (starter === 'Vegetarian-Fridge') {
+    } else if (starter === 'Vegetarian-Fridge') {
       defaultFridge = vegetarianFridge;
-    } 
-    else {
-      return res.status(400).json({ success: false, message: 'Error: Invalid default fridge selection' });
+    } else {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Error: Invalid default fridge selection' });
     }
     const new_user = new User({ username: username, password: password });
     await new_user.save();
 
-    const ingredients = defaultFridge.map(ingredientData => ({
+    const ingredients = defaultFridge.map((ingredientData) => ({
       ingredient_name: ingredientData.ingredient_name,
       img: ingredientData.img,
       quantity: ingredientData.quantity,
@@ -748,48 +756,50 @@ app.post('/api/register', async (req, res) => {
       token: token,
       username: username,
     });
-  } catch (error) {
-
-  }
+  } catch (error) {}
 });
 
 // Commenting out until we get the database running, may be useful later on
 app.get('/api/myProfile/:userId', async (req, res) => {
-    const { userId } = req.params
-    const user = await User.findById(userId)
-    if (user) {
-      res.status(200).json(user)
-    }
-    else {
-      res.status(404).send("No such user exists")
-    }
-})
+  const { userId } = req.params;
+  const user = await User.findById(userId);
+  if (user) {
+    res.status(200).json(user);
+  } else {
+    res.status(404).send('No such user exists');
+  }
+});
 
 app.post('/api/editMyProfile/:userId', async (req, res) => {
-  const { userId } = req.params
-  oldUsername = req.body.oldUsername
+  const { userId } = req.params;
+  oldUsername = req.body.oldUsername;
   username = req.body.username;
   oldPassword = req.body.oldPassword;
   newPassword = req.body.newPassword;
-  
+
   try {
-    const user = await User.findOne({ username:oldUsername });
+    const user = await User.findOne({ username: oldUsername });
 
     if (!user) {
-      return res.status(401).json({ message: 'Error editing profile: Could not find user'})
+      return res.status(401).json({ message: 'Error editing profile: Could not find user' });
     }
 
     if (!user.validPassword(oldPassword)) {
-      console.error(`Incorrect former password.`)
-      return res.status(401).json({ message: 'Error editing profile: Incorrect Password'})
+      console.error(`Incorrect former password.`);
+      return res.status(401).json({ message: 'Error editing profile: Incorrect Password' });
     }
-    bcrypt.hash(newPassword, 10, async function(err, hash) {
+    bcrypt.hash(newPassword, 10, async function (err, hash) {
       if (err) {
-          return res.status(500).json({ status: "error", message: "Error hashing password" });
+        return res.status(500).json({ status: 'error', message: 'Error hashing password' });
       }
-      const updatedUser = await User.findByIdAndUpdate({_id:userId},{$set:{username:username, password:hash}})
-      if(updatedUser){return res.json({status:"success",message:"user updated"})}
-    })
+      const updatedUser = await User.findByIdAndUpdate(
+        { _id: userId },
+        { $set: { username: username, password: hash } }
+      );
+      if (updatedUser) {
+        return res.json({ status: 'success', message: 'user updated' });
+      }
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -901,7 +911,7 @@ app.get('/api/filterRecipes/mealtypes/:type/:num/:id', async (req, res) => {
     if (num == 1) {
       recipes = await Recipe.find({ mealType: mealType });
     } else if (num == 2) {
-      recipes = await FavoriteRecipe.find({mealType: mealType, userFavorited: id})
+      recipes = await FavoriteRecipe.find({ mealType: mealType, userFavorited: id });
     } else {
       recipes = await Recipe.find({ mealType: mealType, createdBy: id });
     }
@@ -924,7 +934,7 @@ app.get('/api/filterRecipes/difficulty/:level/:num/:id', async (req, res) => {
     if (num == 1) {
       recipes = await Recipe.find({ difficulty_level: level });
     } else if (num == 2) {
-      recipes = await FavoriteRecipe.find({difficulty_level: level, userFavorited: id})
+      recipes = await FavoriteRecipe.find({ difficulty_level: level, userFavorited: id });
     } else {
       recipes = await Recipe.find({ difficulty_level: level, createdBy: id });
     }
@@ -946,7 +956,7 @@ app.get('/api/filterRecipes/cuisine/:cuisine/:num/:id', async (req, res) => {
     if (num == 1) {
       recipes = await Recipe.find({ cuisine: cuisine });
     } else if (num == 2) {
-      recipes = await FavoriteRecipe.find({cuisine: cuisine, userFavorited: id})
+      recipes = await FavoriteRecipe.find({ cuisine: cuisine, userFavorited: id });
     } else {
       recipes = await Recipe.find({ cuisine: cuisine, createdBy: id });
     }
