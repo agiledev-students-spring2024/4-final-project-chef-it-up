@@ -731,24 +731,31 @@ app.post('/api/register', async (req, res) => {
       defaultFridge = meatFridge;
     } else if (starter === 'Vegetarian-Fridge') {
       defaultFridge = vegetarianFridge;
-    } else {
+    } else if (starter === 'None'){
+      defaultFridge = null;
+    }else {
       return res
         .status(400)
         .json({ success: false, message: 'Error: Invalid default fridge selection' });
     }
+
     const new_user = new User({ username: username, password: password });
     await new_user.save();
 
-    const ingredients = defaultFridge.map((ingredientData) => ({
-      ingredient_name: ingredientData.ingredient_name,
-      img: ingredientData.img,
-      quantity: ingredientData.quantity,
-      expiry_date: ingredientData.expiry_date,
-      createdBy: new_user._id, // Set createdBy to the _id of the new user
-    }));
+    if (defaultFridge){
+      const ingredients = defaultFridge.map((ingredientData) => ({
+        ingredient_name: ingredientData.ingredient_name,
+        img: ingredientData.img,
+        quantity: ingredientData.quantity,
+        expiry_date: ingredientData.expiry_date,
+        createdBy: new_user._id, // Set createdBy to the _id of the new user
+      }));
+  
+      // Insert all starter data into Ingredient schema at once
+      await Ingredient.insertMany(ingredients);
 
-    // Insert all starter data into Ingredient schema at once
-    await Ingredient.insertMany(ingredients);
+    }
+    
 
     const token = new_user.generateJWT();
     res.status(201).json({
@@ -756,6 +763,7 @@ app.post('/api/register', async (req, res) => {
       message: 'User registered successfully',
       token: token,
       username: username,
+      userId: new_user._id
     });
   } catch (error) {
     console.error(error);

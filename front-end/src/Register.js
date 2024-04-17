@@ -15,6 +15,7 @@ const Register = () => {
     { value: 'Basic-Fridge', label: 'Basic-Fridge' },
     { value: 'Vegetarian-Fridge', label: 'Vegetarian-Fridge' },
     { value: 'Meat-Fridge', label: 'Meat-Fridge' },
+    { value: 'None', label: 'None' },
   ]
   const [starter, setStarter] = useState(options[0].value)
 
@@ -34,6 +35,8 @@ const Register = () => {
       );
       
       const token = response.data.token;
+      const userId = response.data.userId
+      localStorage.setItem('userId', userId)
       localStorage.setItem('jwt', token);
       console.log(`Server response: ${JSON.stringify(response.data, null, 0)}`);
       setResponse(response.data);
