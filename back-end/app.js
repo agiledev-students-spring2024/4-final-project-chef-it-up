@@ -11,6 +11,13 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const fs = require('fs')
+const OpenAI = require('openai');
+
+
+
+const openai = new OpenAI({
+  apiKey: process.env.OPEN_API_KEY
+})
 
 // use this JWT strategy within passport for authentication handling
 const jwtStrategy = require('./config/jwt-config.js'); // import setup options for using JWT in passport
@@ -835,17 +842,52 @@ app.post('/api/addRecipe', verifyToken, upload.single('image'), async (req, res)
   }
 });
 
-app.get('/api/generateRecipe', (req, res) => {
-  // Since we don't have ChatGPT api yet, we will just send a hardcoded recipe as an example
-  const generated = {
-    instructions:
-      'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.',
-  };
+app.get('/api/generateRecipe/:id', async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
 
-  if (generated) {
-    res.json(generated);
-  } else {
-    res.status(404).json({ error: 'Error from server when sending generated recipe.' });
+  const user = await User.findById(id);
+
+  if (!user){
+    return res.status(401).json({ message: 'Error cannot find user' });
+  }
+
+  const ingredients = await Ingredient.find({createdBy: id}).select('ingredient_name');
+
+  const ingredientNames = ingredients.map(ingredient => ingredient.ingredient_name);
+
+  const exampleFormat = `
+  [
+    {"recipe_name": "Recipe name 1", 
+    "ingredients": ["Ingredient 1", "Ingrendient 2",...], 
+    "instructions": ["Step number 1 to make Recipe 1.","Step number 2 to make Recipe 1",...], 
+    "prep_time": "Time in minutes for preperation to make Recipe 1.", 
+    "cook_time": "Time in minutes to cook recipe 1.", 
+    "total_time": "total time it takes so (prep_time + cook_time) to cook recipe 1", 
+    "cuisine_type" : "the type of cuisine ex: american, Japanase...",  
+    "difficulty_level": "difficulty level ranging from easy, medium, and hard", 
+    "mealType": "the type of meal so breakfast, lunch, dinner, or dessrt"}
+  ]`
+
+  let prompt = `Using only the following ingredients: ${ingredientNames.join(', ')}, generate a recipe in JSON format. 
+      Each recipe should match this example Format ${exampleFormat}`;
+  
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: prompt }],
+        
+    })
+
+    const generatedRecipe = response.choices[0].message.content;
+    console.log(generatedRecipe);
+    const cleanGenerateRecipe = JSON.parse(generatedRecipe);
+    console.log(cleanGenerateRecipe);
+    res.json(cleanGenerateRecipe);
+
+  } catch (error){
+      console.error('Error generating recipes:', error);
+      res.status(500).send('Error generating recipe');
   }
 });
 
