@@ -15,7 +15,7 @@ const HamburgerMenu = () => {
             <Link to="/myProfile/:userId">My Profile</Link>
             <Link to="/aboutUs">About Us</Link>
             <Link to="/logout">Logout</Link>
-            </Menu>  
+            </Menu>
         </div>
         
 
