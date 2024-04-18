@@ -40,10 +40,10 @@ const Login = ({ setUser }) => {
       setStatus(response.data)
       navigate('/browseRecipes')
     }
-    catch (err){
-      console.log(`Received server error: ${err}`)
+    catch (error){
+      console.log(`Received server error: ${error}`)
         setError(
-          err.response.data.message
+          error.response.data.message
         )
 
     }

@@ -12,6 +12,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const fs = require('fs')
 const OpenAI = require('openai');
+const { body, validationResult } = require('express-validator');
 
 
 
@@ -418,6 +419,7 @@ app.post('/api/addToFavorite/:recipeId/:id', async (req, res) => {
       userFavorited: id,
       createdby: recipeId,
     });
+    
     if (existingFavorite) {
       return res.status(400).json({ error: 'Recipe already exists in favorites' });
     }
@@ -469,10 +471,20 @@ app.get('/api/myFridge/:ingredientId', async (req, res) => {
   }
 });
 
-// add ingredient to fridge
-app.post('/api/addIngredient', verifyToken, upload.single('image'), async (req, res) => {
+const addIngredientValidation = [
+  body('ingredientName').notEmpty().withMessage('Ingredient name is required'),
+  body('quantity').notEmpty().withMessage('Quantity is required').isInt({ min: 0 }).withMessage('Quantity must be a non-negative integer'),
+  body('expiryDate').notEmpty().withMessage('Expiry date is required')
+];
+
+app.post('/api/addIngredient', verifyToken, upload.single('image'), addIngredientValidation, async (req, res) => {
   const userId = req.userId;
   // const id = req.params.id;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
   const { ingredientName, quantity, expiryDate } = req.body;
 
@@ -482,7 +494,7 @@ app.post('/api/addIngredient', verifyToken, upload.single('image'), async (req, 
     const ingredient = Ingredient({
       ingredient_name: ingredientName,
       img: req.file.path,
-      quantity: quantity,
+      quantity: Quantity,
       expiry_date: expiryDate,
       createdBy: userId,
     });
@@ -509,8 +521,14 @@ app.get('/api/editIngredientInfo/:ingredientId', async  (req, res) => {
 });
 
 // edit ingredient
-app.post('/api/editIngredient/:ingredientId', upload.single('image'), async (req, res) => {
+app.post('/api/editIngredient/:ingredientId', upload.single('image'), addIngredientValidation, async (req, res) => {
   const { ingredientId } = req.params;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const { ingredientName, expiryDate, quantity } = req.body;
   try {
     const ingredientToEdit = Ingredient.findById(ingredientId);
@@ -624,8 +642,26 @@ app.get('/api/editRecipeInfo/:recipeId', async (req, res) => {
   }
 });
 
-app.post('/api/editRecipe/:recipeId', upload.single('image'), async (req, res) => {
+const addRecipeValidation = [
+  body('recipeName').notEmpty().withMessage('Recipe name is required'),
+  body('ingredients').notEmpty().withMessage('Ingredients are required'),
+  body('instructions').notEmpty().withMessage('Instructions are required'),
+  body('prepTime').notEmpty().withMessage('Preparation time is required').isInt({ min: 0 }).withMessage('Quantity must be a non-negative integer'),
+  body('cookTime').notEmpty().withMessage('Cooking time is required').isInt({ min: 0 }).withMessage('Quantity must be a non-negative integer'),
+  body('totalTime').notEmpty().withMessage('Total time is required').isInt({ min: 0 }).withMessage('Quantity must be a non-negative integer'),
+  body('cuisine').notEmpty().withMessage('Cuisine is required'),
+  body('difficultyLevel').notEmpty().withMessage('Difficulty level is required'),
+  body('mealType').notEmpty().withMessage('Meal type is required'),
+];
+
+app.post('/api/editRecipe/:recipeId', upload.single('image'), addRecipeValidation, async (req, res) => {
   const { recipeId } = req.params;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const {
     recipeName,
     ingredients,
@@ -673,9 +709,19 @@ app.post('/api/editRecipe/:recipeId', upload.single('image'), async (req, res) =
   }
 });
 
-app.post('/api/login', async (req, res) => {
+const validateLogin = [
+  body('username').notEmpty().withMessage('Username is required'),
+  body('password').notEmpty().withMessage('Password is required'),
+];
+
+app.post('/api/login', validateLogin, async (req, res) => {
   username = req.body.username;
   password = req.body.password;
+
+  const message = validationResult(req);
+  if (!message.isEmpty()) {
+    return res.status(400).json({ message: message.array() });
+  }
 
   try {
     const user = await User.findOne({ username });
@@ -707,13 +753,18 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-app.post('/api/register', async (req, res) => {
+app.post('/api/register', validateLogin, async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const starter = req.body.starter;
 
   if (!username || !password || !starter) {
     return res.status(400).send('Please provide a username, password, and default fridge.');
+  }
+
+  const message = validationResult(req);
+  if (!message.isEmpty()) {
+    return res.status(400).json({ message: message.array() });
   }
 
   try {
@@ -787,12 +838,23 @@ app.get('/api/myProfile/:userId', verifyToken, async (req, res) => {
   }
 });
 
-app.post('/api/editMyProfile/:userId', async (req, res) => {
+const validateEditProfile = [
+  body('username').notEmpty().withMessage('Username is required'),
+  body('oldPassword').notEmpty().withMessage('Old password is required'),
+  body('newPassword').notEmpty().withMessage('New password is required'),
+];
+
+app.post('/api/editMyProfile/:userId', validateEditProfile,  async (req, res) => {
   const { userId } = req.params;
   oldUsername = req.body.oldUsername;
   username = req.body.username;
   oldPassword = req.body.oldPassword;
   newPassword = req.body.newPassword;
+
+  const message = validationResult(req);
+  if (!message.isEmpty()) {
+    return res.status(400).json({ message: message.array() });
+  }
 
   try {
     const user = await User.findOne({ username: oldUsername });
@@ -827,8 +889,13 @@ app.post('/api/editMyProfile/:userId', async (req, res) => {
   }
 });
 
-app.post('/api/addRecipe', verifyToken, upload.single('image'), async (req, res) => {
+app.post('/api/addRecipe', verifyToken, upload.single('image'), addRecipeValidation, async (req, res) => {
   const userId = req.userId;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
   const {
     recipeName,

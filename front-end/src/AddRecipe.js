@@ -95,8 +95,12 @@ const AddRecipe = () => {
       navigate("/browseRecipes");
 
     } catch (error) {
-        console.log(`Received server error: ${error}`);
-        setError("Failed to add recipe");
+      console.log(`Received server error: ${error}`);
+      if (error.response && error.response.data && error.response.data.errors) {
+        setError(error.response.data.errors[0].msg);
+      } else {
+        setError("Failed to add Recipe");
+      } 
 
     }
 
@@ -179,7 +183,7 @@ const AddRecipe = () => {
           <br />
           <input
             id="prepTime"
-            type="text"
+            type="number"
             placeholder="Preparation Time"
             onChange={(e) => setPrepTime(e.target.value)}
             required
@@ -192,7 +196,7 @@ const AddRecipe = () => {
           <br />
           <input
             id="cookTime"
-            type="text"
+            type="number"
             placeholder="Cook Time"
             onChange={(e) => setCookTime(e.target.value)}
             required
@@ -205,7 +209,7 @@ const AddRecipe = () => {
           <br />
           <input
             id="totalTime"
-            type="text"
+            type="number"
             placeholder="Total Cooking Time"
             onChange={(e) => setTotalTime(e.target.value)}
             required
@@ -244,11 +248,11 @@ const AddRecipe = () => {
         </div>
 
         {error && (
-          <div>
-            <p className="notwork">{error}</p>
-            <Link to="/">Bypass due to error</Link>
-          </div>
+              <div>
+                <p className="notwork">{error}</p>
+              </div>
         )}
+        
         <div className="btn-section">
           <div>
             <button className="submit-recipe-button" type="submit">

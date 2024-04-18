@@ -42,9 +42,9 @@ const Register = () => {
       setResponse(response.data);
       navigate('/browseRecipes')
     }
-    catch (err){
+    catch (error){
       setError(
-        err.response.data.message
+        error.response.data.message
       );
     }
        
@@ -78,7 +78,7 @@ const Register = () => {
   return (
     <form className='register-form' onSubmit={handleSubmit}>
       <main className="App">
-        <h1>Login</h1>
+        <h1>Register</h1>
         <div class="formField">
           <label className='register-label' htmlFor="username_field">Enter your Username:</label>
           <br />

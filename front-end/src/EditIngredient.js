@@ -63,8 +63,12 @@ const EditIngredient = () =>{
       navigate("/fridge")
     })
     .catch((error) =>{
-      console.log("error trying to edit ingredient: ", error);
-      setError(error);
+      console.log(`Received server error: ${error}`);
+      if (error.response && error.response.data && error.response.data.errors) {
+        setError(error.response.data.errors[0].msg);
+      } else {
+        setError("Failed to add ingredient");
+      }
     });
 
   };
@@ -151,12 +155,12 @@ const EditIngredient = () =>{
           </div>
         </div>
 
-            {error && (
-                <div>
-                  <p className="notwork">{error}</p>
-                  <Link to="/">Bypass due to error</Link>
-                </div>
-            )}
+        {error && (
+          <div>
+            <p className="notwork">{error}</p>
+          </div>
+        )}
+
             <div className="btn-section">
             <div>
               

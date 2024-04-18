@@ -103,9 +103,13 @@ const EditRecipe = () => {
           console.log("recipe has been edited: ", response.data)
           navigate("/myRecipes")
         })
-        .catch( err =>{
-          console.log("error trying to edit recipe: ", err)
-          setError(err)
+        .catch((error) =>{
+          console.log(`Received server error: ${error}`);
+          if (error.response && error.response.data && error.response.data.errors) {
+            setError(error.response.data.errors[0].msg);
+          } else {
+            setError("Failed to add Recipe");
+          } 
         })
 
       
@@ -180,7 +184,7 @@ const EditRecipe = () => {
               <br />
               <input
                 id="prepTime"
-                type="text"
+                type="number"
                 value={prepTime}
                 onChange={(e) => setPrepTime(e.target.value)}
                 required
@@ -191,7 +195,7 @@ const EditRecipe = () => {
               <br />
               <input
                 id="cookTime"
-                type="text"
+                type="number"
                 value={cookTime}
                 onChange={(e) => setCookTime(e.target.value)}
                 required
@@ -202,7 +206,7 @@ const EditRecipe = () => {
               <br />
               <input
                 id="totalTime"
-                type="text"
+                type="number"
                 value={totalTime}
                 onChange={(e) => setTotalTime(e.target.value)}
                 required
@@ -235,6 +239,13 @@ const EditRecipe = () => {
               onChange={e => setMealType(e.value)}
               required />
             </div>
+
+            {error && (
+              <div>
+                <p className="notwork">{error}</p>
+              </div>
+            )}
+
             <div className="btn-section">
             <div>
               
