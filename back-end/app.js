@@ -462,7 +462,7 @@ app.get('/api/myFridge', verifyToken, async (req, res) => {
 // retrieve ingredient details
 app.get('/api/myFridge/:ingredientId', async (req, res) => {
   const { ingredientId } = req.params;
-  const ingredient = await Ingredient.findById(ingredientId);
+  let ingredient = await Ingredient.findById(ingredientId);
 
   if (ingredient) {
     res.json(ingredient);
@@ -489,7 +489,6 @@ app.post('/api/addIngredient', verifyToken, upload.single('image'), addIngredien
   const { ingredientName, quantity, expiryDate } = req.body;
 
   const Quantity = parseInt(quantity);
-
   try {
     const ingredient = Ingredient({
       ingredient_name: ingredientName,
@@ -513,6 +512,7 @@ app.get('/api/editIngredientInfo/:ingredientId', async  (req, res) => {
   const { ingredientId } = req.params;
  
   const ingredient = await Ingredient.findById(ingredientId);
+
   if (ingredient) {
     res.json(ingredient);
   } else {
