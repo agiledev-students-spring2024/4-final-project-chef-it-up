@@ -86,13 +86,6 @@ const BrowseRecipes = () => {
     }
   };
 
-  /* commented out for now as may refactor 
-    const handleRecipeClick = (recipe) => {
-      getCurrRecipe(recipe);
-    };
-    */
-
-  // note: got rid of onClick={() => handleRecipeClick(recipe)} in <RecipeCard key={recipe.id} recipe={recipe} baseUrl="/individualRecipe" /> (line 59)
 
   return (
     <div className="recipes-contianer">

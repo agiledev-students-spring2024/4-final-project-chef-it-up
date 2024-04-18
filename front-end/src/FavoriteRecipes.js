@@ -32,8 +32,6 @@ const FavoriteRecipes = () =>{
         { value: 'Mediterranean', label: 'Mediterranean' }
         
     ]
-    // const [userData, setUserData] = useState([])
-    // const { getCurrRecipe } = useRecipeContext();
     
     useEffect(() =>{
         console.log("fetching random data for 2 recipes")
@@ -83,13 +81,6 @@ const FavoriteRecipes = () =>{
             console.error("Error filtering recipes by difficulty level:", error);
         }
     }
-
-    /*const handleRecipeClick = (recipe) => {
-      getCurrRecipe(recipe);
-    };
-    */
-
-
 
     return (
         <div className="recipes-contianer">

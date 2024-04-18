@@ -617,12 +617,7 @@ app.delete('/api/deleteRecipe/:recipeId', async (req, res) => {
         console.error(err);
         res.status(500).send('Error from server when deleting recipe.');
       }
-      //try{
-      //  fs.unlinkSync(imageLocation)
-      //} catch (err){
-      //  console.error(err);
-      //  res.status(500).send('Error from server when deleting recipe image.');
-      //}
+
       res.status(200).send('recipe successfully deleted');
     }
   } catch (err) {

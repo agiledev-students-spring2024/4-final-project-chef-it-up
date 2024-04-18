@@ -18,8 +18,6 @@ import MyRecipesDetail from "./MyRecipesDetail"
 import EditRecipe from "./EditRecipe"
 import EditIngredient from "./EditIngredient"
 import Logout from "./Logout";
-import { RecipeProvider } from './RecipeContext';
-import { IngredientProvider } from "./IngredientContext"
 import AboutUs from "./AboutUs"
 import './App.css';
 import {useState} from "react"
@@ -31,9 +29,6 @@ function App() {
     <div className="App">
       <Router>
         <Header />
-        {/* <IngredientProvider> */}
-          {/* comment out recipe provider as my route currently does not use it as i am thinking of refactoring*/ }
-        {/*<RecipeProvider>*/}
          <Routes>
 
           <Route path="/" element={<Login setUser={setUser}/>} />
@@ -57,8 +52,6 @@ function App() {
           <Route path="/editIngredient/:ingredientId" element={<EditIngredient />} />
 
          </Routes>
-        {/*</RecipeProvider>*/}
-        {/* </IngredientProvider> */}
       </Router>
 
     </div>
