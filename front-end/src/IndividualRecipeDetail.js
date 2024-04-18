@@ -111,18 +111,18 @@ const IndividualRecipeDetail = () => {
             <div className='ingredient-container'>
                 <h2 className='ingredient-title'>Ingredients:</h2>
                 <ul>
-                    <li>{getRecipe.ingredients}</li>
-                    <li>{getRecipe.ingredients}</li>
-                    <li>{getRecipe.ingredients}</li>        
-                 </ul>
+                    {(getRecipe.ingredients.split("\n")).map((ingredient,index) => (
+                    <li key={index}>{ingredient}</li>
+                ))}
+                </ul>
             </div>
             
             <div className='direction-container' >
                 <h2 className='direction-title' >Directions:</h2>
                 <ol>
-                    <li>{getRecipe.instructions}</li>
-                    <li>{getRecipe.instructions}</li>
-                    <li>{getRecipe.instructions}</li>
+                    {(getRecipe.instructions.split("\n")).map((instruction,index) => (
+                    <li key={index}>{instruction}</li>
+                ))}
                 </ol>
             </div>
            

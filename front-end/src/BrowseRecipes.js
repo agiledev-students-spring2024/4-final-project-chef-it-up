@@ -101,7 +101,7 @@ const BrowseRecipes = () => {
           <h1>Browse Recipes</h1>
 
           <div className="browse-recipe-filter">
-            <h2>filter by cuisine</h2>
+            <h2>Filter by cuisine</h2>
             <div className="search-container">
               <div className="search-cuisine">
                 <Select
@@ -120,7 +120,7 @@ const BrowseRecipes = () => {
             </div>
 
             <div>
-            <h2>filter by meal type:</h2>
+            <h2>Filter by meal type:</h2>
               <div className="meal-nav">
                 
                 {mealTypeLabel.map((type) => (
@@ -133,7 +133,7 @@ const BrowseRecipes = () => {
                   </button>
                 ))}
               </div>
-              <h2>filter by difficulty level:</h2>
+              <h2>Filter by difficulty level:</h2>
               <div className="difficulty-nav">
                 
                 {difficultyLevelLabel.map((level) => (
