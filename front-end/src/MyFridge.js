@@ -32,41 +32,9 @@ const MyFridge = () => {
           "you are not authorized to view this page please log in first"
         );
         setIsLoggedIn(false);
-        // const backupData = [
-        //   {
-        //     id: 1,
-        //     name: "Chicken",
-        //     img: `https://picsum.photos/200?id=1`,
-        //     expiry_date: "08/26/2024",
-        //     quantity: 1,
-        //     weight_or_volume: 2.5,
-        //   },
-        //   {
-        //     id: 2,
-        //     name: "Butter",
-        //     img: `https://picsum.photos/200?id=2`,
-        //     expiry_date: "05/18/2027",
-        //     quantity: 1,
-        //     weight_or_volume: 1.1,
-        //   },
-        //   {
-        //     id: 3,
-        //     name: "Tomatoes",
-        //     img: `https://picsum.photos/200?id=3`,
-        //     expiry_date: "04/10/2024",
-        //     quantity: 4,
-        //     weight_or_volume: 3.6,
-        //   },
-        // ];
-
-        // setIngredients(backupData);
       });
   }, []);
-
-  // const handleIngredientClick = (ingredient) => {
-  //     getCurrIngredient(ingredient);
-  // };
-
+  
   return (
     <div className="ingredients-contianer">
       {isLoggedIn ? (

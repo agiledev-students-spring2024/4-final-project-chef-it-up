@@ -50,31 +50,6 @@ const Register = () => {
        
   }
 
-  /*fetch('http://localhost:3001/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password, starter }),
-    })
-      .then(response => {
-        if (response.ok){
-          navigate('/')
-          return response.json()
-        }
-        else if (response.status === 401){
-          throw new Error('Invalid Username or Password')
-        }
-        console.log(`Received server response: ${response.data}`)
-      })
-      .catch(err => {
-        console.log(`Received server error: ${err}`)
-        setError(
-          "Failed to login, invalid username or password"
-        )
-      })
-      */
-
   return (
     <form className='register-form' onSubmit={handleSubmit}>
       <main className="App">
