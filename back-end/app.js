@@ -472,6 +472,7 @@ app.get('/api/myFridge/:ingredientId', async (req, res) => {
 // add ingredient to fridge
 app.post('/api/addIngredient', verifyToken, upload.single('image'), async (req, res) => {
   const userId = req.userId;
+  // const id = req.params.id;
 
   const { ingredientName, quantity, expiryDate } = req.body;
 
