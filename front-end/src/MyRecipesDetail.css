@@ -30,6 +30,11 @@
     margin-bottom: 10px;
 }
 
+.recipe-img-container {
+    max-width: 60%;
+    height: auto;
+}
+
 .time-container
  {
     display:inline-flex;
