@@ -479,6 +479,7 @@ const addIngredientValidation = [
 
 app.post('/api/addIngredient', verifyToken, upload.single('image'), addIngredientValidation, async (req, res) => {
   const userId = req.userId;
+  // const id = req.params.id;
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

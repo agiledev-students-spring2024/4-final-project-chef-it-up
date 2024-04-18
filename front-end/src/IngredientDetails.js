@@ -53,8 +53,7 @@ const IngredientDetails = () => {
         <div>
           <h1>{ingredient.ingredient_name}</h1>
         </div>
-
-        <img src={`http://localhost:3001/${ingredient.img}`} alt="ingredient" />
+        <img className="ingredient-image" src={`http://localhost:3001/${ingredient.img}`} alt="ingredient" />
       </div>
 
       <div className="expiry-date-and-quantity-container">
