@@ -58,7 +58,7 @@ const IngredientDetails = () => {
 
       <div className="expiry-date-and-quantity-container">
         <div className="expiry-date-and-quantity-box">
-          <h4>Expiry Date: {ingredient.expiry_date} </h4>
+          <h4>Expiry Date: {ingredient.expiry_date.slice(0,10)} </h4>
         </div>
         <div className="expiry-date-and-quantity-box">
           <h4>Quantity: {ingredient.quantity} </h4>
