@@ -20,6 +20,13 @@ A common problem for many households is groceries and store goods going bad due 
 
 ## Instruction and Methods
 
+### Website Access Option
+
+Through Digital Ocean deployment, you can follow this link to use our app: [Chef-It-Up](https://github.com/agiledev-students-spring2024/4-final-project-chef-it-up)
+
+### Github Repository Cloning Option
+
+Alternatively, you can clone this repository and run Chef-It-Up locally.
 To setup and run our project, follow the instructions below:
 
 #### Clone this repository to your local machine.
@@ -41,7 +48,3 @@ To setup and run our project, follow the instructions below:
 ## Testing
 
 Run `npm test` to view the results of the unit tests and the code coverage.
-
-## Other Notes
-
-In development, come back later
