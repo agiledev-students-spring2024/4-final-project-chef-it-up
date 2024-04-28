@@ -16,7 +16,7 @@ const GenerateRecipe = () =>{
         e.preventDefault();
 
         try {
-            const response = await axios.get(`http://localhost:3001/api/generateRecipe/${userId}`);
+            const response = await axios.get(`http://104.236.7.34:3001/api/generateRecipe/${userId}`);
             
             console.log("API RESPONSE:", response.data)
             setGenRecipe(response.data[0]);

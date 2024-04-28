@@ -52,7 +52,7 @@ const IndividualRecipeDetail = () => {
             
         }
 
-        axios.post(`http://localhost:3001/api/addToFavorite/${recipeId}/${userId}`, favoriteRecipeData)
+        axios.post(`http://104.236.7.34:3001/api/addToFavorite/${recipeId}/${userId}`, favoriteRecipeData)
         .then(response => {
             console.log(" recipe has been added to favorites: ", response.data)
             navigate('/favoriteRecipes');
@@ -80,7 +80,7 @@ const IndividualRecipeDetail = () => {
                     <h1>{getRecipe.recipe_name}</h1>
                 </div>
                
-                <img className='recipe-img-container' src={ `http://localhost:3001/${getRecipe.img}`} alt='picture of dish'/>
+                <img className='recipe-img-container' src={ `http://104.236.7.34:3001/${getRecipe.img}`} alt='picture of dish'/>
 
                 <div className='difficulty-and-cuisine-container'>
                     <div className="diff-and-cuisine-box">

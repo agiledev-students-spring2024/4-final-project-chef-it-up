@@ -22,7 +22,7 @@ const EditIngredient = () =>{
     console.log("useEffect is being called");
     console.log({ ingredientId });
     axios
-      .get(`http://localhost:3001/api/editIngredientInfo/${ingredientId}`)
+      .get(`http://104.236.7.34:3001/api/editIngredientInfo/${ingredientId}`)
       .then((response) => {
         setEditedIngredient(response.data);
         setIngredientName(response.data.ingredient_name);
@@ -57,7 +57,7 @@ const EditIngredient = () =>{
     
     console.log("api to submit edit is being called")
 
-    axios.post(`http://localhost:3001/api/editIngredient/${ingredientId}`, formData)
+    axios.post(`http://104.236.7.34:3001/api/editIngredient/${ingredientId}`, formData)
     .then(response =>{
       console.log("ingredient has been edited: ", response.data);
       navigate("/fridge")

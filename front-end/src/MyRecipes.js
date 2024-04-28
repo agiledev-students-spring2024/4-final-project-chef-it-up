@@ -41,7 +41,7 @@ const MyRecipes= () =>{
 
     useEffect(() =>{
         
-        axios.get("http://localhost:3001/api/myRecipes", {
+        axios.get("http://104.236.7.34:3001/api/myRecipes", {
             headers: {
                 Authorization: `Bearer ${jwtToken}` // Send the JWT token in the authorization header
             }
@@ -61,7 +61,7 @@ const MyRecipes= () =>{
 
     const filterByCuisine = async (cuisine) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/filterRecipes/cuisine/${cuisine}/${num}/${userId}`);
+            const response = await axios.get(`http://104.236.7.34:3001/api/filterRecipes/cuisine/${cuisine}/${num}/${userId}`);
             setFilteredRecipes(response.data);
 
         }
@@ -75,7 +75,7 @@ const MyRecipes= () =>{
 
     const filterByMealType = async (type) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/filterRecipes/mealtypes/${type}/${num}/${userId}`);
+            const response = await axios.get(`http://104.236.7.34:3001/api/filterRecipes/mealtypes/${type}/${num}/${userId}`);
             setFilteredRecipes(response.data);
         } catch (error) {
             console.error('Error filtering recipes by meal type:', error);
@@ -84,7 +84,7 @@ const MyRecipes= () =>{
 
     const filterByDifficultyLevel = async (level) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/filterRecipes/difficulty/${level}/${num}/${userId}`)
+            const response = await axios.get(`http://104.236.7.34:3001/api/filterRecipes/difficulty/${level}/${num}/${userId}`)
             setFilteredRecipes(response.data)
         }
         catch ( error){

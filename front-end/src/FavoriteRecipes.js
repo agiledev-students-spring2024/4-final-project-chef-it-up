@@ -35,7 +35,7 @@ const FavoriteRecipes = () =>{
     
     useEffect(() =>{
         console.log("fetching random data for 2 recipes")
-        axios.get((`http://localhost:3001/api/favoriteRecipes/${userId}`)) //running low on free uses https://my.api.mockaroo.com/recipes.json?key=5f2d0960
+        axios.get((`http://104.236.7.34:3001/api/favoriteRecipes/${userId}`)) //running low on free uses https://my.api.mockaroo.com/recipes.json?key=5f2d0960
             .then(response => {
                 console.log("API response:", response.data);
                 setRecipes(response.data)
@@ -51,7 +51,7 @@ const FavoriteRecipes = () =>{
 
     const filterByCuisine = async (cuisine) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/filterRecipes/cuisine/${cuisine}/${num}/${userId}`);
+            const response = await axios.get(`http://104.236.7.34:3001/api/filterRecipes/cuisine/${cuisine}/${num}/${userId}`);
             setFilteredRecipes(response.data);
 
         }
@@ -65,7 +65,7 @@ const FavoriteRecipes = () =>{
 
     const filterByMealType = async (type) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/filterRecipes/mealtypes/${type}/${num}/${userId}`);
+            const response = await axios.get(`http://104.236.7.34:3001/api/filterRecipes/mealtypes/${type}/${num}/${userId}`);
             setFilteredRecipes(response.data);
         } catch (error) {
             console.error('Error filtering recipes by meal type:', error);
@@ -74,7 +74,7 @@ const FavoriteRecipes = () =>{
 
     const filterByDifficultyLevel = async (level) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/filterRecipes/difficulty/${level}/${num}/${userId}`)
+            const response = await axios.get(`http://104.236.7.34:3001/api/filterRecipes/difficulty/${level}/${num}/${userId}`)
             setFilteredRecipes(response.data)
         }
         catch ( error){

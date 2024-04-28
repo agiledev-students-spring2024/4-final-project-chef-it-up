@@ -7,7 +7,7 @@ import './RecipeCard.css';
 
 const RecipeCard = ({ recipe, baseUrl}) => {
     
-    const imgSrc = `http://localhost:3001/${recipe.img}`
+    const imgSrc = `http://104.236.7.34:3001/${recipe.img}`
 
     return (
         <div className="recipe-card">

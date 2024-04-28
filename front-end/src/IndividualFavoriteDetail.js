@@ -15,7 +15,7 @@ const IndividualFavoriteDetail = () =>{
 
    useEffect(() => {
     console.log("useEffect is being called ")
-    axios.get(`http://localhost:3001/api/individualFavoriteInfo/${recipeId}`)
+    axios.get(`http://104.236.7.34:3001/api/individualFavoriteInfo/${recipeId}`)
         .then(response => {
             setRecipe(response.data);
             console.log(response.data)
@@ -31,7 +31,7 @@ const IndividualFavoriteDetail = () =>{
     }
 
     const handleUnfavoriteButtonClick= () => {
-        axios.delete(`http://localhost:3001/api/Unfavorite/${recipeId}`)
+        axios.delete(`http://104.236.7.34:3001/api/Unfavorite/${recipeId}`)
         .then(response => {
             console.log(" recipe has been removed from favorites: ", response.data)
 
@@ -60,7 +60,7 @@ const IndividualFavoriteDetail = () =>{
 
                 </div>
                
-                <img className='recipe-img-container' src={`http://localhost:3001/${getRecipe.img}`} alt='picture of dish'/>
+                <img className='recipe-img-container' src={`http://104.236.7.34:3001/${getRecipe.img}`} alt='picture of dish'/>
                 <div className='difficulty-and-cuisine-container'>
                     <div className="diff-and-cuisine-box">
                         <h3>Cuisine: {getRecipe.cuisine}</h3>

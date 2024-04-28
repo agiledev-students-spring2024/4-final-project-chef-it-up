@@ -15,7 +15,7 @@ const EditProfile = () =>{
 
   useEffect(() =>{
     console.log("useEffect is being called ")
-    axios.get(`http://localhost:3001/api/myProfile/${userId}`, {
+    axios.get(`http://104.236.7.34:3001/api/myProfile/${userId}`, {
       headers: {
         Authorization: `Bearer ${jwtToken}`, // Send the JWT token in the authorization header
       },
@@ -40,7 +40,7 @@ const EditProfile = () =>{
         }
 
         const response = await axios.post(
-          `http://localhost:3001/api/editMyProfile/${userId}`,
+          `http://104.236.7.34:3001/api/editMyProfile/${userId}`,
           updateData
         )
         console.group(response)

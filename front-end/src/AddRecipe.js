@@ -84,7 +84,7 @@ const AddRecipe = () => {
     try {
       const jwtToken = localStorage.getItem("jwt")
       console.log("this is token", jwtToken)
-      const response = await axios.post("http://localhost:3001/api/addRecipe", formData, {
+      const response = await axios.post("http://104.236.7.34:3001/api/addRecipe", formData, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
           "Content-Type": "multipart/form-data",

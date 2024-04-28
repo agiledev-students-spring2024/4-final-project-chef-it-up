@@ -57,7 +57,7 @@ const EditRecipe = () => {
     useEffect(() => {
       console.log("useEffect is being called ")
       console.log({recipeId})
-      axios.get(`http://localhost:3001/api/editRecipeInfo/${recipeId}`)
+      axios.get(`http://104.236.7.34:3001/api/editRecipeInfo/${recipeId}`)
           .then(response => {
            setEditedRecipe(response.data)
            setRecipeName(response.data.recipe_name);
@@ -98,7 +98,7 @@ const EditRecipe = () => {
         formData.append("cuisine", cuisine)
         formData.append("mealType", mealType)
 
-        axios.post(`http://localhost:3001/api/editRecipe/${recipeId}`, formData)
+        axios.post(`http://104.236.7.34:3001/api/editRecipe/${recipeId}`, formData)
         .then(response => {
           console.log("recipe has been edited: ", response.data)
           navigate("/myRecipes")

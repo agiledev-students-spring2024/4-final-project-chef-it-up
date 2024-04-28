@@ -15,7 +15,7 @@ const MyFridge = () => {
   useEffect(() => {
     console.log("fetching data for ingredients");
     axios
-      .get("http://localhost:3001/api/myFridge", {
+      .get("http://104.236.7.34:3001/api/myFridge", {
         headers: {
           Authorization: `Bearer ${jwtToken}`, // Send the JWT token in the authorization header
         },
