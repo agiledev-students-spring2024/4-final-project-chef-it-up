@@ -28,7 +28,8 @@ const Login = ({ setUser }) => {
       }
 
       const response = await axios.post(
-        'http://localhost:3001/api/login',
+        //'http://localhost:3001/api/login'
+        'http://104.236.7.34:3001/api/login',
         requestData
       );
 
