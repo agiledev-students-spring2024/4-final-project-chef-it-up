@@ -13,7 +13,7 @@ const IngredientDetails = () => {
   useEffect(() => {
     console.log("useEffect is being called ");
     axios
-      .get(`http://localhost:3001/api/myFridge/${ingredientId}`)
+      .get(`http://104.236.7.34:3001/api/myFridge/${ingredientId}`)
       .then((response) => {
         setIngredient(response.data);
         console.log(response.data);
@@ -29,7 +29,7 @@ const IngredientDetails = () => {
 
   const handleDeleteButtonClick = () => {
     axios
-      .delete(`http://localhost:3001/api/deleteIngredient/${ingredientId}`)
+      .delete(`http://104.236.7.34:3001/api/deleteIngredient/${ingredientId}`)
       .then((response) => {
         console.log(
           " ingredient has been removed from fridge: ",
@@ -53,7 +53,7 @@ const IngredientDetails = () => {
         <div>
           <h1>{ingredient.ingredient_name}</h1>
         </div>
-        <img className="ingredient-image" src={`http://localhost:3001/${ingredient.img}`} alt="ingredient" />
+        <img className="ingredient-image" src={`http://104.236.7.34:3001/${ingredient.img}`} alt="ingredient" />
       </div>
 
       <div className="expiry-date-and-quantity-container">
