@@ -18,7 +18,7 @@ const IndividualRecipeDetail = () => {
 
     useEffect(() => {
         console.log("useEffect is being called ")
-        axios.get(`http://localhost:3001/api/individualRecipeInfo/${recipeId}`)
+        axios.get(`http://104.236.7.34:3001/api/individualRecipeInfo/${recipeId}`)
             .then(response => {
                 setRecipe(response.data);
                 console.log(response.data)
