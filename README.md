@@ -22,7 +22,7 @@ A common problem for many households is groceries and store goods going bad due 
 
 ### Website Access Option
 
-Through Digital Ocean deployment, you can follow this link to use our app: [Chef-It-Up](104.236.7.34:3000)
+Through Digital Ocean deployment, you can follow this link to use our app: [Chef-It-Up](http://104.236.7.34:3000)
 
 ### Github Repository Cloning Option
 
